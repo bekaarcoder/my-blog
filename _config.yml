@@ -23,8 +23,8 @@ email: bekaarcoder@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
     Welcome to bekaarcoder's blog
 domain: bekaarcoder.github.io
-baseurl: /my-blog/ # the subpath of your site, e.g. /blog
-url: https://bekaarcoder.github.io # the base hostname & protocol for your site, e.g. http://example.com
+baseurl: /my-blog # the subpath of your site, e.g. /blog
+url: https://bekaarcoder.github.io/my-blog # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: jekyllrb
 github_username: jekyll
 
