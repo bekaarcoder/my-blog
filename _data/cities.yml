@@ -1,0 +1,59 @@
+- name: 'New Delhi'
+  country: 'India'
+
+- name: 'Paris'
+  country: 'France'
+
+- name: 'London'
+  country: 'United Kingdom'
+
+- name: 'Sydney'
+  country: 'Australia'
+
+- name: 'Tokyo'
+  country: 'Japan'
+
+- name: 'New York'
+  country: 'United States'
+
+- name: 'Rome'
+  country: 'Italy'
+
+- name: 'Cairo'
+  country: 'Egypt'
+
+- name: 'Rio de Janeiro'
+  country: 'Brazil'
+
+- name: 'Amsterdam'
+  country: 'Netherlands'
+
+- name: 'Berlin'
+  country: 'Germany'
+
+- name: 'Moscow'
+  country: 'Russia'
+
+- name: 'Beijing'
+  country: 'China'
+
+- name: 'Toronto'
+  country: 'Canada'
+
+- name: 'Johannesburg'
+  country: 'South Africa'
+
+- name: 'Dubai'
+  country: 'United Arab Emirates'
+
+- name: 'Mexico City'
+  country: 'Mexico'
+
+- name: 'Auckland'
+  country: 'New Zealand'
+
+- name: 'Istanbul'
+  country: 'Turkey'
+
+- name: 'Singapore'
+  country: 'Singapore'
