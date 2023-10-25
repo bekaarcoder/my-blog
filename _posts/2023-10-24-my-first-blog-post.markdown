@@ -11,6 +11,7 @@ If you're looking for a simple and powerful way to create a blog, Jekyll might b
 ## Prerequisites
 
 Before we get started, make sure you have Jekyll installed on your computer. You can follow the official installation guide [here](https://jekyllrb.com/docs/installation/).
+<br>
 
 ## Step 1: Create a New Jekyll Site
 
@@ -34,11 +35,11 @@ cd my-blog
 
 Now, let's create your first blog post. Jekyll uses Markdown for writing content, which is an easy-to-learn and lightweight markup language. To create a new blog post, open your favorite text editor and create a file in the "\_posts" folder with the following naming convention:
 
-> YEAR-MONTH-DAY-title.md
+`YEAR-MONTH-DAY-title.md`
 
 For example:
 
-> 2023-10-23-my-first-blog-post.md
+`2023-10-23-my-first-blog-post.md`
 
 You can add the necessary front matter at the top of the file, like this:
 
@@ -79,6 +80,8 @@ Jekyll is a fantastic platform for bloggers who prefer simplicity and customizat
 
 Happy blogging!
 ```
+
+<br>
 
 ## Step 5: Preview Your Blog
 

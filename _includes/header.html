@@ -1,8 +1,28 @@
-<nav>
-    <a href="{{site.url}}">{{ site.title }}</a>
-    <ul>
-        {% for page in site.pages %} {% if page.title %}
-        <li><a href="{{site.baseurl}}{{page.url}}">{{page.title}}</a></li>
-        {% endif %} {% endfor %}
-    </ul>
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container">
+        <a class="navbar-brand" href="{{site.baseurl}}/">{{ site.title }}</a>
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                {% for page in site.pages %} {% if page.title %} {% unless
+                page.title contains 'Category' %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{site.baseurl}}{{page.url}}"
+                        >{{page.title}}</a
+                    >
+                </li>
+                {% endunless %} {% endif %} {% endfor %}
+            </ul>
+        </div>
+    </div>
 </nav>
