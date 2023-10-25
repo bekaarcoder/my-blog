@@ -38,7 +38,6 @@ highlighter: rouge
 theme: minima
 plugins:
     - jekyll-feed
-    - categories
 
 defaults:
     - scope:
