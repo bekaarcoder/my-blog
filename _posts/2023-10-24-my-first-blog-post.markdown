@@ -3,7 +3,7 @@ layout: post
 title: 'Getting Started with Jekyll'
 date: 2023-10-24 13:13:05 +0530
 permalink: '/getting-started'
-categories: Tutorial
+categories: [tutorial, jekyll]
 ---
 
 If you're looking for a simple and powerful way to create a blog, Jekyll might be the perfect solution. Jekyll is a static site generator that's known for its flexibility, ease of use, and a vibrant community. In this post, we'll walk you through the process of creating your first blog post with Jekyll using Markdown.

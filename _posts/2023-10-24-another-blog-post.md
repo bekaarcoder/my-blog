@@ -1,5 +1,8 @@
 ---
-categories: Tutorial
+layout: post
+title: 'Deploying Jekyll Website'
+date: 2023-10-25 23:40:05 +0530
+categories: tutorial
 ---
 
-Another blog post
+## Deploying Jekyll Website With Github Pages
