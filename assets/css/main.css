@@ -1,3 +1,10 @@
 :root {
     --bs-body-font-family: 'Roboto', sans-serif !important;
 }
+
+.category-cover {
+    background-image: url('/my-blog/assets/images/category_cover.jpeg');
+    height: 150px;
+    background-size: cover;
+    background-position: center;
+}

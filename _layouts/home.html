@@ -2,13 +2,31 @@
 layout: 'wrapper'
 ---
 
+<h1 class="text-center display-3">{{ site.title }}</h1>
+<div class="d-flex justify-content-center my-3">
+    <a href="" class="mx-2 link-body-emphasis">
+        <i class="bi bi-instagram fs-3"></i>
+    </a>
+    <a href="" class="mx-2 link-body-emphasis">
+        <i class="bi bi-github fs-3"></i>
+    </a>
+    <a href="" class="mx-2 link-body-emphasis">
+        <i class="bi bi-twitter-x fs-3"></i>
+    </a>
+</div>
 {% for post in site.posts %}
-<h1>
-    <a href="{{site.baseurl}}{{post.url}}" class="text-decoration-none"
-        >{{ post.title }}</a
-    >
-</h1>
-<p>{{ post.date | date: ' %B %d, %Y' }}</p>
+<div class="row justify-content-center mt-4">
+    <div class="col-md-10">
+        <h1>
+            <a
+                href="{{site.baseurl}}{{post.url}}"
+                class="link-body-emphasis link-underline-opacity-0 link-underline-opacity-50-hover"
+                >{{ post.title }}</a
+            >
+        </h1>
+        <p>{{ post.date | date: ' %B %d, %Y' }}</p>
+    </div>
+</div>
 {% endfor %}
 
 <!-- <br />
@@ -16,11 +34,3 @@ layout: 'wrapper'
 {% for city in site.data.cities %}
 <p>{{city.name}} - {{city.country}}</p>
 {% endfor %} -->
-
-{% for category in site.categories %}
-<p>
-    <a href="{{site.baseurl}}/categories/{{category | first | slugify}}"
-        >{{category | first | capitalize}} ({{ category | last | size }})</a
-    >
-</p>
-{% endfor %}
