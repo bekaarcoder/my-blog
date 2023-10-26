@@ -1,0 +1,32 @@
+---
+layout: 'wrapper'
+title: About
+permalink: /about/
+---
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6 col-lg-4">
+        <div class="card">
+            <div class="card-body">
+                <a href="https://bekaarcoder.github.io">
+                    <img
+                        width="150"
+                        class="rounded-circle mx-auto d-block"
+                        src="https://bekaarcoder.github.io/img/dp.jpg"
+                        alt="dp"
+                    />
+                </a>
+                <div class="d-grid mt-2">
+                    {% for social in site.data.social.links %}
+                    <a
+                        href="{{social.link}}"
+                        class="btn btn-lg btn-outline-secondary my-2"
+                    >
+                        <i class="bi {{ social.icon }}"></i> {{ social.title }}
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
