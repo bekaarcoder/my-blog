@@ -24,8 +24,9 @@ description: >- # this means to ignore newlines until "baseurl:"
     Welcome to bekaarcoder's blog
 baseurl: /my-blog # the subpath of your site, e.g. /blog
 url: https://bekaarcoder.github.io/my-blog # the base hostname & protocol for your site, e.g. http://example.com
-twitter_username: jekyllrb
-github_username: jekyll
+twitter_username: bekaarcoder
+github_username: bekaarcoder
+author: bekaarcoder
 
 # Build settings
 markdown: kramdown
@@ -38,6 +39,7 @@ highlighter: rouge
 theme: minima
 plugins:
     - jekyll-feed
+    - jekyll-seo-tag
 
 defaults:
     - scope:

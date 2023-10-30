@@ -102,6 +102,7 @@ DEPENDENCIES
   jekyll-commonmark-ghpages
   jekyll-feed (~> 0.12)
   jekyll-postcss
+  jekyll-seo-tag
   kramdown
   kramdown-syntax-coderay (~> 1.0)
   minima (~> 2.5)
