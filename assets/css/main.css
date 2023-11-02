@@ -3,7 +3,7 @@
 }
 
 .category-cover {
-    background-image: url('/my-blog/assets/images/category_cover.jpeg');
+    background-image: url('/assets/images/category_cover.jpeg');
     height: 150px;
     background-size: cover;
     background-position: center;

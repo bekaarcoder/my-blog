@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container">
-        <a class="navbar-brand" href="{{site.baseurl}}/">{{ site.title }}</a>
+        <a class="navbar-brand" href="/">{{ site.title }}</a>
         <button
             class="navbar-toggler"
             type="button"
@@ -17,9 +17,7 @@
                 {% for page in site.pages %} {% if page.title %} {% unless
                 page.title contains 'Category' %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{site.baseurl}}{{page.url}}"
-                        >{{page.title}}</a
-                    >
+                    <a class="nav-link" href="{{page.url}}">{{page.title}}</a>
                 </li>
                 {% endunless %} {% endif %} {% endfor %}
                 <li class="nav-item">
