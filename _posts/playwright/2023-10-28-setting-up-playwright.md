@@ -2,6 +2,7 @@
 layout: post
 title: Getting Started With Playwright
 categories: tutorial playwright
+permalink: '/setting-up-playwright'
 ---
 
 # Setting Up Playwright
