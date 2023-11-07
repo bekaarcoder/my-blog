@@ -43,6 +43,8 @@ gem "kramdown-syntax-coderay", "~> 1.0"
 
 gem 'jekyll-seo-tag'
 
+gem 'jekyll-sitemap'
+
 group :jekyll_plugins do
   gem 'jekyll-commonmark-ghpages'
 end
