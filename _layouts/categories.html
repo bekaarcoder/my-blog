@@ -2,19 +2,23 @@
 layout: 'wrapper'
 ---
 
-<h1 class="mb-4">{{ page.title }}</h1>
-{% for category in site.categories %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <h1 class="mb-4">{{ page.title }}</h1>
+        {% for category in site.categories %}
 
-<a
-    href="/categories/{{category[0]}}"
-    class="btn btn-secondary position-relative me-4"
->
-    {{category | first | capitalize}}
-    <span
-        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-    >
-        {{ category | last | size }}
-        <span class="visually-hidden">Blog Count</span>
-    </span>
-</a>
-{% endfor %}
+        <a
+            href="/categories/{{category[0]}}"
+            class="btn btn-secondary position-relative me-4"
+        >
+            {{category | first | capitalize}}
+            <span
+                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+            >
+                {{ category | last | size }}
+                <span class="visually-hidden">Blog Count</span>
+            </span>
+        </a>
+        {% endfor %}
+    </div>
+</div>

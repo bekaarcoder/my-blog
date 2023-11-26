@@ -2,19 +2,21 @@
 layout: 'wrapper'
 ---
 
-<section class="small-intro">
-    <div
-        class="category-cover d-flex align-items-center justify-content-center"
-    >
-        <h2 class="display-1 text-white">{{page.category | capitalize}}</h2>
-    </div>
-</section>
-<section class="blog">
-    <div class="row mt-4">
-        {% for post in site.posts %} {% if post.categories contains
-        page.category %}
+<div class="row mt-4 justify-content-center">
+    <div class="col-md-8">
+        <section class="small-intro mb-4">
+            <div
+                class="category-cover d-flex align-items-center justify-content-center"
+            >
+                <h2 class="display-1 text-white">
+                    {{page.category | capitalize}}
+                </h2>
+            </div>
+        </section>
+        <section class="blog">
+            {% for post in site.posts %} {% if post.categories contains
+            page.category %}
 
-        <div class="col-md-12">
             <div class="title-excerpt">
                 <h2>
                     <a
@@ -27,7 +29,7 @@ layout: 'wrapper'
             <div class="date">
                 <p class="text-secondary">{{ post.date | date_to_string }}</p>
             </div>
-        </div>
-        {% endif %} {% endfor %}
+            {% endif %} {% endfor %}
+        </section>
     </div>
-</section>
+</div>

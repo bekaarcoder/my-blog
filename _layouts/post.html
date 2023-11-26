@@ -3,23 +3,27 @@ layout: 'wrapper'
 author: 'Shashank'
 ---
 
-<h1 class="display-3">{{ page.title }}</h1>
-<div class="d-flex">
-    <p class="text-secondary">{{ page.date | date: ' %B %d, %Y' }}</p>
-    <p class="text-secondary ms-3">
-        <i class="bi bi-clock"></i> {{ content | reading_time }} read
-    </p>
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <h2 class="display-4">{{ page.title }}</h2>
+        <div class="d-flex">
+            <p class="text-secondary">{{ page.date | date: ' %B %d, %Y' }}</p>
+            <p class="text-secondary ms-3">
+                <i class="bi bi-clock"></i> {{ content | reading_time }} read
+            </p>
+        </div>
+        <div class="mb-3">
+            {% for category in page.categories %}
+            <span class="badge text-bg-success">
+                <a
+                    href="/categories/{{category}}"
+                    class="text-reset text-decoration-none"
+                >
+                    {{ category | capitalize }}
+                </a>
+            </span>
+            {% endfor %}
+        </div>
+        {{ content }}
+    </div>
 </div>
-<div class="mb-3">
-    {% for category in page.categories %}
-    <span class="badge text-bg-success">
-        <a
-            href="/categories/{{category}}"
-            class="text-reset text-decoration-none"
-        >
-            {{ category | capitalize }}
-        </a>
-    </span>
-    {% endfor %}
-</div>
-{{ content }}

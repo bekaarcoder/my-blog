@@ -2,39 +2,46 @@
 layout: 'wrapper'
 ---
 
-<h1 class="text-center display-3">{{ site.title }}</h1>
+<img
+    src="/assets/images/logo.png"
+    alt="logo"
+    class="rounded-circle mx-auto d-block"
+    width="150"
+/>
+<!-- <h1 class="text-center display-3">{{ site.title }}</h1> -->
 <div class="d-flex justify-content-center my-3">
-    <a href="" class="mx-2 link-body-emphasis">
+    <a
+        href="https://www.instagram.com/banda_bekaar"
+        class="mx-2 link-body-emphasis"
+    >
         <i class="bi bi-instagram fs-3"></i>
     </a>
-    <a href="" class="mx-2 link-body-emphasis">
+    <a href="https://github.com/bekaarcoder" class="mx-2 link-body-emphasis">
         <i class="bi bi-github fs-3"></i>
     </a>
-    <a href="" class="mx-2 link-body-emphasis">
+    <a href="https://twitter.com/banda_bekaar" class="mx-2 link-body-emphasis">
         <i class="bi bi-twitter-x fs-3"></i>
     </a>
 </div>
 <div class="row justify-content-center mt-4">
-    <div class="col-md-10">
+    <div class="col-md-8">
         {% for post in site.posts %}
-        <div class="card my-4">
-            <div class="card-body">
-                <h1>
-                    <a
-                        href="{{post.url}}"
-                        class="link-body-emphasis link-underline-opacity-0 link-underline-opacity-50-hover"
-                        >{{ post.title }}</a
-                    >
-                </h1>
-                <div class="d-flex">
-                    <span class="text-secondary">
-                        {{ post.date | date: ' %B %d, %Y' }}
-                    </span>
-                    <span class="text-secondary ms-3">
-                        <i class="bi bi-clock"></i> {{ post.content |
-                        reading_time }} read
-                    </span>
-                </div>
+        <div class="my-5">
+            <h3>
+                <a
+                    href="{{post.url}}"
+                    class="link-body-emphasis link-underline-opacity-0 link-underline-opacity-50-hover"
+                    >{{ post.title }}</a
+                >
+            </h3>
+            <div class="d-flex">
+                <span class="text-secondary">
+                    {{ post.date | date: ' %B %d, %Y' }}
+                </span>
+                <span class="text-secondary ms-3">
+                    <i class="bi bi-clock"></i> {{ post.content | reading_time
+                    }} read
+                </span>
             </div>
         </div>
         {% endfor %}

@@ -2,6 +2,14 @@
     --bs-body-font-family: 'Roboto', sans-serif !important;
 }
 
+[data-bs-theme=dark] {
+    --bs-body-bg: #191919 !important;
+}
+
+[data-bs-theme=light] {
+    --bs-body-bg: #faf8f1 !important;
+}
+
 .category-cover {
     background-image: url('/assets/images/category_cover.jpeg');
     height: 150px;
