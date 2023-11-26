@@ -16,18 +16,25 @@ layout: 'wrapper'
         <section class="blog">
             {% for post in site.posts %} {% if post.categories contains
             page.category %}
-
-            <div class="title-excerpt">
-                <h2>
-                    <a
-                        href="{{ post.url }}"
-                        class="link-body-emphasis link-underline-opacity-0 link-underline-opacity-50-hover"
-                        >{{ post.title }}</a
+            <div class="my-4">
+                <div class="title-excerpt">
+                    <h2>
+                        <a
+                            href="{{ post.url }}"
+                            class="link-body-emphasis link-underline-opacity-0 link-underline-opacity-50-hover"
+                            >{{ post.title }}</a
+                        >
+                    </h2>
+                </div>
+                <div class="date d-flex">
+                    <span class="text-secondary"
+                        >{{ post.date | date_to_string }}</span
                     >
-                </h2>
-            </div>
-            <div class="date">
-                <p class="text-secondary">{{ post.date | date_to_string }}</p>
+                    <span class="text-secondary ms-3">
+                        <i class="bi bi-clock"></i> {{ post.content |
+                        reading_time }} read
+                    </span>
+                </div>
             </div>
             {% endif %} {% endfor %}
         </section>
