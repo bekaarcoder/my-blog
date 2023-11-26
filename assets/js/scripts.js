@@ -15,9 +15,9 @@ function toggleTheme() {
     const newTheme =
         sessionStorage.getItem('currentTheme') === 'dark' ? 'light' : 'dark';
     if (newTheme === 'dark') {
-        themeToggleBtn.className = 'bi bi-brightness-high';
+        themeToggleBtn.className = 'bi bi-brightness-high text-warning';
     } else {
-        themeToggleBtn.className = 'bi bi-brightness-high-fill';
+        themeToggleBtn.className = 'bi bi-brightness-high-fill text-warning';
     }
     htmlElement.setAttribute('data-bs-theme', newTheme);
     // sessionStorage.removeItem("currentTheme")

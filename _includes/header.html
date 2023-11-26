@@ -2,7 +2,17 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <nav class="navbar navbar-expand-lg">
-                <a class="navbar-brand" href="/">{{ site.title }}</a>
+                <a class="navbar-brand" href="/"> {{ site.title }} </a>
+                <ul class="navbar-nav mb-lg-0 me-auto">
+                    <li class="nav-item">
+                        <button class="btn btn-sm" onclick="toggleTheme()">
+                            <i
+                                class="bi bi-brightness-high text-warning"
+                                id="theme-toggle"
+                            ></i>
+                        </button>
+                    </li>
+                </ul>
                 <button
                     class="navbar-toggler"
                     type="button"
@@ -18,7 +28,7 @@
                     class="collapse navbar-collapse"
                     id="navbarSupportedContent"
                 >
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <ul class="navbar-nav mb-2 ms-auto mb-lg-0">
                         {% for page in site.pages %} {% if page.title %} {%
                         unless page.title contains 'Category' %}
                         <li class="nav-item">
@@ -27,17 +37,17 @@
                             >
                         </li>
                         {% endunless %} {% endif %} {% endfor %}
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <button
-                                class="btn btn-sm btn-secondary mt-1 ms-2"
+                                class="btn btn-sm mt-1 ms-2"
                                 onclick="toggleTheme()"
                             >
                                 <i
-                                    class="bi bi-brightness-high"
+                                    class="bi bi-brightness-high text-warning"
                                     id="theme-toggle"
                                 ></i>
                             </button>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
             </nav>
