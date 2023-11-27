@@ -30,8 +30,9 @@ Before diving into the installation, make sure you have the following prerequisi
 
     - Install Cucumber plugin for VS Code.
     - Install below dependencies:
-      `npm i @cucumber/cucumber -D`  
-       `npm i ts-node -D`
+
+        `npm i @cucumber/cucumber -D`  
+         `npm i ts-node -D`
 
     We will be installing `ts-node` as we will be using TypeScript in our project. This will allow us to run TypeScript files directly without compiling then to JavaScript first.
 
@@ -181,6 +182,7 @@ Then('User is logged in successfully', async function () {
 
 ## Running Tests
 
+Before running the test, make sure `dryRun` is set to `false` in `cucumber.json` configuation file.  
 Lets run the test again with `npm run test`.
 
 We will encounter the below error:
@@ -200,17 +202,28 @@ To resolve this we need to add another property in the `cucumber.js` configurati
 ```
 
 Now rerun the test `npm run test`.
-You will see the test has run successfully and all the steps have skipped.
+You will see the below output in the terminal. This means that the test has been successfully ran. As we have not yet added any code in the step definition function, its showing as pending.
 
 ```bash
 > playwright-ts-setup@1.0.0 test
 > cucumber-js test
 
-------
+P-----
 
-1 scenario (1 skipped)
-6 steps (6 skipped)
-0m00.007s (executing steps: 0m00.000s)
+Warnings:
+
+1) Scenario: Login should be successful # src/test/features/login.feature:7
+   ? Given User navigates to the application # src/test/steps/loginSteps.ts:3
+       Pending
+   - When User click on the login link # src/test/steps/loginSteps.ts:8
+   - When User enters the username as "janedoee" # src/test/steps/loginSteps.ts:13
+   - And User enters the password as "Password@123" # src/test/steps/loginSteps.ts:18
+   - And User clicks on the login button # src/test/steps/loginSteps.ts:23
+   - Then User is logged in successfully # src/test/steps/loginSteps.ts:28
+
+1 scenario (1 pending)
+6 steps (1 pending, 5 skipped)
+0m00.008s (executing steps: 0m00.000s)
 ```
 
 ## Configure Steps Mapping
@@ -231,6 +244,75 @@ Navigate to settings in VSCode and open the `settings.json` file. Update the bel
 ]
 ...
 ```
+
+## Launching Browser
+
+Lets write the step definition for the below step:  
+`Given User navigates to the application`
+
+Here we will launch the web browser and then navigate to application. Add the below code in the `loginSteps.ts` file
+
+```javascript
+import { Given, When, Then } from '@cucumber/cucumber';
+import { Browser, Page, chromium } from '@playwright/test';
+
+let browser: Browser;
+let page: Page;
+
+Given('User navigates to the application', async function () {
+    browser = await chromium.launch({ headless: false });
+    page = await browser.newPage();
+    await page.goto('https://bookcart.azurewebsites.net/');
+});
+```
+
+## Defining All Steps
+
+We will write step definitions for the other steps as well
+
+```javascript
+When('User click on the login link', async function () {
+    await page.locator("//button//span[text()='Login']").click();
+});
+
+When('User enters the username as {string}', async function (username) {
+    await page.locator("//input[@formcontrolname='username']").fill(username);
+});
+
+When('User enters the password as {string}', async function (password) {
+    await page.locator("//input[@formcontrolname='password']").fill(password);
+});
+
+When('User clicks on the login button', async function () {
+    await page
+        .locator("//button[@color='primary']//span[text()='Login']")
+        .click();
+});
+
+Then('User is logged in successfully', async function () {
+    await expect(
+        page.locator("//button//span[contains(text(), 'janedoee')]")
+    ).toBeVisible();
+    await browser.close();
+});
+```
+
+## Running End-To-End Test
+
+As we have defined all the steps, let run our e2e test: `npm run test`. You will see the below output in the terminal and the test have been passed.
+
+```bash
+> playwright-ts-setup@1.0.0 test
+> cucumber-js test
+
+......
+
+1 scenario (1 passed)
+6 steps (6 passed)
+0m05.281s (executing steps: 0m05.270s)
+```
+
+Yay! 🥳 🎉
 
 <hr>
 
