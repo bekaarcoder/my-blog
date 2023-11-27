@@ -27,6 +27,7 @@ url: https://bekaarcoder.xyz # the base hostname & protocol for your site, e.g. 
 twitter_username: bekaarcoder
 github_username: bekaarcoder
 author: bekaarcoder
+paginate: 5
 
 # Build settings
 markdown: kramdown
@@ -41,6 +42,7 @@ plugins:
     - jekyll-feed
     - jekyll-seo-tag
     - jekyll-sitemap
+    - jekyll-paginate
 
 defaults:
     - scope:

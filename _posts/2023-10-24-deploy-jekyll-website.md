@@ -14,7 +14,7 @@ Before we get started, make sure to have the following in place:
 
 **GitHub Account:** We'll need a GitHub account to host our website.
 
-**Jekyll Website:** Ensure to have a Jekyll website ready for deployment. If you haven't created one yet, follow the official Jekyll documentation or this [guide](https://bekaarcoder.github.io/my-blog/getting-started) to get started.
+**Jekyll Website:** Ensure to have a Jekyll website ready for deployment. If you haven't created one yet, follow the official Jekyll documentation or this [guide](/getting-started) to get started.
 
 **Git Installed:** We'll need Git installed on our computer to manage our Git repositories. Download it from https://git-scm.com/ and follow the installation instructions.
 
