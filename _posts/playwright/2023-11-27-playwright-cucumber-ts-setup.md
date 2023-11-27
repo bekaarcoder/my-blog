@@ -2,10 +2,9 @@
 layout: post
 title: 'Setting Up Playwright with Cucumber and TypeScript'
 date: 2023-11-27 12:40:05 +0530
+permalink: '/playwright-cucumber-ts-setup'
 categories: playwright cucumber typescript
 ---
-
-## Introduction
 
 Playwright, coupled with Cucumber and TypeScript, offers a robust framework for end-to-end testing of web applications. This blog post guides you through the setup process, ensuring a seamless integration of these technologies.
 

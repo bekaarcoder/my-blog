@@ -2,6 +2,7 @@
 layout: post
 title: 'Deploying Jekyll Website On Github Pages'
 date: 2023-10-25 23:40:05 +0530
+permalink: '/deploy-jekyll-github-pages'
 categories: tutorial
 ---
 

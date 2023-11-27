@@ -2,6 +2,7 @@
 layout: post
 title: 'Running Playwright Tests in Gitlab CI'
 date: 2023-11-07 22:40:05 +0530
+permalink: '/running-playwright-test-gitlabci'
 categories: playwright gitlab
 ---
 
