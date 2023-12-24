@@ -32,9 +32,11 @@
                         {% for page in site.pages %} {% if page.title %} {%
                         unless page.title contains 'Category' %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{page.url}}"
-                                >{{page.title}}</a
-                            >
+                            <a class="nav-link" href="{{page.url}}">
+                                {% if page.title contains 'Search' %}
+                                <i class="bi bi-search"></i>
+                                {% else %} {{page.title}} {% endif %}
+                            </a>
                         </li>
                         {% endunless %} {% endif %} {% endfor %}
                         <!-- <li class="nav-item">
