@@ -48,6 +48,8 @@ In the `script` section, we are running two commands:
 -   `npm ci` - This will install all the dependencies of the project.
 -   `npm run test:e2e` - This will run all the tests.
 
+{:.blockquote}
+
 > As I have created a separate script in the package.json file for running the tests, so I am using `npm run test:e2e`.  
 > You can also replace the second command with `npx playwright test` if you want to use the default playwright configuration file `playwright.config.ts`.
 

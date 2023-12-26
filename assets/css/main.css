@@ -1,5 +1,5 @@
 :root {
-    --bs-body-font-family: 'Roboto', sans-serif !important;
+    --bs-body-font-family: 'Rubik', sans-serif !important;
 }
 
 [data-bs-theme=dark] {
@@ -20,4 +20,13 @@
 .previous, .next {
     border-radius: 50px !important;
     padding: 8px 20px !important;
+}
+
+.blockquote {
+    background: #91f3b5;
+    border-left: 7px solid #12a548;
+    border-radius: 0 5px 5px 0;
+    margin: 1rem 0;
+    padding: 1rem;
+    color: #212529;
 }
