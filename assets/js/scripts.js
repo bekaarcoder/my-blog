@@ -14,9 +14,11 @@ if (sessionStorage.getItem('currentTheme')) {
 }
 
 if (sessionStorage.getItem('currentTheme') === 'dark') {
+    themeToggleBtn.className = 'bi bi-moon-stars-fill text-warning';
     prevBtn && (prevBtn.className = 'previous btn btn-light');
     nextBtn && (nextBtn.className = 'next btn btn-light ms-auto');
 } else {
+    themeToggleBtn.className = 'bi bi-sun-fill text-warning';
     prevBtn && (prevBtn.className = 'previous btn btn-dark');
     nextBtn && (nextBtn.className = 'next btn btn-dark ms-auto');
 }
@@ -25,11 +27,11 @@ function toggleTheme() {
     const newTheme =
         sessionStorage.getItem('currentTheme') === 'dark' ? 'light' : 'dark';
     if (newTheme === 'dark') {
-        themeToggleBtn.className = 'bi bi-brightness-high text-warning';
+        themeToggleBtn.className = 'bi bi-moon-stars-fill text-warning';
         prevBtn && (prevBtn.className = 'previous btn btn-light');
         nextBtn && (nextBtn.className = 'next btn btn-light ms-auto');
     } else {
-        themeToggleBtn.className = 'bi bi-brightness-high-fill text-warning';
+        themeToggleBtn.className = 'bi bi-sun-fill text-warning';
         prevBtn && (prevBtn.className = 'previous btn btn-dark');
         nextBtn && (nextBtn.className = 'next btn btn-dark ms-auto');
     }
