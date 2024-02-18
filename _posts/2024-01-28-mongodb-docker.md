@@ -2,6 +2,7 @@
 layout: post
 title: 'Setting Up MongoDB Using Docker and Docker Compose'
 date: 2024-01-28 14:40:05 +0530
+permalink: '/mongodb-docker'
 categories: docker mongodb
 ---
 
