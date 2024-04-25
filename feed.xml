@@ -1,0 +1,1402 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://bekaarcoder.xyz/feed.xml" rel="self" type="application/atom+xml" /><link href="https://bekaarcoder.xyz/" rel="alternate" type="text/html" /><updated>2024-04-25T07:44:14+00:00</updated><id>https://bekaarcoder.xyz/feed.xml</id><title type="html">Bekaarcoder’s Blog</title><subtitle>Welcome to bekaarcoder's blog</subtitle><author><name>bekaarcoder</name></author><entry><title type="html">How to Access the Localhost Development Server on Another Device</title><link href="https://bekaarcoder.xyz/access-dev-server-on-mobile" rel="alternate" type="text/html" title="How to Access the Localhost Development Server on Another Device" /><published>2024-03-31T07:10:05+00:00</published><updated>2024-03-31T07:10:05+00:00</updated><id>https://bekaarcoder.xyz/access-dev-server-on-mobile</id><content type="html" xml:base="https://bekaarcoder.xyz/access-dev-server-on-mobile"><![CDATA[<p>When developing applications locally, we typically access them through a local server using the address “localhost.” However, there are instances where we need to test our applications on different devices. While deploying the application is an option, it’s not always practical for frequent testing. What if you could access your application directly without deploying it? This can be achieved by accessing the development server from another device.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<p>Ensure that all devices are connected to the same network. To access the development server from other devices, they must be on the same network as your computer, whether it’s a Wi-Fi or wired connection.</p>
+
+<h2 id="step-1---obtain-your-computers-ip-address">Step 1 - Obtain Your Computer’s IP Address</h2>
+
+<p>First, find out the local IP address of the machine running your application.</p>
+
+<p>On <code class="language-plaintext highlighter-rouge">Windows</code>, open <em>Powershell</em> or <em>Command Prompt</em> and type the below command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ipconfig
+</code></pre></div></div>
+
+<p>Look for the IPv4 address associated with your network interface (e.g., eth0 or wlan0).</p>
+
+<p>On <code class="language-plaintext highlighter-rouge">Mac/Linux</code>, open the <em>Terminal</em> and type the below command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ifconfig
+</code></pre></div></div>
+
+<p>Look for the entry corresponding to your active network connection (e.g., en0 for Ethernet or en1 for Wi-Fi), and you’ll find your IP address listed next to “inet”.</p>
+
+<h2 id="step-2---starting-the-vite-dev-server">Step 2 - Starting the Vite Dev Server</h2>
+
+<p>Assuming your React application is created using Vite, when you start the Vite dev server with <code class="language-plaintext highlighter-rouge">npm run dev</code>, it binds to <code class="language-plaintext highlighter-rouge">localhost</code> only. To allow access from other devices, start the application using the <code class="language-plaintext highlighter-rouge">--host</code> option and specify your computer’s IP address.</p>
+
+<p>Open <code class="language-plaintext highlighter-rouge">package.json</code> in your React application’s root directory and change the script from <code class="language-plaintext highlighter-rouge">"dev": "vite"</code> to <code class="language-plaintext highlighter-rouge">"dev": "vite --host"</code>.</p>
+
+<p>After making the changes, your package.json script should look like below:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">"scripts"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"dev"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vite --host"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"build"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tsc &amp;&amp; vite build"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"lint"</span><span class="p">:</span><span class="w"> </span><span class="s2">"eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"preview"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vite preview"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Alternatively, you can also start the server by running the below command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm run dev <span class="nt">--</span> <span class="nt">--host</span>
+</code></pre></div></div>
+
+<h2 id="step-3---accessing-the-vite-dev-server-from-another-device">Step 3 - Accessing the Vite Dev Server From Another Device</h2>
+
+<p>With the Vite dev server running and bound to the <code class="language-plaintext highlighter-rouge">--host</code> option, you can now access it from another device. Open a browser on your mobile or any other device and type the following URL:</p>
+
+<blockquote class="blockquote">
+  <p>http://&lt;COMPUTER_IP_ADDRESS&gt;:&lt;DEV_SERVER_PORT_NUMBER&gt;</p>
+</blockquote>
+
+<p>Replace <code class="language-plaintext highlighter-rouge">&lt;COMPUTER_IP_ADDRESS&gt;</code> with your Ip address which you found in Step 1 and <code class="language-plaintext highlighter-rouge">&lt;DEV_SERVER_PORT_NUMBER&gt;</code> with the port number you vite server is running.</p>
+
+<p>Example: <code class="language-plaintext highlighter-rouge">http://192.168.1.170:5173</code></p>
+
+<h2 id="step-4---setting-up-cors-in-the-backend">Step 4 - Setting Up CORS in the Backend</h2>
+
+<p>While you can now access the frontend React app from another device, interacting with the backend application might pose a challenge. If you’re using Node.js and Express for your backend, you need to set up <code class="language-plaintext highlighter-rouge">CORS</code> to allow access from other IP addresses.</p>
+
+<p>Navigate to your backend application and install CORS:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install </span>cors
+</code></pre></div></div>
+
+<p>Add the following code to your application’s index file:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">cors</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">cors</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nf">use</span><span class="p">(</span><span class="nf">cors</span><span class="p">());</span>
+</code></pre></div></div>
+
+<p>This allows incoming requests from any network. If you want to limit requests to certain networks, add the below code:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">allowedOrigins</span> <span class="o">=</span> <span class="p">[</span><span class="dl">'</span><span class="s1">http://localhost:5173</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">http://192.168.1.170:5173</span><span class="dl">'</span><span class="p">];</span>
+<span class="nx">app</span><span class="p">.</span><span class="nf">use</span><span class="p">(</span>
+    <span class="nf">cors</span><span class="p">({</span>
+        <span class="na">origin</span><span class="p">:</span> <span class="nf">function </span><span class="p">(</span><span class="nx">origin</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if </span><span class="p">(</span><span class="o">!</span><span class="nx">origin</span> <span class="o">||</span> <span class="nx">allowedOrigins</span><span class="p">.</span><span class="nf">includes</span><span class="p">(</span><span class="nx">origin</span><span class="p">))</span> <span class="p">{</span>
+                <span class="nf">callback</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="nf">callback</span><span class="p">(</span><span class="k">new</span> <span class="nc">Error</span><span class="p">(</span><span class="dl">'</span><span class="s1">Not allowed by CORS</span><span class="dl">'</span><span class="p">));</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="na">credentials</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="p">})</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p>Now run your backend server using the command specified in your <code class="language-plaintext highlighter-rouge">package.json</code> file.</p>
+
+<blockquote class="blockquote">
+  <p>NOTE: For a Node.js backend server, there’s no need to provide a host option to start the server.</p>
+</blockquote>
+
+<p>You can now access the application from different devices and send requests to the backend server.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Accessing the local development server from other devices on the same network provides a convenient way to test applications without the need for frequent deployments. By following the steps outlined above, you can easily access your application from various devices and ensure its functionality across different platforms. Additionally, setting up CORS in the backend enables seamless communication between frontend and backend components, allowing for comprehensive testing and development.</p>]]></content><author><name>bekaarcoder</name></author><category term="react" /><category term="nodejs" /><summary type="html"><![CDATA[When developing applications locally, we typically access them through a local server using the address “localhost.” However, there are instances where we need to test our applications on different devices. While deploying the application is an option, it’s not always practical for frequent testing. What if you could access your application directly without deploying it? This can be achieved by accessing the development server from another device.]]></summary></entry><entry><title type="html">Backup and Restore MongoDB Database in Docker Container</title><link href="https://bekaarcoder.xyz/mongodb-dump-restore-docker" rel="alternate" type="text/html" title="Backup and Restore MongoDB Database in Docker Container" /><published>2024-02-18T07:10:05+00:00</published><updated>2024-02-18T07:10:05+00:00</updated><id>https://bekaarcoder.xyz/mongodb-dump-restore</id><content type="html" xml:base="https://bekaarcoder.xyz/mongodb-dump-restore-docker"><![CDATA[<p>Developing projects locally often involves setting up a local database using Docker containers. However, transitioning to a different machine can pose challenges, especially when migrating data. In this guide, we’ll explore how to efficiently backup and restore MongoDB databases within Docker containers using command-line utilities provided by MongoDB.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<p>Before proceeding, ensure Docker is installed on your local machine and MongoDB is set up within a Docker container. If you need assistance with setting up MongoDB with Docker, you can refer to this comprehensive <a href="/mongodb-docker">guide</a>.</p>
+
+<h2 id="creating-backup">Creating Backup</h2>
+
+<p><code class="language-plaintext highlighter-rouge">mongodump</code> is used to create a binary dump of the contents of a MongoDB instance.</p>
+
+<p><strong>For Unauthenticated Database</strong></p>
+
+<p>If your MongoDB container doesn’t require authentication, you can create a backup using the following command:. Make sure your MongoDB container is running.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># No Authentication</span>
+docker <span class="nb">exec</span> &lt;mongo_container&gt; sh <span class="nt">-c</span> <span class="s1">'mongodump --archive'</span> <span class="o">&gt;</span> db.dump
+</code></pre></div></div>
+
+<p>Here <code class="language-plaintext highlighter-rouge">&lt;mongo_container&gt;</code> should be replaced with the actual name or ID of your MongoDB container. This will create a file named <code class="language-plaintext highlighter-rouge">db.dump</code> in your current directory.</p>
+
+<p><code class="language-plaintext highlighter-rouge">sh -c 'mongodump --archive'</code> This part of the command is executed inside the container. <code class="language-plaintext highlighter-rouge">--archive</code> option is used to export the data in a compact binary format.</p>
+
+<p><strong>For Authenticated Database</strong></p>
+
+<p>For containers with authentication enabled, use the command below:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Authenticated</span>
+docker <span class="nb">exec</span> &lt;mongo_container&gt; sh <span class="nt">-c</span> <span class="s1">'mongodump --authenticationDatabase admin -u &lt;user&gt; -p &lt;password&gt; --db &lt;database&gt; --archive'</span> <span class="o">&gt;</span> db.dump
+</code></pre></div></div>
+
+<p>Replace <code class="language-plaintext highlighter-rouge">&lt;user&gt;</code>, <code class="language-plaintext highlighter-rouge">&lt;password&gt;</code>, and <code class="language-plaintext highlighter-rouge">&lt;database&gt;</code> with your credentials and database name respectively. This command ensures authentication while creating the backup.</p>
+
+<h2 id="restoring-data">Restoring Data</h2>
+
+<p><code class="language-plaintext highlighter-rouge">mongorestore</code> is used to restore data from a binary dump created by <code class="language-plaintext highlighter-rouge">mongodump</code>.</p>
+
+<p>To restore the data, first create a MongoDB container in your other local machine and start the container. (You can follow the same <a href="/mongodb-docker">guide</a> here)</p>
+
+<p><strong>For Unauthenticated Database</strong></p>
+
+<p>To restore data to an unauthenticated database, execute the following command from the directory which contains <code class="language-plaintext highlighter-rouge">db.dump</code> file:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># No Authentication</span>
+docker <span class="nb">exec</span> <span class="nt">-i</span> &lt;mongo_container&gt; sh <span class="nt">-c</span> <span class="s1">'mongorestore --archive'</span> &lt; db.dump
+</code></pre></div></div>
+
+<p>Here, <code class="language-plaintext highlighter-rouge">&lt;mongo_container&gt;</code> should be replaced with the name or ID of your MongoDB container. The <code class="language-plaintext highlighter-rouge">-i</code> flag ensures input from the <code class="language-plaintext highlighter-rouge">db.dump</code> file is processed.</p>
+
+<p><strong>For Authenticated Database</strong></p>
+
+<p>Use the below command for authenticated database:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Authenticated</span>
+docker <span class="nb">exec</span> &lt;mongo_container&gt; sh <span class="nt">-c</span> <span class="s1">'mongorestore --authenticationDatabase admin -u &lt;user&gt; -p &lt;password&gt; --db &lt;database&gt; --archive'</span> &lt; db.dump
+</code></pre></div></div>
+
+<p>Replace <code class="language-plaintext highlighter-rouge">&lt;user&gt;</code>, <code class="language-plaintext highlighter-rouge">&lt;password&gt;</code>, and <code class="language-plaintext highlighter-rouge">&lt;database&gt;</code> with your credentials and database name respectively. This command restores data while ensuring proper authentication.</p>
+
+<h2 id="summary">Summary</h2>
+
+<p>This guide demonstrates how to streamline the backup and restoration process for MongoDB databases within Docker containers. By utilizing the <code class="language-plaintext highlighter-rouge">mongodump</code> and <code class="language-plaintext highlighter-rouge">mongorestore</code> utilities, developers can efficiently migrate database instances across different local machines while preserving data integrity.</p>]]></content><author><name>bekaarcoder</name></author><category term="docker" /><category term="mongodb" /><summary type="html"><![CDATA[Developing projects locally often involves setting up a local database using Docker containers. However, transitioning to a different machine can pose challenges, especially when migrating data. In this guide, we’ll explore how to efficiently backup and restore MongoDB databases within Docker containers using command-line utilities provided by MongoDB.]]></summary></entry><entry><title type="html">Setting Up MongoDB Using Docker and Docker Compose</title><link href="https://bekaarcoder.xyz/mongodb-docker" rel="alternate" type="text/html" title="Setting Up MongoDB Using Docker and Docker Compose" /><published>2024-01-28T09:10:05+00:00</published><updated>2024-01-28T09:10:05+00:00</updated><id>https://bekaarcoder.xyz/mongodb-docker</id><content type="html" xml:base="https://bekaarcoder.xyz/mongodb-docker"><![CDATA[<p>When it comes to integrating MongoDB into your project, you have several options available. <strong>MongoDB Atlas</strong> provides a convenient cloud-based database service, while installing MongoDB directly on your local machine is another viable option.</p>
+
+<p>In this guide, we’ll explore setting up a MongoDB database within a Docker container, leveraging the official MongoDB images hosted on <a href="https://hub.docker.com/r/mongodb/mongodb-community-server">Docker Hub</a>.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<p>Before getting started, ensure you have <code class="language-plaintext highlighter-rouge">Docker Desktop</code> installed on your system. You can find the installation instructions for your operating system on the official docker <a href="https://www.docker.com/products/docker-desktop/">website</a>.</p>
+
+<h2 id="starting-a-mongodb-container">Starting a MongoDB Container</h2>
+
+<p>To initiate a MongoDB server within a Docker container, open your terminal and execute the following command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">--name</span> mongodb <span class="nt">-d</span> <span class="nt">-p</span> 27017:27017 mongodb/mongodb-community-server:7.0.0-ubi8
+</code></pre></div></div>
+
+<p>This command will start a MongoDB server running version 7.0 in detached mode, allowing it to run as a background process (<code class="language-plaintext highlighter-rouge">-d</code> flag).</p>
+
+<p>By specifying <code class="language-plaintext highlighter-rouge">-p 27017:27017</code>, we ensure that port <strong>27017</strong> on the container is mapped to port <strong>27017</strong> on the host system. Using this, you will be able to connect to your MongoDB instance on <code class="language-plaintext highlighter-rouge">mongodb://localhost:27017</code> from another application running locally.</p>
+
+<p>Additionally, the <code class="language-plaintext highlighter-rouge">-name mongodb</code> flag assigns the name <code class="language-plaintext highlighter-rouge">mongodb</code> to the container for easy reference.</p>
+
+<h2 id="stoping-and-removing-a-container">Stoping and Removing a Container</h2>
+
+<p>Docker provides the <code class="language-plaintext highlighter-rouge">stop</code> and <code class="language-plaintext highlighter-rouge">remove</code> commands to halt and delete a container.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker stop mongodb <span class="o">&amp;&amp;</span> docker <span class="nb">rm </span>mongodb
+</code></pre></div></div>
+
+<h2 id="persisting-data-with-docker">Persisting Data with Docker</h2>
+
+<p>Data generated during the container’s lifecycle is typically lost when the container is removed. To preserve data on your local machine, you can utilize Docker volumes. You can mount a volume using <code class="language-plaintext highlighter-rouge">-v</code> flag.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">--name</span> mongodb <span class="nt">-d</span> <span class="nt">-p</span> 27017:27017 <span class="nt">-v</span> mongodata:/data/db mongodb/ mongodb-community-server:7.0.0-ubi8
+</code></pre></div></div>
+
+<p>This command mounts a volume named <code class="language-plaintext highlighter-rouge">mongodata</code> to store MongoDB data. Now, even if you stop and restart the container, your data will persist.</p>
+
+<h2 id="initializing-mongodb-with-a-root-user">Initializing MongoDB with a Root User</h2>
+
+<p>For enhanced security, MongoDB can be initialized with a root user using environment variables <code class="language-plaintext highlighter-rouge">MONGO_INITDB_ROOT_USERNAME</code> and <code class="language-plaintext highlighter-rouge">MONGO_INITDB_ROOT_PASSWORD</code>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">--name</span> mongodb <span class="nt">-d</span> <span class="nt">-p</span> 27017:27017 <span class="nt">-e</span> <span class="nv">MONGO_INITDB_ROOT_USERNAME</span><span class="o">=</span>user <span class="nt">-e</span> <span class="nv">MONGO_INITDB_ROOT_PASSWORD</span><span class="o">=</span>pass <span class="nt">-v</span> mongodata:/data/db mongodb/ mongodb-community-server:7.0.0-ubi8
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">-e</code> flag is used to pass the environment variables to the container.</p>
+
+<h2 id="running-mongodb-container-using-docker-compose">Running MongoDB Container Using Docker Compose</h2>
+
+<p>To streamline the process of starting and stopping the container, Docker Compose offers a convenient solution.</p>
+
+<p>Create a <code class="language-plaintext highlighter-rouge">docker-compose.yml</code> file and define your MongoDB server container as below:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">version</span><span class="pi">:</span> <span class="s1">'</span><span class="s">3.9'</span>
+
+<span class="na">services</span><span class="pi">:</span>
+    <span class="na">mongo_db</span><span class="pi">:</span>
+        <span class="na">container_name</span><span class="pi">:</span> <span class="s">mongodb_container</span>
+        <span class="na">image</span><span class="pi">:</span> <span class="s">mongodb/mongodb-community-server:7.0.0-ubi8</span>
+        <span class="na">ports</span><span class="pi">:</span>
+            <span class="pi">-</span> <span class="s">27017:27017</span>
+        <span class="na">environment</span><span class="pi">:</span>
+            <span class="pi">-</span> <span class="s">MONGO_INITDB_ROOT_USERNAME=user</span>
+            <span class="pi">-</span> <span class="s">MONGO_INITDB_ROOT_PASSWORD=pass</span>
+        <span class="na">volumes</span><span class="pi">:</span>
+            <span class="pi">-</span> <span class="s">mongodata:/data/db</span>
+
+<span class="na">volumes</span><span class="pi">:</span>
+    <span class="na">mongodata</span><span class="pi">:</span> <span class="pi">{}</span>
+</code></pre></div></div>
+
+<p>Now, execute the following command from the directory containing the <code class="language-plaintext highlighter-rouge">docker-compose.yml</code> file.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker compose up <span class="nt">-d</span>
+</code></pre></div></div>
+
+<p>To stop the container, simply execute:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker compose down
+</code></pre></div></div>
+
+<p>With MongoDB now set up and running, you’re ready to leverage it locally to develop your applications.</p>]]></content><author><name>bekaarcoder</name></author><category term="docker" /><category term="mongodb" /><summary type="html"><![CDATA[When it comes to integrating MongoDB into your project, you have several options available. MongoDB Atlas provides a convenient cloud-based database service, while installing MongoDB directly on your local machine is another viable option.]]></summary></entry><entry><title type="html">A Comprehensive Guide to Updating Node.js on macOS</title><link href="https://bekaarcoder.xyz/nodejs/2024/01/18/update-nodejs-mac.html" rel="alternate" type="text/html" title="A Comprehensive Guide to Updating Node.js on macOS" /><published>2024-01-18T09:10:05+00:00</published><updated>2024-01-18T09:10:05+00:00</updated><id>https://bekaarcoder.xyz/nodejs/2024/01/18/update-nodejs-mac</id><content type="html" xml:base="https://bekaarcoder.xyz/nodejs/2024/01/18/update-nodejs-mac.html"><![CDATA[<p>Keeping your Node.js version up-to-date is crucial for leveraging the latest features and security enhancements. While updating on Windows is straightforward, updating Node.js on macOS may seem a bit more involved than on Windows, but fear not! In this guide, we’ll walk you through the process step by step.</p>
+
+<h2 id="step-1---check-your-nodejs-version">Step 1 - Check your Node.js version</h2>
+
+<p>Open you console/terminal and execute the following command::</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>node <span class="nt">-v</span>
+</code></pre></div></div>
+
+<p>This will display your current Node.js version as ‘v x.x.x.’</p>
+
+<h2 id="step-2---install-n-package-using-npm">Step 2 - Install ‘n’ package using npm</h2>
+
+<p>To make the update process smoother, we’ll use the ‘n’ package, a straightforward Node.js version manager. Execute the following command to install ‘n’ globally using npm:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>npm <span class="nb">install</span> <span class="nt">-g</span> n
+</code></pre></div></div>
+
+<h2 id="step-3---update-your-nodejs-version">Step 3 - Update your Node.js version</h2>
+
+<p>Now that ‘n’ is installed, updating Node.js is a breeze. Choose one of the following commands based on your preference:</p>
+
+<ul>
+  <li>
+    <p>To install the latest LTS Node.js release version:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>n lts
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>To install the latest Node.js release version</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>n latest
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>To install specific Node.js version</p>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>n x.x.x
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="step-4---verification">Step 4 - Verification</h2>
+
+<p>That’s it! Ensure the update was successful by checking your Node.js version again:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>node <span class="nt">-v</span>
+</code></pre></div></div>
+
+<p>The terminal should display the updated Node.js version as ‘v x.x.x.’</p>
+
+<p>Now you’re all set with the latest Node.js version, equipped to make the most of the newest features and improvements. Happy coding!</p>]]></content><author><name>bekaarcoder</name></author><category term="nodejs" /><summary type="html"><![CDATA[Keeping your Node.js version up-to-date is crucial for leveraging the latest features and security enhancements. While updating on Windows is straightforward, updating Node.js on macOS may seem a bit more involved than on Windows, but fear not! In this guide, we’ll walk you through the process step by step.]]></summary></entry><entry><title type="html">Adding Search Functionality To Jekyll Website</title><link href="https://bekaarcoder.xyz/jekyll/2023/12/29/adding-search-in-jekyll-website.html" rel="alternate" type="text/html" title="Adding Search Functionality To Jekyll Website" /><published>2023-12-29T09:10:05+00:00</published><updated>2023-12-29T09:10:05+00:00</updated><id>https://bekaarcoder.xyz/jekyll/2023/12/29/adding-search-in-jekyll-website</id><content type="html" xml:base="https://bekaarcoder.xyz/jekyll/2023/12/29/adding-search-in-jekyll-website.html"><![CDATA[<p>Jekyll, a popular static site generator, simplifies the process of creating and maintaining websites. However, one common feature that is often missing from basic Jekyll setups is a search functionality. In this blog post, we’ll explore how to seamlessly integrate a search feature into your Jekyll website to enhance user experience and make content discovery more efficient.</p>
+
+<p>Several plugins and services can add search functionality to your Jekyll site. Here are a few options:</p>
+
+<ol>
+  <li>
+    <p><strong>Simple-Jekyll-Search:</strong> A lightweight, client-side search plugin that requires no server-side processing. It’s easy to set up and works well for small to medium-sized sites.</p>
+  </li>
+  <li>
+    <p><strong>Lunr.js:</strong> A client-side search engine that indexes content and performs searches on the client side. It’s suitable for smaller sites without complex search requirements.</p>
+  </li>
+  <li>
+    <p><strong>Algolia:</strong> A robust, hosted search engine service that provides advanced features like typo-tolerance and faceted search. Integration with Algolia involves more steps but offers a superior search experience.</p>
+  </li>
+</ol>
+
+<blockquote class="blockquote">
+  <p>Here we will be using <strong>Simple-Jekyll-Search</strong> as its lightweight and easy to implement.</p>
+</blockquote>
+
+<h2 id="step-1---add-search-plugin-to-your-site">Step 1 - Add search plugin to your site</h2>
+
+<p>Download the <code class="language-plaintext highlighter-rouge">simple-jekyll-search.min.js</code> script from the <a href="https://github.com/christian-fei/Simple-Jekyll-Search/tree/master/dest">repository</a> and place it in your site’s assets directory.</p>
+
+<p>Include the script in your html layout.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"assets/simple-jekyll-search.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+</code></pre></div></div>
+
+<p>You can also add the below script tag directly in your html file.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://unpkg.com/simple-jekyll-search@latest/dest/simple-jekyll-search.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+</code></pre></div></div>
+
+<h2 id="step-2---configure-the-search">Step 2 - Configure the search</h2>
+
+<p>Create <code class="language-plaintext highlighter-rouge">search.json</code> file in the root of your jekyll website and place the following code.</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">//</span><span class="w"> </span><span class="err">search.json</span><span class="w">
+
+</span><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="err">%</span><span class="w"> </span><span class="err">for</span><span class="w"> </span><span class="err">post</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">site.posts</span><span class="w"> </span><span class="err">%</span><span class="p">}</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ post.title | escape }}"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ post.url | absolute_url }}"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"content"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ post.content | strip_html | strip_newlines | escape }}"</span><span class="w">
+    </span><span class="p">}{</span><span class="err">%</span><span class="w"> </span><span class="err">unless</span><span class="w"> </span><span class="err">forloop.last</span><span class="w"> </span><span class="err">%</span><span class="p">},{</span><span class="err">%</span><span class="w"> </span><span class="err">endunless</span><span class="w"> </span><span class="err">%</span><span class="p">}</span><span class="w">
+  </span><span class="p">{</span><span class="err">%</span><span class="w"> </span><span class="err">endfor</span><span class="w"> </span><span class="err">%</span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+
+</span></code></pre></div></div>
+
+<p>This will convert all the jekyll data from all the post into a key value pair which can be easily read by the search script.</p>
+
+<h2 id="step-3---initialize-the-search">Step 3 - Initialize the search</h2>
+
+<p>Create a search layout file <code class="language-plaintext highlighter-rouge">search.html</code> and add the following script before the closing <code class="language-plaintext highlighter-rouge">&lt;/body&gt;</code> tag.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- search.html --&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"assets/simple-jekyll-search.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+<span class="nt">&lt;script&gt;</span>
+    <span class="nc">SimpleJekyllSearch</span><span class="p">({</span>
+        <span class="na">searchInput</span><span class="p">:</span> <span class="nb">document</span><span class="p">.</span><span class="nf">getElementById</span><span class="p">(</span><span class="dl">'</span><span class="s1">search-input</span><span class="dl">'</span><span class="p">),</span>
+        <span class="na">resultsContainer</span><span class="p">:</span> <span class="nb">document</span><span class="p">.</span><span class="nf">getElementById</span><span class="p">(</span><span class="dl">'</span><span class="s1">search-results</span><span class="dl">'</span><span class="p">),</span>
+        <span class="na">json</span><span class="p">:</span> <span class="dl">'</span><span class="s1">/assets/search.json</span><span class="dl">'</span><span class="p">,</span>
+        <span class="na">searchResultTemplate</span><span class="p">:</span> <span class="dl">'</span><span class="s1">&lt;li&gt;&lt;a href="{url}"&gt;{title}&lt;/a&gt;&lt;/li&gt;</span><span class="dl">'</span><span class="p">,</span>
+        <span class="na">noResultsText</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Nothing found, try searching again.</span><span class="dl">'</span><span class="p">,</span>
+    <span class="p">});</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre></div></div>
+
+<blockquote class="blockquote">
+  <p>I’ve also included the search script in <code class="language-plaintext highlighter-rouge">search.html</code> layout. You can put the script in your default layout or homepage as per your requirement.</p>
+</blockquote>
+
+<h2 id="step-4---create-a-search-form">Step 4 - Create a search form</h2>
+
+<p>In the <code class="language-plaintext highlighter-rouge">search.html</code> layout, add the search input and result container to display the search results.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">id=</span><span class="s">"search-input"</span> <span class="na">placeholder=</span><span class="s">"Search blog posts.."</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;ul</span> <span class="na">id=</span><span class="s">"results-container"</span><span class="nt">&gt;&lt;/ul&gt;</span>
+</code></pre></div></div>
+
+<p>Your search functionality is ready. Now test it by typing something in the search input and check whether it displays any result.</p>
+
+<h2 id="customizations">Customizations</h2>
+
+<p>You can also customize the search input and search result by adding custom styles and other elements to match your site design.</p>
+
+<p>For example, if you are using bootstrap, you can add some css styles in the configuration script:</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>searchResultTemplate: '
+<span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"list-group-item"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;a</span> <span class="na">class=</span><span class="s">"link-body-emphasis"</span> <span class="na">href=</span><span class="s">"{url}"</span><span class="nt">&gt;</span>{title}<span class="nt">&lt;/a&gt;</span>
+<span class="nt">&lt;/li&gt;</span>
+',
+</code></pre></div></div>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Byy following these steps, you’ve successfully added search functionality to your Jekyll website providing users with the ability to search for your content easily which will enhance their overall experience on your site.</p>]]></content><author><name>bekaarcoder</name></author><category term="jekyll" /><summary type="html"><![CDATA[Jekyll, a popular static site generator, simplifies the process of creating and maintaining websites. However, one common feature that is often missing from basic Jekyll setups is a search functionality. In this blog post, we’ll explore how to seamlessly integrate a search feature into your Jekyll website to enhance user experience and make content discovery more efficient.]]></summary></entry><entry><title type="html">Creating a CRUD API with NodeJS, Express and MongoDB using TypeScript</title><link href="https://bekaarcoder.xyz/node-express-mongodb-typescript-crud" rel="alternate" type="text/html" title="Creating a CRUD API with NodeJS, Express and MongoDB using TypeScript" /><published>2023-12-04T17:30:00+00:00</published><updated>2023-12-04T17:30:00+00:00</updated><id>https://bekaarcoder.xyz/node-express-mongo-backend</id><content type="html" xml:base="https://bekaarcoder.xyz/node-express-mongodb-typescript-crud"><![CDATA[<p>Welcome to this step-by-step guide on setting up a NodeJS application with Express and MongoDB using TypeScript. In this tutorial, we’ll walk through the process of creating a simple Notes app that demonstrates a CRUD (Create, Read, Update, Delete) API using this tech stack.</p>
+
+<p>NodeJS, Express, and MongoDB form a powerful combination for building scalable and efficient web applications. TypeScript enhances the development experience by adding static typing to JavaScript, making the code more robust and maintainable. Follow the steps below to set up your development environment and create a basic Notes app.</p>
+
+<h2 id="setting-up-nodejs-express-and-mongodb-with-typescript">Setting Up NodeJS, Express and MongoDB with TypeScript</h2>
+
+<h3 id="step-1-install-dependencies">Step 1: Install Dependencies</h3>
+
+<p>First, let’s set up the project structure and install the necessary dependencies:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir </span>backend
+<span class="nb">cd </span>backend
+
+npm init <span class="nt">-y</span>
+
+<span class="c"># Install typescript as a dev dependency</span>
+npm i <span class="nt">-D</span> typescript
+
+<span class="c"># create tsconfig.json</span>
+npx tsc <span class="nt">--init</span>
+
+<span class="c"># Install express</span>
+npm i express
+npm i <span class="nt">-D</span> @types/express
+
+<span class="c"># Install nodemon</span>
+npm i <span class="nt">-D</span> nodemon
+
+<span class="c"># Install ts-node</span>
+npm i <span class="nt">-D</span> ts-node
+</code></pre></div></div>
+
+<h3 id="step-2-base-setup">Step 2: Base Setup</h3>
+
+<p>Create <code class="language-plaintext highlighter-rouge">src</code> folder inside the root directory. Inside the <code class="language-plaintext highlighter-rouge">src</code> folder, create <code class="language-plaintext highlighter-rouge">server.ts</code> file and add the base server code.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// server.ts</span>
+<span class="k">import</span> <span class="nx">express</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">express</span><span class="dl">'</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="nf">express</span><span class="p">();</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="dl">'</span><span class="s1">Hello Node!</span><span class="dl">'</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="kd">const</span> <span class="nx">port</span> <span class="o">=</span> <span class="mi">5050</span><span class="p">;</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nf">listen</span><span class="p">(</span><span class="nx">port</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="s2">`Server running on port </span><span class="p">${</span><span class="nx">port</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>Update the <code class="language-plaintext highlighter-rouge">package.json</code> file to include a start script using nodemon.</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">...</span><span class="w">
+</span><span class="nl">"scripts"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"nodemon src/server.ts"</span><span class="p">,</span><span class="w">
+</span><span class="p">}</span><span class="err">,</span><span class="w">
+</span><span class="err">...</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Now open the terminal and run the command: <code class="language-plaintext highlighter-rouge">npm start</code><br />
+This will start the server at port 5050</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span> backend@1.0.0 start
+<span class="o">&gt;</span> nodemon src/server.ts
+
+<span class="o">[</span>nodemon] 3.0.2
+<span class="o">[</span>nodemon] to restart at any <span class="nb">time</span>, enter <span class="sb">`</span>rs<span class="sb">`</span>
+<span class="o">[</span>nodemon] watching path<span class="o">(</span>s<span class="o">)</span>: <span class="k">*</span>.<span class="k">*</span>
+<span class="o">[</span>nodemon] watching extensions: ts,json
+<span class="o">[</span>nodemon] starting <span class="sb">`</span>ts-node src/server.ts<span class="sb">`</span>
+Server running on port 5050
+</code></pre></div></div>
+
+<h3 id="step-3-setting-up-environment-variables">Step 3: Setting Up Environment Variables</h3>
+
+<p>Set up environment variables using the <code class="language-plaintext highlighter-rouge">dotenv</code> and <code class="language-plaintext highlighter-rouge">envalid</code> packages. Create a <code class="language-plaintext highlighter-rouge">.env</code> file in the root directory with the desired port and install the required dependencies.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// .env
+PORT=5050
+</code></pre></div></div>
+
+<p>Install the dependencies</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm i dotenv envalid
+</code></pre></div></div>
+
+<p>Create <code class="language-plaintext highlighter-rouge">validateEnv.ts</code> file inside <code class="language-plaintext highlighter-rouge">src/util</code> folder and put the below code:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// src/util/validateEnv.ts</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">cleanEnv</span><span class="p">,</span> <span class="nx">port</span><span class="p">,</span> <span class="nx">str</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">envalid</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nf">cleanEnv</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">,</span> <span class="p">{</span>
+    <span class="na">PORT</span><span class="p">:</span> <span class="nf">port</span><span class="p">(),</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>Update the code in <code class="language-plaintext highlighter-rouge">server.ts</code></p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// server.ts</span>
+<span class="k">import</span> <span class="dl">'</span><span class="s1">dotenv/config</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">env</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./util/validateEnv</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">express</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">express</span><span class="dl">'</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="nf">express</span><span class="p">();</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="dl">'</span><span class="s1">Hello Node!</span><span class="dl">'</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="kd">const</span> <span class="nx">port</span> <span class="o">=</span> <span class="nx">env</span><span class="p">.</span><span class="nx">PORT</span> <span class="o">||</span> <span class="mi">5050</span><span class="p">;</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nf">listen</span><span class="p">(</span><span class="nx">port</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="s2">`Server running on port </span><span class="p">${</span><span class="nx">port</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<h3 id="step-4-setting-up-mongodb-with-mongoose">Step 4: Setting Up MongoDB With Mongoose</h3>
+
+<p>Install Mongoose: <code class="language-plaintext highlighter-rouge">npm i mongoose</code>.<br />
+Configure the MongoDB connection string in the .env file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// .env
+MONGO_CONNECTION_STRING=mongodb://127.0.0.1:27017/notesdb
+PORT=5050
+</code></pre></div></div>
+
+<p>Update the <code class="language-plaintext highlighter-rouge">server.ts</code> file to connect to MongoDB using Mongoos</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// server.ts</span>
+<span class="k">import</span> <span class="dl">'</span><span class="s1">dotenv/config</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">env</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./util/validateEnv</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">express</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">express</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">mongoose</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">mongoose</span><span class="dl">'</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="nf">express</span><span class="p">();</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nf">use</span><span class="p">(</span><span class="nx">express</span><span class="p">.</span><span class="nf">json</span><span class="p">());</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="dl">'</span><span class="s1">Hello Node!</span><span class="dl">'</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="kd">const</span> <span class="nx">port</span> <span class="o">=</span> <span class="nx">env</span><span class="p">.</span><span class="nx">PORT</span> <span class="o">||</span> <span class="mi">5050</span><span class="p">;</span>
+
+<span class="nx">mongoose</span>
+    <span class="p">.</span><span class="nf">connect</span><span class="p">(</span><span class="nx">env</span><span class="p">.</span><span class="nx">MONGO_CONNECTION_STRING</span><span class="p">)</span>
+    <span class="p">.</span><span class="nf">then</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="s2">`Mongo DB connected.`</span><span class="p">);</span>
+        <span class="nx">app</span><span class="p">.</span><span class="nf">listen</span><span class="p">(</span><span class="nx">port</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="s2">`Server running on port </span><span class="p">${</span><span class="nx">port</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+        <span class="p">});</span>
+    <span class="p">})</span>
+    <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+    <span class="p">});</span>
+</code></pre></div></div>
+
+<h2 id="creating-a-crud-application">Creating a CRUD Application</h2>
+
+<p>Now, let’s create a Notes app with CRUD functionality.</p>
+
+<h3 id="step-1-project-structure">Step 1: Project Structure</h3>
+
+<p>Create the project structure with folders like <code class="language-plaintext highlighter-rouge">controllers</code>, <code class="language-plaintext highlighter-rouge">models</code>, <code class="language-plaintext highlighter-rouge">routes</code>, and <code class="language-plaintext highlighter-rouge">util</code>.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>├── src
+│   ├── app.ts
+│   ├── controllers
+│   │   └── notes.ts
+│   ├── models
+│   │   └── note.ts
+│   ├── routes
+│   │   └── notes.ts
+│   ├── server.ts
+│   └── util
+│       └── validateEnv.ts
+</code></pre></div></div>
+
+<p>Create <code class="language-plaintext highlighter-rouge">app.ts</code> inside <code class="language-plaintext highlighter-rouge">src</code> directory. We will move some of the stuff from <code class="language-plaintext highlighter-rouge">server.ts</code> file to <code class="language-plaintext highlighter-rouge">app.ts</code></p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// app.ts</span>
+<span class="k">import</span> <span class="dl">'</span><span class="s1">dotenv/config</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">express</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">express</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="nf">express</span><span class="p">();</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nf">use</span><span class="p">(</span><span class="nx">express</span><span class="p">.</span><span class="nf">json</span><span class="p">());</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="dl">'</span><span class="s1">Hello Node!</span><span class="dl">'</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">app</span><span class="p">;</span>
+</code></pre></div></div>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// server.ts</span>
+<span class="k">import</span> <span class="nx">app</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./app</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">env</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./util/validateEnv</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">port</span> <span class="o">=</span> <span class="nx">env</span><span class="p">.</span><span class="nx">PORT</span> <span class="o">||</span> <span class="mi">5050</span><span class="p">;</span>
+
+<span class="nx">mongoose</span>
+    <span class="p">.</span><span class="nf">connect</span><span class="p">(</span><span class="nx">env</span><span class="p">.</span><span class="nx">MONGO_CONNECTION_STRING</span><span class="p">)</span>
+    <span class="p">.</span><span class="nf">then</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="s2">`Mongo DB connected.`</span><span class="p">);</span>
+        <span class="nx">app</span><span class="p">.</span><span class="nf">listen</span><span class="p">(</span><span class="nx">port</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="s2">`Server running on port </span><span class="p">${</span><span class="nx">port</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+        <span class="p">});</span>
+    <span class="p">})</span>
+    <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+    <span class="p">});</span>
+</code></pre></div></div>
+
+<h3 id="step-2-setup-express-error-handling">Step 2: Setup Express Error Handling</h3>
+
+<p>Enhance error handling by adding middleware to manage 404 errors and generic server errors using the <code class="language-plaintext highlighter-rouge">http-errors</code> package.</p>
+
+<p>Install dependency: <code class="language-plaintext highlighter-rouge">npm i http-errors</code>
+Add the following code in the <code class="language-plaintext highlighter-rouge">app.ts</code> file at the end but before the export statement.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// app.ts</span>
+<span class="p">...</span>
+<span class="k">import</span> <span class="nx">express</span><span class="p">,</span> <span class="p">{</span> <span class="nx">NextFunction</span><span class="p">,</span> <span class="nx">Request</span><span class="p">,</span> <span class="nx">Response</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">express</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">createHttpError</span><span class="p">,</span> <span class="p">{</span> <span class="nx">isHttpError</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">http-errors</span><span class="dl">'</span><span class="p">;</span>
+<span class="p">...</span>
+
+<span class="c1">// This will handle the error when api path is not defined</span>
+<span class="nx">app</span><span class="p">.</span><span class="nf">use</span><span class="p">((</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nf">next</span><span class="p">(</span><span class="nf">createHttpError</span><span class="p">(</span><span class="mi">404</span><span class="p">,</span> <span class="dl">'</span><span class="s1">Endpoint not found</span><span class="dl">'</span><span class="p">));</span>
+<span class="p">});</span>
+
+<span class="cm">/* eslint-disable @typescript-eslint/no-unused-vars */</span>
+<span class="nx">app</span><span class="p">.</span><span class="nf">use</span><span class="p">((</span><span class="nx">error</span><span class="p">:</span> <span class="nx">unknown</span><span class="p">,</span> <span class="nx">req</span><span class="p">:</span> <span class="nx">Request</span><span class="p">,</span> <span class="nx">res</span><span class="p">:</span> <span class="nx">Response</span><span class="p">,</span> <span class="nx">next</span><span class="p">:</span> <span class="nx">NextFunction</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nf">error</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+    <span class="kd">let</span> <span class="nx">errorMessage</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">An unknown error occurred</span><span class="dl">'</span><span class="p">;</span>
+    <span class="kd">let</span> <span class="nx">statusCode</span> <span class="o">=</span> <span class="mi">500</span><span class="p">;</span>
+    <span class="k">if </span><span class="p">(</span><span class="nf">isHttpError</span><span class="p">(</span><span class="nx">error</span><span class="p">))</span> <span class="p">{</span>
+        <span class="nx">statusCode</span> <span class="o">=</span> <span class="nx">error</span><span class="p">.</span><span class="nx">status</span><span class="p">;</span>
+        <span class="nx">errorMessage</span> <span class="o">=</span> <span class="nx">error</span><span class="p">.</span><span class="nx">message</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nf">status</span><span class="p">(</span><span class="nx">statusCode</span><span class="p">).</span><span class="nf">json</span><span class="p">({</span> <span class="na">error</span><span class="p">:</span> <span class="nx">errorMessage</span> <span class="p">});</span>
+<span class="p">});</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">app</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h3 id="step-3-creating-notes-model">Step 3: Creating Notes Model</h3>
+
+<p>Create a Mongoose schema for the Note model inside the <code class="language-plaintext highlighter-rouge">models</code> folder. This schema includes fields such as title and text.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// src/models/note.ts</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">InferSchemaType</span><span class="p">,</span> <span class="nx">Schema</span><span class="p">,</span> <span class="nx">model</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">mongoose</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">noteSchema</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Schema</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="na">title</span><span class="p">:</span> <span class="p">{</span>
+            <span class="na">type</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span>
+            <span class="na">required</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="na">text</span><span class="p">:</span> <span class="p">{</span>
+            <span class="na">type</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">},</span>
+    <span class="p">{</span> <span class="na">timestamps</span><span class="p">:</span> <span class="kc">true</span> <span class="p">}</span>
+<span class="p">);</span>
+
+<span class="nx">type</span> <span class="nx">Note</span> <span class="o">=</span> <span class="nx">InferSchemaType</span><span class="o">&lt;</span><span class="k">typeof</span> <span class="nx">noteSchema</span><span class="o">&gt;</span><span class="p">;</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">model</span> <span class="o">&lt;</span> <span class="nx">Note</span> <span class="o">&gt;</span> <span class="p">(</span><span class="dl">'</span><span class="s1">Note</span><span class="dl">'</span><span class="p">,</span> <span class="nx">noteSchema</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h3 id="step-4-creating-controller-for-the-notes-api">Step 4: Creating controller for the Notes API</h3>
+
+<p>Create a controller file <code class="language-plaintext highlighter-rouge">notes.ts</code> inside the <code class="language-plaintext highlighter-rouge">controllers</code> folder. Implement the logic for creating a new note.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// src/controllers/notes.ts</span>
+
+<span class="k">import</span> <span class="p">{</span> <span class="nx">RequestHandler</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">express</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">NoteModal</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">../models/note</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">createHttpError</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">http-errors</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">mongoose</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">mongoose</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kr">interface</span> <span class="nx">CreateNoteBody</span> <span class="p">{</span>
+    <span class="nx">title</span><span class="p">?:</span> <span class="nx">string</span><span class="p">;</span>
+    <span class="nx">text</span><span class="p">?:</span> <span class="nx">string</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">createNote</span><span class="p">:</span> <span class="nx">RequestHandler</span><span class="o">&lt;</span>
+    <span class="nx">unknown</span><span class="p">,</span>
+    <span class="nx">unknown</span><span class="p">,</span>
+    <span class="nx">CreateNoteBody</span><span class="p">,</span>
+    <span class="nx">unknown</span>
+<span class="o">&gt;</span> <span class="o">=</span> <span class="k">async </span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">title</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">title</span><span class="p">;</span>
+    <span class="kd">const</span> <span class="nx">text</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">text</span><span class="p">;</span>
+
+    <span class="k">try</span> <span class="p">{</span>
+        <span class="k">if </span><span class="p">(</span><span class="o">!</span><span class="nx">title</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">throw</span> <span class="nf">createHttpError</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="dl">'</span><span class="s1">Title is required</span><span class="dl">'</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="kd">const</span> <span class="nx">newNote</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">NoteModal</span><span class="p">.</span><span class="nf">create</span><span class="p">({</span>
+            <span class="na">title</span><span class="p">:</span> <span class="nx">title</span><span class="p">,</span>
+            <span class="na">text</span><span class="p">:</span> <span class="nx">text</span><span class="p">,</span>
+        <span class="p">});</span>
+
+        <span class="nx">res</span><span class="p">.</span><span class="nf">status</span><span class="p">(</span><span class="mi">201</span><span class="p">).</span><span class="nf">json</span><span class="p">(</span><span class="nx">newNote</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">catch </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nf">next</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<h3 id="step-5-add-route-for-note-creation">Step 5: Add Route For Note Creation</h3>
+
+<p>Create a <code class="language-plaintext highlighter-rouge">notes.ts</code> file inside the <code class="language-plaintext highlighter-rouge">routes</code> folder.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// src/routes/notes.ts</span>
+<span class="k">import</span> <span class="nx">express</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">express</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="o">*</span> <span class="k">as</span> <span class="nx">NotesController</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">../controllers/notes</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">router</span> <span class="o">=</span> <span class="nx">express</span><span class="p">.</span><span class="nc">Router</span><span class="p">();</span>
+
+<span class="nx">router</span><span class="p">.</span><span class="nf">post</span><span class="p">(</span><span class="dl">'</span><span class="s1">/</span><span class="dl">'</span><span class="p">,</span> <span class="nx">NotesController</span><span class="p">.</span><span class="nx">createNote</span><span class="p">);</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">router</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>Import the create route in the <code class="language-plaintext highlighter-rouge">app.ts</code> file.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// src/app.ts</span>
+<span class="p">...</span>
+<span class="k">import</span> <span class="nx">notesRoutes</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./routes/notes</span><span class="dl">'</span><span class="p">;</span>
+<span class="p">...</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nf">use</span><span class="p">(</span><span class="nx">express</span><span class="p">.</span><span class="nf">json</span><span class="p">());</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nf">use</span><span class="p">(</span><span class="dl">'</span><span class="s1">/api/notes</span><span class="dl">'</span><span class="p">,</span> <span class="nx">notesRoutes</span><span class="p">);</span>
+
+<span class="p">...</span>
+</code></pre></div></div>
+
+<p><strong>API Endpoint:</strong> POST <code class="language-plaintext highlighter-rouge">http://localhost:5050/api/notes</code></p>
+
+<h3 id="step-6-fetch-all-the-notes">Step 6: Fetch All The Notes</h3>
+
+<p>Implement functionality to fetch all notes and display them using a GET endpoint.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// src/controllers/notes.ts</span>
+
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">getNotes</span><span class="p">:</span> <span class="nx">RequestHandler</span> <span class="o">=</span> <span class="k">async </span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">try</span> <span class="p">{</span>
+        <span class="kd">const</span> <span class="nx">notes</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">NoteModal</span><span class="p">.</span><span class="nf">find</span><span class="p">().</span><span class="nf">exec</span><span class="p">();</span>
+        <span class="nx">res</span><span class="p">.</span><span class="nf">status</span><span class="p">(</span><span class="mi">200</span><span class="p">).</span><span class="nf">json</span><span class="p">(</span><span class="nx">notes</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">catch </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nf">next</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// src/routes/notes.ts</span>
+
+<span class="nx">router</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/</span><span class="dl">'</span><span class="p">,</span> <span class="nx">NotesController</span><span class="p">.</span><span class="nx">getNotes</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><strong>API Endpoint:</strong> GET <code class="language-plaintext highlighter-rouge">https://localhost:5050/api/notes</code></p>
+
+<h3 id="step-7-fetch-note-by-id">Step 7: Fetch Note By ID</h3>
+
+<p>Create an endpoint to retrieve a specific note by its ID using a GET request.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// src/controllers/notes.ts</span>
+
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">getNote</span><span class="p">:</span> <span class="nx">RequestHandler</span> <span class="o">=</span> <span class="k">async </span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">noteId</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">noteId</span><span class="p">;</span>
+    <span class="k">try</span> <span class="p">{</span>
+        <span class="k">if </span><span class="p">(</span><span class="o">!</span><span class="nx">mongoose</span><span class="p">.</span><span class="nf">isValidObjectId</span><span class="p">(</span><span class="nx">noteId</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">throw</span> <span class="nf">createHttpError</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="dl">'</span><span class="s1">Invalid note id</span><span class="dl">'</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="kd">const</span> <span class="nx">note</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">NoteModal</span><span class="p">.</span><span class="nf">findById</span><span class="p">(</span><span class="nx">noteId</span><span class="p">).</span><span class="nf">exec</span><span class="p">();</span>
+
+        <span class="k">if </span><span class="p">(</span><span class="o">!</span><span class="nx">note</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">throw</span> <span class="nf">createHttpError</span><span class="p">(</span><span class="mi">404</span><span class="p">,</span> <span class="dl">'</span><span class="s1">Note not found</span><span class="dl">'</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="nx">res</span><span class="p">.</span><span class="nf">status</span><span class="p">(</span><span class="mi">200</span><span class="p">).</span><span class="nf">json</span><span class="p">(</span><span class="nx">note</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">catch </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nf">next</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// src/routes/notes.ts</span>
+
+<span class="nx">router</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/:noteId</span><span class="dl">'</span><span class="p">,</span> <span class="nx">NotesController</span><span class="p">.</span><span class="nx">getNote</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><strong>API Endpoint:</strong> GET <code class="language-plaintext highlighter-rouge">http://localhost:5050/api/notes/&lt;noteId&gt;</code></p>
+
+<h3 id="step-8-updating-note">Step 8: Updating Note</h3>
+
+<p>Add the ability to update a note using a PUT request.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// src/controllers/notes.ts</span>
+
+<span class="kr">interface</span> <span class="nx">UpdateNoteParams</span> <span class="p">{</span>
+    <span class="nl">noteId</span><span class="p">:</span> <span class="nx">string</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kr">interface</span> <span class="nx">UpdateNoteBody</span> <span class="p">{</span>
+    <span class="nx">title</span><span class="p">?:</span> <span class="nx">string</span><span class="p">;</span>
+    <span class="nx">text</span><span class="p">?:</span> <span class="nx">string</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">updateNote</span><span class="p">:</span> <span class="nx">RequestHandler</span><span class="o">&lt;</span>
+    <span class="nx">UpdateNoteParams</span><span class="p">,</span>
+    <span class="nx">unknown</span><span class="p">,</span>
+    <span class="nx">UpdateNoteBody</span><span class="p">,</span>
+    <span class="nx">unknown</span>
+<span class="o">&gt;</span> <span class="o">=</span> <span class="k">async </span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">noteId</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">noteId</span><span class="p">;</span>
+    <span class="kd">const</span> <span class="nx">newTitle</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">title</span><span class="p">;</span>
+    <span class="kd">const</span> <span class="nx">newText</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">text</span><span class="p">;</span>
+    <span class="k">try</span> <span class="p">{</span>
+        <span class="k">if </span><span class="p">(</span><span class="o">!</span><span class="nx">mongoose</span><span class="p">.</span><span class="nf">isValidObjectId</span><span class="p">(</span><span class="nx">noteId</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">throw</span> <span class="nf">createHttpError</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="dl">'</span><span class="s1">Invalid note id</span><span class="dl">'</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="k">if </span><span class="p">(</span><span class="o">!</span><span class="nx">newTitle</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">throw</span> <span class="nf">createHttpError</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="dl">'</span><span class="s1">Title is required</span><span class="dl">'</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="kd">const</span> <span class="nx">note</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">NoteModal</span><span class="p">.</span><span class="nf">findById</span><span class="p">(</span><span class="nx">noteId</span><span class="p">).</span><span class="nf">exec</span><span class="p">();</span>
+
+        <span class="k">if </span><span class="p">(</span><span class="o">!</span><span class="nx">note</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">throw</span> <span class="nf">createHttpError</span><span class="p">(</span><span class="mi">404</span><span class="p">,</span> <span class="dl">'</span><span class="s1">Note not found</span><span class="dl">'</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="nx">note</span><span class="p">.</span><span class="nx">title</span> <span class="o">=</span> <span class="nx">newTitle</span><span class="p">;</span>
+        <span class="nx">note</span><span class="p">.</span><span class="nx">text</span> <span class="o">=</span> <span class="nx">newText</span><span class="p">;</span>
+
+        <span class="kd">const</span> <span class="nx">updatedNote</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">note</span><span class="p">.</span><span class="nf">save</span><span class="p">();</span>
+
+        <span class="nx">res</span><span class="p">.</span><span class="nf">status</span><span class="p">(</span><span class="mi">200</span><span class="p">).</span><span class="nf">json</span><span class="p">(</span><span class="nx">updatedNote</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">catch </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nf">next</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// src/routes/notes.ts</span>
+
+<span class="nx">router</span><span class="p">.</span><span class="nf">put</span><span class="p">(</span><span class="dl">'</span><span class="s1">/:noteId</span><span class="dl">'</span><span class="p">,</span> <span class="nx">NotesController</span><span class="p">.</span><span class="nx">updateNote</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><strong>API Endpoint:</strong> PUT <code class="language-plaintext highlighter-rouge">http://localhost:5050/api/notes/&lt;noteId&gt;</code></p>
+
+<h3 id="step-9-deleting-note">Step 9: Deleting Note</h3>
+
+<p>Implement a DELETE endpoint to delete a note by its ID.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// src/controllers/notes.ts</span>
+
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">deleteNote</span><span class="p">:</span> <span class="nx">RequestHandler</span> <span class="o">=</span> <span class="k">async </span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">noteId</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">noteId</span><span class="p">;</span>
+
+    <span class="k">try</span> <span class="p">{</span>
+        <span class="k">if </span><span class="p">(</span><span class="o">!</span><span class="nx">mongoose</span><span class="p">.</span><span class="nf">isValidObjectId</span><span class="p">(</span><span class="nx">noteId</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">throw</span> <span class="nf">createHttpError</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="dl">'</span><span class="s1">Invalid note id</span><span class="dl">'</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="kd">const</span> <span class="nx">note</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">NoteModal</span><span class="p">.</span><span class="nf">findById</span><span class="p">(</span><span class="nx">noteId</span><span class="p">).</span><span class="nf">exec</span><span class="p">();</span>
+
+        <span class="k">if </span><span class="p">(</span><span class="o">!</span><span class="nx">note</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">throw</span> <span class="nf">createHttpError</span><span class="p">(</span><span class="mi">404</span><span class="p">,</span> <span class="dl">'</span><span class="s1">Note not found</span><span class="dl">'</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="k">await</span> <span class="nx">note</span><span class="p">.</span><span class="nf">deleteOne</span><span class="p">();</span>
+
+        <span class="nx">res</span><span class="p">.</span><span class="nf">sendStatus</span><span class="p">(</span><span class="mi">204</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">catch </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nf">next</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// src/routes/notes.ts</span>
+
+<span class="nx">router</span><span class="p">.</span><span class="k">delete</span><span class="p">(</span><span class="dl">'</span><span class="s1">/:noteId</span><span class="dl">'</span><span class="p">,</span> <span class="nx">NotesController</span><span class="p">.</span><span class="nx">deleteNote</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><strong>API Endpoint:</strong> DELETE <code class="language-plaintext highlighter-rouge">http://localhost:5050/api/notes/&lt;noteId&gt;</code></p>
+
+<hr />
+
+<p>Congratulations!🎉<br />
+You’ve successfully set up a NodeJS application with Express and MongoDB using TypeScript. This blog covered the initial setup, environment variables, MongoDB integration, and the creation of a CRUD application for managing notes.</p>
+
+<p>Check out the <a href="https://github.com/bekaarcoder/notes-app-ts/tree/main">source code on github</a>.</p>
+
+<p><br /></p>]]></content><author><name>bekaarcoder</name></author><category term="nodejs" /><category term="express" /><category term="mongodb" /><category term="typescript" /><summary type="html"><![CDATA[Welcome to this step-by-step guide on setting up a NodeJS application with Express and MongoDB using TypeScript. In this tutorial, we’ll walk through the process of creating a simple Notes app that demonstrates a CRUD (Create, Read, Update, Delete) API using this tech stack.]]></summary></entry><entry><title type="html">Setting Up Playwright with Cucumber and TypeScript</title><link href="https://bekaarcoder.xyz/playwright-cucumber-ts-setup" rel="alternate" type="text/html" title="Setting Up Playwright with Cucumber and TypeScript" /><published>2023-11-27T07:10:05+00:00</published><updated>2023-11-27T07:10:05+00:00</updated><id>https://bekaarcoder.xyz/playwright-cucumber-ts-setup</id><content type="html" xml:base="https://bekaarcoder.xyz/playwright-cucumber-ts-setup"><![CDATA[<p>Playwright, coupled with Cucumber and TypeScript, offers a robust framework for end-to-end testing of web applications. This blog post guides you through the setup process, ensuring a seamless integration of these technologies.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<p>Before diving into the installation, make sure you have the following prerequisites installed in place:</p>
+
+<ol>
+  <li>NodeJS and npm</li>
+  <li>VS Code</li>
+</ol>
+
+<h2 id="installation">Installation</h2>
+
+<ol>
+  <li>
+    <p><strong>Create a Playwright project</strong></p>
+
+    <p>Install playwright by running the below command:<br />
+ <code class="language-plaintext highlighter-rouge">npm init playwright@latest</code><br />
+ Select the settings as below:<br />
+ <img src="/assets/images/playwright_setup.png" alt="Gitlab CI Pipeline" style="width:100%" /></p>
+
+    <p>You can also create a playwright project using the VS Code Extension. Search for the <code class="language-plaintext highlighter-rouge">Playwright Test for VSCode</code> plugin in VS Code and install it.</p>
+  </li>
+  <li>
+    <p><strong>Setup Cucumber</strong></p>
+
+    <ul>
+      <li>Install Cucumber plugin for VS Code.</li>
+      <li>
+        <p>Install below dependencies:</p>
+
+        <p><code class="language-plaintext highlighter-rouge">npm i @cucumber/cucumber -D</code><br />
+   <code class="language-plaintext highlighter-rouge">npm i ts-node -D</code></p>
+      </li>
+    </ul>
+
+    <p>We will be installing <code class="language-plaintext highlighter-rouge">ts-node</code> as we will be using TypeScript in our project. This will allow us to run TypeScript files directly without compiling then to JavaScript first.</p>
+  </li>
+  <li>
+    <p><strong>Project Cleanup</strong></p>
+
+    <p>After installing playwright, remove the below files and folders:</p>
+
+    <div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">tests</span><span class="o">/</span><span class="n">example</span><span class="p">.</span><span class="n">spec</span><span class="p">.</span><span class="n">ts</span>
+ <span class="n">tests</span><span class="o">-</span><span class="n">examples</span><span class="o">/</span><span class="n">demo</span><span class="o">-</span><span class="n">todo</span><span class="o">-</span><span class="n">app</span><span class="p">.</span><span class="n">spec</span><span class="p">.</span><span class="n">ts</span>
+ <span class="n">playwright</span><span class="p">.</span><span class="n">config</span><span class="p">.</span><span class="n">ts</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="project-structure">Project Structure</h2>
+
+<p>Once we have setup playwright and installed related dependencies, we will setup the basic project structure.<br />
+Create the directory as following:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>project-root
+|-- src
+|   `-- test
+|       `-- features
+|       `-- steps
+</code></pre></div></div>
+
+<p>We will put all out feature files inside the <code class="language-plaintext highlighter-rouge">features</code> directory and all the step definitions inside the <code class="language-plaintext highlighter-rouge">steps</code> directory.</p>
+
+<h2 id="feature-file">Feature File</h2>
+
+<p>Lets create a simple feature file for login scenario. Create a file <code class="language-plaintext highlighter-rouge">login.feature</code> inside the <code class="language-plaintext highlighter-rouge">features</code> directory.</p>
+
+<div class="language-gherkin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#login.feature</span>
+<span class="kd">Feature</span><span class="p">:</span> User Authentication Tests
+
+  <span class="kn">Background</span><span class="p">:</span>
+    <span class="nf">Given </span>User navigates to the application
+    <span class="nf">When </span>User click on the login link
+
+  <span class="kn">Scenario</span><span class="p">:</span> Login should be successful
+    <span class="nf">When </span>User enters the username as <span class="s">"janedoee"</span>
+    <span class="nf">And </span>User enters the password as <span class="s">"Password@123"</span>
+    <span class="nf">And </span>User clicks on the login button
+    <span class="nf">Then </span>User is logged in successfully
+</code></pre></div></div>
+
+<h2 id="cucumber-configuration">Cucumber Configuration</h2>
+
+<p>We can define all the configuration for cucumber in a file. Create a file <code class="language-plaintext highlighter-rouge">cucumber.json</code> in the root of your project.</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">//cucumber.json</span><span class="w">
+</span><span class="p">{</span><span class="w">
+    </span><span class="nl">"default"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"formatOptions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"snippetInterface"</span><span class="p">:</span><span class="w"> </span><span class="s2">"async-await"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nl">"paths"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"src/test/features/"</span><span class="p">],</span><span class="w">
+        </span><span class="nl">"require"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"src/test/steps/*.ts"</span><span class="p">],</span><span class="w">
+        </span><span class="nl">"dryRun"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Here we have created a <code class="language-plaintext highlighter-rouge">default</code> profile and mentioned the <code class="language-plaintext highlighter-rouge">path</code> where the feature files are present.<br />
+We have set <code class="language-plaintext highlighter-rouge">dryRun</code> as true which will prepare a test run but don’t run the test.<br />
+In the <code class="language-plaintext highlighter-rouge">formatOptions</code>, we have set <code class="language-plaintext highlighter-rouge">snippetInterface</code> as <code class="language-plaintext highlighter-rouge">async-await</code>. This will generate the functions in the code snippet as async-await.<br />
+<code class="language-plaintext highlighter-rouge">require</code> is set to path where the step definitions files are present.</p>
+
+<h2 id="setup-npm-scripts">Setup npm scripts</h2>
+
+<p>Add the below scripts in the <code class="language-plaintext highlighter-rouge">package.json</code> file to execute the cucumber tests.</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">//package.json</span><span class="w">
+</span><span class="err">...</span><span class="w">
+</span><span class="nl">"scripts"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"test"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cucumber-js test"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span><span class="err">...</span><span class="w">
+</span></code></pre></div></div>
+
+<h2 id="dry-run-tests">Dry Run Tests</h2>
+
+<p>Lets run the test with the following command: <code class="language-plaintext highlighter-rouge">npm run test</code><br />
+As we have not created out step definition file, this will generate failures in the terminal with code snippets for all the undefined steps in the feature file.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span> playwright-ts-setup@1.0.0 <span class="nb">test</span>
+<span class="o">&gt;</span> cucumber-js <span class="nb">test
+
+</span>UUUUUU
+
+Failures:
+
+1<span class="o">)</span> Scenario: Login should be successful <span class="c"># src/test/features/login.feature:7</span>
+   ? Given User navigates to the application
+       Undefined. Implement with the following snippet:
+
+         Given<span class="o">(</span><span class="s1">'User navigates to the application'</span>, async <span class="k">function</span> <span class="o">()</span> <span class="o">{</span>
+           // Write code here that turns the phrase above into concrete actions
+           <span class="k">return</span> <span class="s1">'pending'</span><span class="p">;</span>
+         <span class="o">})</span><span class="p">;</span>
+...
+</code></pre></div></div>
+
+<h2 id="create-step-definitions">Create Step Definitions</h2>
+
+<p>Create <code class="language-plaintext highlighter-rouge">loginSteps.ts</code> inside the <code class="language-plaintext highlighter-rouge">steps</code> directory. Copy all the code snippets generated for the undefined steps in the terminal to <code class="language-plaintext highlighter-rouge">loginSteps.ts</code> file.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//loginSteps.ts</span>
+
+<span class="k">import</span> <span class="p">{</span> <span class="nx">Given</span><span class="p">,</span> <span class="nx">When</span><span class="p">,</span> <span class="nx">Then</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@cucumber/cucumber</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="nc">Given</span><span class="p">(</span><span class="dl">'</span><span class="s1">User navigates to the application</span><span class="dl">'</span><span class="p">,</span> <span class="k">async</span> <span class="nf">function </span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Write code here that turns the phrase above into concrete actions</span>
+    <span class="k">return</span> <span class="dl">'</span><span class="s1">pending</span><span class="dl">'</span><span class="p">;</span>
+<span class="p">});</span>
+
+<span class="nc">When</span><span class="p">(</span><span class="dl">'</span><span class="s1">User click on the login link</span><span class="dl">'</span><span class="p">,</span> <span class="k">async</span> <span class="nf">function </span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Write code here that turns the phrase above into concrete actions</span>
+    <span class="k">return</span> <span class="dl">'</span><span class="s1">pending</span><span class="dl">'</span><span class="p">;</span>
+<span class="p">});</span>
+
+<span class="nc">When</span><span class="p">(</span><span class="dl">'</span><span class="s1">User enters the username as {string}</span><span class="dl">'</span><span class="p">,</span> <span class="k">async</span> <span class="nf">function </span><span class="p">(</span><span class="nx">string</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Write code here that turns the phrase above into concrete actions</span>
+    <span class="k">return</span> <span class="dl">'</span><span class="s1">pending</span><span class="dl">'</span><span class="p">;</span>
+<span class="p">});</span>
+
+<span class="nc">When</span><span class="p">(</span><span class="dl">'</span><span class="s1">User enters the password as {string}</span><span class="dl">'</span><span class="p">,</span> <span class="k">async</span> <span class="nf">function </span><span class="p">(</span><span class="nx">string</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Write code here that turns the phrase above into concrete actions</span>
+    <span class="k">return</span> <span class="dl">'</span><span class="s1">pending</span><span class="dl">'</span><span class="p">;</span>
+<span class="p">});</span>
+
+<span class="nc">When</span><span class="p">(</span><span class="dl">'</span><span class="s1">User clicks on the login button</span><span class="dl">'</span><span class="p">,</span> <span class="k">async</span> <span class="nf">function </span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Write code here that turns the phrase above into concrete actions</span>
+    <span class="k">return</span> <span class="dl">'</span><span class="s1">pending</span><span class="dl">'</span><span class="p">;</span>
+<span class="p">});</span>
+
+<span class="nc">Then</span><span class="p">(</span><span class="dl">'</span><span class="s1">User is logged in successfully</span><span class="dl">'</span><span class="p">,</span> <span class="k">async</span> <span class="nf">function </span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Write code here that turns the phrase above into concrete actions</span>
+    <span class="k">return</span> <span class="dl">'</span><span class="s1">pending</span><span class="dl">'</span><span class="p">;</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<h2 id="running-tests">Running Tests</h2>
+
+<p>Before running the test, make sure <code class="language-plaintext highlighter-rouge">dryRun</code> is set to <code class="language-plaintext highlighter-rouge">false</code> in <code class="language-plaintext highlighter-rouge">cucumber.json</code> configuation file.<br />
+Lets run the test again with <code class="language-plaintext highlighter-rouge">npm run test</code>.</p>
+
+<p>We will encounter the below error:
+<code class="language-plaintext highlighter-rouge">SyntaxError: Cannot use import statement outside a module</code></p>
+
+<p>To resolve this we need to add another property in the <code class="language-plaintext highlighter-rouge">cucumber.js</code> configuration file</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">//cucumber.json</span><span class="w">
+</span><span class="p">{</span><span class="w">
+    </span><span class="nl">"default"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="err">...</span><span class="w">
+        </span><span class="nl">"requireModule"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"ts-node/register"</span><span class="p">],</span><span class="w">
+        </span><span class="err">...</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Now rerun the test <code class="language-plaintext highlighter-rouge">npm run test</code>.
+You will see the below output in the terminal. This means that the test has been successfully ran. As we have not yet added any code in the step definition function, its showing as pending.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span> playwright-ts-setup@1.0.0 <span class="nb">test</span>
+<span class="o">&gt;</span> cucumber-js <span class="nb">test
+
+</span>P-----
+
+Warnings:
+
+1<span class="o">)</span> Scenario: Login should be successful <span class="c"># src/test/features/login.feature:7</span>
+   ? Given User navigates to the application <span class="c"># src/test/steps/loginSteps.ts:3</span>
+       Pending
+   - When User click on the login <span class="nb">link</span> <span class="c"># src/test/steps/loginSteps.ts:8</span>
+   - When User enters the username as <span class="s2">"janedoee"</span> <span class="c"># src/test/steps/loginSteps.ts:13</span>
+   - And User enters the password as <span class="s2">"Password@123"</span> <span class="c"># src/test/steps/loginSteps.ts:18</span>
+   - And User clicks on the login button <span class="c"># src/test/steps/loginSteps.ts:23</span>
+   - Then User is logged <span class="k">in </span>successfully <span class="c"># src/test/steps/loginSteps.ts:28</span>
+
+1 scenario <span class="o">(</span>1 pending<span class="o">)</span>
+6 steps <span class="o">(</span>1 pending, 5 skipped<span class="o">)</span>
+0m00.008s <span class="o">(</span>executing steps: 0m00.000s<span class="o">)</span>
+</code></pre></div></div>
+
+<h2 id="configure-steps-mapping">Configure Steps Mapping</h2>
+
+<p>If you see that even though you have implemented the step definitions for all the steps in the feature file but they are not mapped to the step definition, you can update the cucumber settings in the VSCode.
+Navigate to settings in VSCode and open the <code class="language-plaintext highlighter-rouge">settings.json</code> file. Update the below settings:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">//settings.json</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">VSCode</span><span class="w">
+</span><span class="err">...</span><span class="w">
+</span><span class="nl">"cucumber.features"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"src/test/features/*.feature"</span><span class="p">,</span><span class="w">
+    </span><span class="err">...</span><span class="w">
+</span><span class="p">]</span><span class="err">,</span><span class="w">
+</span><span class="nl">"cucumber.glue"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"src/test/steps/*.ts"</span><span class="p">,</span><span class="w">
+    </span><span class="err">...</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span><span class="err">...</span><span class="w">
+</span></code></pre></div></div>
+
+<h2 id="launching-browser">Launching Browser</h2>
+
+<p>Lets write the step definition for the below step:<br />
+<code class="language-plaintext highlighter-rouge">Given User navigates to the application</code></p>
+
+<p>Here we will launch the web browser and then navigate to application. Add the below code in the <code class="language-plaintext highlighter-rouge">loginSteps.ts</code> file</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">Given</span><span class="p">,</span> <span class="nx">When</span><span class="p">,</span> <span class="nx">Then</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@cucumber/cucumber</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">Browser</span><span class="p">,</span> <span class="nx">Page</span><span class="p">,</span> <span class="nx">chromium</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@playwright/test</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kd">let</span> <span class="nx">browser</span><span class="p">:</span> <span class="nx">Browser</span><span class="p">;</span>
+<span class="kd">let</span> <span class="nx">page</span><span class="p">:</span> <span class="nx">Page</span><span class="p">;</span>
+
+<span class="nc">Given</span><span class="p">(</span><span class="dl">'</span><span class="s1">User navigates to the application</span><span class="dl">'</span><span class="p">,</span> <span class="k">async</span> <span class="nf">function </span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">browser</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">chromium</span><span class="p">.</span><span class="nf">launch</span><span class="p">({</span> <span class="na">headless</span><span class="p">:</span> <span class="kc">false</span> <span class="p">});</span>
+    <span class="nx">page</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">browser</span><span class="p">.</span><span class="nf">newPage</span><span class="p">();</span>
+    <span class="k">await</span> <span class="nx">page</span><span class="p">.</span><span class="nf">goto</span><span class="p">(</span><span class="dl">'</span><span class="s1">https://bookcart.azurewebsites.net/</span><span class="dl">'</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<h2 id="defining-all-steps">Defining All Steps</h2>
+
+<p>We will write step definitions for the other steps as well</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">When</span><span class="p">(</span><span class="dl">'</span><span class="s1">User click on the login link</span><span class="dl">'</span><span class="p">,</span> <span class="k">async</span> <span class="nf">function </span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">await</span> <span class="nx">page</span><span class="p">.</span><span class="nf">locator</span><span class="p">(</span><span class="dl">"</span><span class="s2">//button//span[text()='Login']</span><span class="dl">"</span><span class="p">).</span><span class="nf">click</span><span class="p">();</span>
+<span class="p">});</span>
+
+<span class="nc">When</span><span class="p">(</span><span class="dl">'</span><span class="s1">User enters the username as {string}</span><span class="dl">'</span><span class="p">,</span> <span class="k">async</span> <span class="nf">function </span><span class="p">(</span><span class="nx">username</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">await</span> <span class="nx">page</span><span class="p">.</span><span class="nf">locator</span><span class="p">(</span><span class="dl">"</span><span class="s2">//input[@formcontrolname='username']</span><span class="dl">"</span><span class="p">).</span><span class="nf">fill</span><span class="p">(</span><span class="nx">username</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nc">When</span><span class="p">(</span><span class="dl">'</span><span class="s1">User enters the password as {string}</span><span class="dl">'</span><span class="p">,</span> <span class="k">async</span> <span class="nf">function </span><span class="p">(</span><span class="nx">password</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">await</span> <span class="nx">page</span><span class="p">.</span><span class="nf">locator</span><span class="p">(</span><span class="dl">"</span><span class="s2">//input[@formcontrolname='password']</span><span class="dl">"</span><span class="p">).</span><span class="nf">fill</span><span class="p">(</span><span class="nx">password</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nc">When</span><span class="p">(</span><span class="dl">'</span><span class="s1">User clicks on the login button</span><span class="dl">'</span><span class="p">,</span> <span class="k">async</span> <span class="nf">function </span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">await</span> <span class="nx">page</span>
+        <span class="p">.</span><span class="nf">locator</span><span class="p">(</span><span class="dl">"</span><span class="s2">//button[@color='primary']//span[text()='Login']</span><span class="dl">"</span><span class="p">)</span>
+        <span class="p">.</span><span class="nf">click</span><span class="p">();</span>
+<span class="p">});</span>
+
+<span class="nc">Then</span><span class="p">(</span><span class="dl">'</span><span class="s1">User is logged in successfully</span><span class="dl">'</span><span class="p">,</span> <span class="k">async</span> <span class="nf">function </span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">await</span> <span class="nf">expect</span><span class="p">(</span>
+        <span class="nx">page</span><span class="p">.</span><span class="nf">locator</span><span class="p">(</span><span class="dl">"</span><span class="s2">//button//span[contains(text(), 'janedoee')]</span><span class="dl">"</span><span class="p">)</span>
+    <span class="p">).</span><span class="nf">toBeVisible</span><span class="p">();</span>
+    <span class="k">await</span> <span class="nx">browser</span><span class="p">.</span><span class="nf">close</span><span class="p">();</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<h2 id="running-end-to-end-test">Running End-To-End Test</h2>
+
+<p>As we have defined all the steps, let run our e2e test: <code class="language-plaintext highlighter-rouge">npm run test</code>. You will see the below output in the terminal and the test have been passed.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span> playwright-ts-setup@1.0.0 <span class="nb">test</span>
+<span class="o">&gt;</span> cucumber-js <span class="nb">test</span>
+
+......
+
+1 scenario <span class="o">(</span>1 passed<span class="o">)</span>
+6 steps <span class="o">(</span>6 passed<span class="o">)</span>
+0m05.281s <span class="o">(</span>executing steps: 0m05.270s<span class="o">)</span>
+</code></pre></div></div>
+
+<p>Yay! 🥳 🎉</p>
+
+<hr />
+
+<p>By following these steps, you’ve successfully set up Playwright with Cucumber and TypeScript for effective end-to-end testing of your web applications.</p>]]></content><author><name>bekaarcoder</name></author><category term="playwright" /><category term="cucumber" /><category term="typescript" /><summary type="html"><![CDATA[Playwright, coupled with Cucumber and TypeScript, offers a robust framework for end-to-end testing of web applications. This blog post guides you through the setup process, ensuring a seamless integration of these technologies.]]></summary></entry><entry><title type="html">Running Playwright Tests in Gitlab CI</title><link href="https://bekaarcoder.xyz/running-playwright-test-gitlabci" rel="alternate" type="text/html" title="Running Playwright Tests in Gitlab CI" /><published>2023-11-07T17:10:05+00:00</published><updated>2023-11-07T17:10:05+00:00</updated><id>https://bekaarcoder.xyz/running-playwright-test-gitlabci</id><content type="html" xml:base="https://bekaarcoder.xyz/running-playwright-test-gitlabci"><![CDATA[<p>In this guide, we will setup and run Playwright automation tests in Gitlab CI. We will also publish the HTML report in the Gitlab CI pipeline.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<p>To setup Gitlab CI for playwright test automation, we need the following:</p>
+
+<ul>
+  <li>Gitlab account</li>
+  <li>Gitlab repository for the project</li>
+  <li>Playwright test automation suite setup for the project.</li>
+</ul>
+
+<p>To get started, you can follow this <a href="/setting-up-playwright">guide</a> to create a basic playwright project.</p>
+
+<h2 id="setup-gitlab-ci-pipeline">Setup Gitlab CI Pipeline</h2>
+
+<p>To setup the Gitlab CI pipeline, create a <code class="language-plaintext highlighter-rouge">.gitlab-ci.yml</code> file in the root of the project.</p>
+
+<p>Paste the following code into this file.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">stages</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">test</span>
+
+<span class="na">e2e tests</span><span class="pi">:</span>
+    <span class="na">stage</span><span class="pi">:</span> <span class="s">test</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">mcr.microsoft.com/playwright:v1.39.0-jammy</span>
+    <span class="na">script</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="s">npm ci</span>
+        <span class="pi">-</span> <span class="s">npm run test:e2e</span>
+    <span class="na">artifacts</span><span class="pi">:</span>
+        <span class="na">when</span><span class="pi">:</span> <span class="s">always</span>
+        <span class="na">paths</span><span class="pi">:</span>
+            <span class="pi">-</span> <span class="s">playwright-report/</span>
+            <span class="pi">-</span> <span class="s">test-results/</span>
+</code></pre></div></div>
+
+<p>We have defined a single stage called <code class="language-plaintext highlighter-rouge">test</code> and a single job called <code class="language-plaintext highlighter-rouge">e2e tests</code>.<br />
+We are using the latest version of Playwright docker image <code class="language-plaintext highlighter-rouge">mcr.microsoft.com/playwright:v1.39.0-jammy</code>.<br />
+In the <code class="language-plaintext highlighter-rouge">script</code> section, we are running two commands:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">npm ci</code> - This will install all the dependencies of the project.</li>
+  <li><code class="language-plaintext highlighter-rouge">npm run test:e2e</code> - This will run all the tests.</li>
+</ul>
+
+<blockquote class="blockquote">
+  <p>As I have created a separate script in the package.json file for running the tests, so I am using <code class="language-plaintext highlighter-rouge">npm run test:e2e</code>.<br />
+You can also replace the second command with <code class="language-plaintext highlighter-rouge">npx playwright test</code> if you want to use the default playwright configuration file <code class="language-plaintext highlighter-rouge">playwright.config.ts</code>.</p>
+</blockquote>
+
+<p>To publish the HTML report in the Gitlab CI, we have added the <code class="language-plaintext highlighter-rouge">artifacts</code> section in the <code class="language-plaintext highlighter-rouge">.gitlab-ci.yml</code> file.<br />
+If you check inside the <code class="language-plaintext highlighter-rouge">playwright.config.ts</code>, you will find the following settings:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">reporter</span><span class="p">:</span> <span class="dl">'</span><span class="s1">html</span><span class="dl">'</span><span class="p">,</span>
+</code></pre></div></div>
+
+<p>This means an HTML report is getting generated for the tests. The reports and test results are generated in the folder <code class="language-plaintext highlighter-rouge">playwright-report</code> and <code class="language-plaintext highlighter-rouge">test-results</code>. So we have provided the <code class="language-plaintext highlighter-rouge">paths</code> in the <code class="language-plaintext highlighter-rouge">artifacts</code>. This will save the test reports in Gitlab CI after the tests are executed in the pipeline.</p>
+
+<h2 id="running-tests-on-gitlab-ci">Running Tests On Gitlab CI</h2>
+
+<p>Once you have added the <code class="language-plaintext highlighter-rouge">.gitlab-ci.yml</code> file, commit and push the changes to your repository. When you push the changes, Gitlab CI will automatically run the job in the pipeline.</p>
+
+<p><img src="/assets/images/playwright-gitlab-ci.png" alt="Gitlab CI Pipeline" style="width:100%" />
+<!-- ![Gitlab CI Pipeline](/assets/images/playwright-gitlab-ci.png) --></p>
+
+<p>To see the HTML report, you can download or browse the artifacts and open the <code class="language-plaintext highlighter-rouge">index.html</code> file inside the folder <code class="language-plaintext highlighter-rouge">playwright-report</code>. You will see the similar report as per the below screenshot.</p>
+
+<p><img src="/assets/images/gitlab-ci-artifact.png" alt="Playwright automation tests HTML report" style="width:100%" />
+<!-- ![Gitlab CI Artifact](/assets/images/gitlab-ci-artifact.png 'Playwright Automation Tests HTML Report') --></p>]]></content><author><name>bekaarcoder</name></author><category term="playwright" /><category term="gitlab" /><summary type="html"><![CDATA[In this guide, we will setup and run Playwright automation tests in Gitlab CI. We will also publish the HTML report in the Gitlab CI pipeline.]]></summary></entry><entry><title type="html">Deploying Jekyll Website On Github Pages With Github Actions</title><link href="https://bekaarcoder.xyz/deploy-jekyll-github-actions" rel="alternate" type="text/html" title="Deploying Jekyll Website On Github Pages With Github Actions" /><published>2023-10-30T07:49:05+00:00</published><updated>2023-10-30T07:49:05+00:00</updated><id>https://bekaarcoder.xyz/deploy-jekyll-with-github-action</id><content type="html" xml:base="https://bekaarcoder.xyz/deploy-jekyll-github-actions"><![CDATA[<p>You’ve built an amazing Jekyll website, and now you want to share it with the world using GitHub Pages. However, GitHub Pages operates in <code class="language-plaintext highlighter-rouge">safe</code> mode, which means it doesn’t support custom plugins out of the box. But don’t worry, we’ve got you covered! In this guide, we’ll walk you through using GitHub Actions and the <strong><code class="language-plaintext highlighter-rouge">Jekyll Deploy Action</code></strong> to deploy your Jekyll site with custom plugins to GitHub Pages.</p>
+
+<h2 id="jekyll-deploy-action">Jekyll Deploy Action</h2>
+
+<p>The Jekyll Deploy Action simplifies the process of building and deploying your Jekyll site to GitHub Pages. It’s a handy tool that ensures your custom plugins work seamlessly.</p>
+
+<p>You can find the repository for the <code class="language-plaintext highlighter-rouge">Jekyll Deploy Action</code> <a href="https://github.com/jeffreytse/jekyll-deploy-action">here</a>.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<p>Before setting up the GitHub Action workflow, let’s make sure you have the prerequisites in place:</p>
+
+<p><strong>Separate Branch:</strong> Create a new branch, which we’ll call gh-pages, separate from your main repository. We’ll use this branch to deploy your site to GitHub Pages.</p>
+
+<h2 id="usage">Usage</h2>
+
+<p>Now, let’s set up the GitHub Action workflow to automate your deployment. Follow these steps:</p>
+
+<ol>
+  <li>
+    <p><strong>Create a Workflow File:</strong> Inside your repository’s main branch, create a directory named ``.github/workflows`.</p>
+  </li>
+  <li>
+    <p><strong>Add Configuration:</strong> In this directory, create a file named jekyll.yml. Paste the following code into this file:</p>
+
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="na">name</span><span class="pi">:</span> <span class="s">Build and Deploy to Github Pages</span>
+
+ <span class="na">on</span><span class="pi">:</span>
+ <span class="na">push</span><span class="pi">:</span>
+     <span class="na">branches</span><span class="pi">:</span>
+     <span class="pi">-</span> <span class="s">main</span>  <span class="c1"># Here source code branch is `main`, it could be other branch</span>
+
+ <span class="na">jobs</span><span class="pi">:</span>
+ <span class="na">build_and_deploy</span><span class="pi">:</span>
+     <span class="na">runs-on</span><span class="pi">:</span> <span class="s">ubuntu-latest</span>
+     <span class="na">steps</span><span class="pi">:</span>
+     <span class="pi">-</span> <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/checkout@v3</span>
+
+     <span class="c1"># Use GitHub Actions' cache to cache dependencies on servers</span>
+     <span class="pi">-</span> <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/cache@v3</span>
+         <span class="s">with</span><span class="err">:</span>
+         <span class="na">path</span><span class="pi">:</span> <span class="s">vendor/bundle</span>
+         <span class="na">key</span><span class="pi">:</span> <span class="s">$-gems-$</span>
+         <span class="na">restore-keys</span><span class="pi">:</span> <span class="pi">|</span>
+             <span class="s">$-gems-</span>
+
+     <span class="c1"># Use GitHub Deploy Action to build and deploy to Github</span>
+     <span class="c1"># For latest version: `jeffreytse/jekyll-deploy-action@master`</span>
+     <span class="pi">-</span> <span class="na">uses</span><span class="pi">:</span> <span class="s">jeffreytse/jekyll-deploy-action@v0.5.0</span>
+         <span class="s">with</span><span class="err">:</span>
+         <span class="na">provider</span><span class="pi">:</span> <span class="s1">'</span><span class="s">github'</span>         <span class="c1"># Default is github</span>
+         <span class="na">token</span><span class="pi">:</span> <span class="s">$</span> <span class="c1"># It's your Personal Access Token(PAT)</span>
+         <span class="na">ssh_private_key</span><span class="pi">:</span> <span class="s1">'</span><span class="s">'</span>        <span class="c1"># It's your SSH private key (SSH approach)</span>
+         <span class="na">repository</span><span class="pi">:</span> <span class="s1">'</span><span class="s">'</span>             <span class="c1"># Default is current repository</span>
+         <span class="na">branch</span><span class="pi">:</span> <span class="s1">'</span><span class="s">gh-pages'</span>         <span class="c1"># Default is gh-pages for github provider</span>
+         <span class="na">jekyll_src</span><span class="pi">:</span> <span class="s1">'</span><span class="s">./'</span>           <span class="c1"># Default is root directory</span>
+         <span class="na">jekyll_cfg</span><span class="pi">:</span> <span class="s1">'</span><span class="s">_config.yml'</span>  <span class="c1"># Default is _config.yml</span>
+         <span class="na">jekyll_baseurl</span><span class="pi">:</span> <span class="s1">'</span><span class="s">'</span>         <span class="c1"># Default is according to _config.yml</span>
+         <span class="na">bundler_ver</span><span class="pi">:</span> <span class="s1">'</span><span class="s">&gt;=0'</span>         <span class="c1"># Default is latest bundler version</span>
+         <span class="na">cname</span><span class="pi">:</span> <span class="s1">'</span><span class="s">'</span>                  <span class="c1"># Default is to not use a cname</span>
+         <span class="na">actor</span><span class="pi">:</span> <span class="s1">'</span><span class="s">'</span>                  <span class="c1"># Default is the GITHUB_ACTOR</span>
+         <span class="na">pre_build_commands</span><span class="pi">:</span> <span class="s1">'</span><span class="s">'</span>     <span class="c1"># Installing additional dependencies (Arch Linux)</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>The code above is sourced from the <a href="https://github.com/jeffreytse/jekyll-deploy-action">jekyll-deploy-action</a> repository for reference.</p>
+
+<p>Now, whenever you push changes to the main branch, the GitHub Action workflow will automatically build your site and make it available on the <code class="language-plaintext highlighter-rouge">gh-pages</code> branch. You can then follow the same steps you did previously to deploy your website to GitHub Pages.</p>
+
+<p>That’s it! Your website is now deployed with custom plugins, and you’re ready to celebrate your success. 🎉</p>
+
+<p>Happy coding!</p>]]></content><author><name>bekaarcoder</name></author><category term="tutorial" /><category term="jekyll" /><summary type="html"><![CDATA[You’ve built an amazing Jekyll website, and now you want to share it with the world using GitHub Pages. However, GitHub Pages operates in safe mode, which means it doesn’t support custom plugins out of the box. But don’t worry, we’ve got you covered! In this guide, we’ll walk you through using GitHub Actions and the Jekyll Deploy Action to deploy your Jekyll site with custom plugins to GitHub Pages.]]></summary></entry><entry><title type="html">Getting Started With Playwright</title><link href="https://bekaarcoder.xyz/setting-up-playwright" rel="alternate" type="text/html" title="Getting Started With Playwright" /><published>2023-10-28T00:00:00+00:00</published><updated>2023-10-28T00:00:00+00:00</updated><id>https://bekaarcoder.xyz/setting-up-playwright</id><content type="html" xml:base="https://bekaarcoder.xyz/setting-up-playwright"><![CDATA[<h1 id="setting-up-playwright">Setting Up Playwright</h1>
+
+<p>We will get started by setting up playwright using <code class="language-plaintext highlighter-rouge">npm</code> .</p>
+
+<h2 id="installing-playwright">Installing Playwright</h2>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npx init playwright@latest
+</code></pre></div></div>
+
+<p>This will install the latest version of playwright and other related packages. You can choose between TypeScript or JavaScript. Select all the configuration as default.</p>
+
+<p><img src="/assets/images/installing_playwright.png" alt="Installing Playwright" title="Installing playwright in terminal." /></p>
+
+<h2 id="creating-a-simple-playwright-test">Creating a simple playwright test</h2>
+
+<p>By default, when we install playwright, a <code class="language-plaintext highlighter-rouge">example.spec.ts</code> file is created under <code class="language-plaintext highlighter-rouge">tests</code> folder. Its contains some example tests.</p>
+
+<p>We can also add a separate test like below:</p>
+
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">test</span><span class="p">,</span> <span class="nx">expect</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@playwright/test</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="nf">test</span><span class="p">(</span><span class="dl">'</span><span class="s1">has page title</span><span class="dl">'</span><span class="p">,</span> <span class="k">async </span><span class="p">({</span> <span class="nx">page</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="c1">// Navigate to webpage</span>
+    <span class="k">await</span> <span class="nx">page</span><span class="p">.</span><span class="nf">goto</span><span class="p">(</span><span class="dl">'</span><span class="s1">https://www.example.com</span><span class="dl">'</span><span class="p">);</span>
+
+    <span class="c1">// Get the page title</span>
+    <span class="kd">const</span> <span class="nx">pageTitle</span> <span class="o">=</span> <span class="nx">page</span><span class="p">.</span><span class="nf">locator</span><span class="p">(</span><span class="dl">'</span><span class="s1">h1</span><span class="dl">'</span><span class="p">);</span>
+
+    <span class="c1">// Assert page title</span>
+    <span class="k">await</span> <span class="nf">expect</span><span class="p">(</span><span class="nx">pageTitle</span><span class="p">).</span><span class="nf">toContainText</span><span class="p">(</span><span class="dl">'</span><span class="s1">Example Domain</span><span class="dl">'</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<h2 id="running-test-in-playwright">Running test in playwright</h2>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npx playwright <span class="nb">test</span>
+</code></pre></div></div>
+
+<p>This will run all the tests in all the browsers. By default, tests run in headless mode.</p>
+
+<h2 id="showing-html-report">Showing HTML Report</h2>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npx playwright show-report
+</code></pre></div></div>
+
+<p>This will automatically open the HTML report in our browser.</p>
+
+<h2 id="running-test-in-headed-mode">Running test in headed mode</h2>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npx playwright <span class="nb">test</span> <span class="nt">--headed</span>
+</code></pre></div></div>
+
+<h2 id="running-tests-on-different-browsers">Running tests on different browsers</h2>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npx playwright <span class="nb">test</span> <span class="nt">--project</span> firefox
+</code></pre></div></div>
+
+<p>This will run the test in <code class="language-plaintext highlighter-rouge">firefox</code>.<br />
+Available named projects are: <code class="language-plaintext highlighter-rouge">chromium</code>, <code class="language-plaintext highlighter-rouge">firefox</code>, <code class="language-plaintext highlighter-rouge">webkit</code>.</p>
+
+<p>We can also use the <code class="language-plaintext highlighter-rouge">--project</code> flag multiple times to run on multiple browsers.</p>]]></content><author><name>bekaarcoder</name></author><category term="tutorial" /><category term="playwright" /><summary type="html"><![CDATA[Setting Up Playwright]]></summary></entry></feed>
