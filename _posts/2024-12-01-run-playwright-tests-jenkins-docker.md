@@ -4,6 +4,7 @@ title: Running Playwright Tests in Jenkins Pipeline Using Docker
 date: 2024-12-01 12:40:05 +0530
 permalink: '/running-playwright-tests-in-jenkins-using-docker'
 categories: docker jenkins playwright
+cover_image: '/assets/images/cover_image_2024-12-01.png'
 ---
 
 Automation testing has become an integral part of modern software development, and tools like Playwright have made it seamless to perform end-to-end testing. However, executing these tests in a continuous integration pipeline can be challenging without proper setup. In this guide, we will go through the steps to run Playwright tests in a Jenkins pipeline using Docker, ensuring an efficient and scalable testing process. By the end of this post, you’ll have a clear understanding of setting up Jenkins with Docker, connecting agent nodes, and creating pipelines to build and run tests.

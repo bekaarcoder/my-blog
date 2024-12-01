@@ -5,6 +5,16 @@ author: 'Shashank'
 
 <div class="row justify-content-center mb-5">
     <div class="col-sm-12 col-md-12 col-lg-8">
+        {% if page.cover_image %}
+        <div class="my-3">
+            <img
+                src="{{page.cover_image}}"
+                alt="cover_image"
+                class="rounded"
+                width="100%"
+            />
+        </div>
+        {% endif %}
         <h2 class="display-4">{{ page.title }}</h2>
         <div class="d-flex">
             <p class="text-secondary">{{ page.date | date: ' %B %d, %Y' }}</p>
