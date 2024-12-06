@@ -4,7 +4,7 @@ title: How to Scrape Goodreads Using Python and BeautifulSoup
 date: 2024-12-06 20:40:05 +0530
 permalink: '/scrape-goodreads-using-python'
 categories: python beautifulsoup webscraping
-description:
+description: Learn how to scrape Goodreads Choice Awards data using Python and BeautifulSoup. This step-by-step guide covers setup, data extraction, and saving information in a CSV file for analysis or applications.
 ---
 
 Web scraping is a powerful tool for gathering data from websites. Whether you’re collecting product reviews, tracking prices, or, in our case, scraping Goodreads books, web scraping provides endless opportunities for data-driven applications.
