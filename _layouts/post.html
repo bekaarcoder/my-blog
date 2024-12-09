@@ -35,5 +35,17 @@ author: 'Shashank'
             {% endfor %}
         </div>
         {{ content }}
+        <hr class="mt-5 border-3 border-info" />
+        <div class="pagination mt-2 d-flex">
+            {% if page.previous %}
+            <a href="{{ page.previous.url }}" class="previous btn btn-light">
+                <i class="bi bi-arrow-left"></i> Previous Post
+            </a>
+            {% endif %} {% if page.next %}
+            <a href="{{ page.next.url }}" class="next btn btn-light ms-auto"
+                >Next Post <i class="bi bi-arrow-right"></i
+            ></a>
+            {% endif %}
+        </div>
     </div>
 </div>

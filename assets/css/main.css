@@ -2,15 +2,17 @@
     --bs-body-font-family: 'Rubik', sans-serif !important;
 }
 
-h1, h2, h3 {
-    margin-top: 2rem !important
+h1,
+h2,
+h3 {
+    margin-top: 2rem !important;
 }
 
-[data-bs-theme=dark] {
+[data-bs-theme='dark'] {
     --bs-body-bg: #191919 !important;
 }
 
-[data-bs-theme=light] {
+[data-bs-theme='light'] {
     --bs-body-bg: #faf8f1 !important;
 }
 
@@ -21,7 +23,9 @@ h1, h2, h3 {
     background-position: center;
 }
 
-.previous, .next, .category-btn {
+.previous,
+.next,
+.category-btn {
     border-radius: 50px !important;
     padding: 8px 20px !important;
 }
@@ -33,4 +37,8 @@ h1, h2, h3 {
     margin: 1rem 0;
     padding: 1rem;
     color: #212529;
+}
+
+.word-spacing {
+    word-spacing: 0.2rem;
 }
