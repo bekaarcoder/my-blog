@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Setup Jellyfin On Raspberry Pi - Home Media Server
-description: et up your own Jellyfin media server on Raspberry Pi 5 running Ubuntu 24.04 with media files stored on a USB drive and shared over the network using Samba.
+description: Set up your own Jellyfin media server on Raspberry Pi 5 running Ubuntu 24.04 with media files stored on a USB drive and shared over the network using Samba.
 date: 2025-04-20 09:40:05 +0530
 permalink: '/setup-jellyfin-on-raspberry-pi'
 categories: ubuntu raspberrypi jellyfin
@@ -198,7 +198,7 @@ To fix this, we’ll create a shared group, add both the `jellyfin` and `pi` use
 To check ownership:
 
 ```bash
-ls -ld /media/blitzstriker
+ls -ld /media/usbdrive
 ```
 
 <hr>
