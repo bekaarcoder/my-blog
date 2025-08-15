@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+    <head>
+        <!-- Google tag (gtag.js) -->
+        <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-1N56V15RFF"
+        ></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+
+            gtag('config', 'G-1N56V15RFF');
+        </script>
+        <!-- Mailchimp Popup -->
+        <!-- <script id="mcjs">
+            !(function (c, h, i, m, p) {
+                (m = c.createElement(h)),
+                    (p = c.getElementsByTagName(h)[0]),
+                    (m.async = 1),
+                    (m.src = i),
+                    p.parentNode.insertBefore(m, p);
+            })(
+                document,
+                'script',
+                'https://chimpstatic.com/mcjs-connected/js/users/1da7ef4fb504bc638638b0a1d/21e4762bfbe0285b3056a20b5.js'
+            );
+        </script> -->
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+            name="google-site-verification"
+            content="BO_YUQmMLrwJZdus7XuVa_Z_B-VLJP5pTTwsrnzN-ew"
+        />
+        <meta name="google-adsense-account" content="ca-pub-7156088348148191" />
+        <title>
+             Bekaarcoder&#39;s Blog - Adding Search Functionality To Jekyll Website 
+        </title>
+        <link rel="stylesheet" href="/assets/css/syntax.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+        />
+        <link rel="stylesheet" href="/assets/css/main.css" />
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/apple-touch-icon.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/favicon-32x32.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/favicon-16x16.png"
+        />
+        <link rel="manifest" href="/site.webmanifest" />
+        <!-- Begin Jekyll SEO tag v2.8.0 -->
+<meta name="generator" content="Jekyll v4.3.4" />
+<meta property="og:title" content="Adding Search Functionality To Jekyll Website" />
+<meta name="author" content="bekaarcoder" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Jekyll, a popular static site generator, simplifies the process of creating and maintaining websites. However, one common feature that is often missing from basic Jekyll setups is a search functionality. In this blog post, we’ll explore how to seamlessly integrate a search feature into your Jekyll website to enhance user experience and make content discovery more efficient." />
+<meta property="og:description" content="Jekyll, a popular static site generator, simplifies the process of creating and maintaining websites. However, one common feature that is often missing from basic Jekyll setups is a search functionality. In this blog post, we’ll explore how to seamlessly integrate a search feature into your Jekyll website to enhance user experience and make content discovery more efficient." />
+<link rel="canonical" href="https://bekaarcoder.xyz/jekyll/2023/12/29/adding-search-in-jekyll-website.html" />
+<meta property="og:url" content="https://bekaarcoder.xyz/jekyll/2023/12/29/adding-search-in-jekyll-website.html" />
+<meta property="og:site_name" content="Bekaarcoder’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-12-29T09:10:05+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Adding Search Functionality To Jekyll Website" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"bekaarcoder"},"dateModified":"2023-12-29T09:10:05+00:00","datePublished":"2023-12-29T09:10:05+00:00","description":"Jekyll, a popular static site generator, simplifies the process of creating and maintaining websites. However, one common feature that is often missing from basic Jekyll setups is a search functionality. In this blog post, we’ll explore how to seamlessly integrate a search feature into your Jekyll website to enhance user experience and make content discovery more efficient.","headline":"Adding Search Functionality To Jekyll Website","mainEntityOfPage":{"@type":"WebPage","@id":"https://bekaarcoder.xyz/jekyll/2023/12/29/adding-search-in-jekyll-website.html"},"url":"https://bekaarcoder.xyz/jekyll/2023/12/29/adding-search-in-jekyll-website.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    </head>
+    <body>
+        <div class="container">
+    <div class="row justify-content-center">
+        <div class="col-sm-12 col-md-12 col-lg-8">
+            <nav class="navbar navbar-expand-lg">
+                <a class="navbar-brand" href="/"> Bekaarcoder's Blog </a>
+                <ul class="navbar-nav mb-lg-0 me-auto">
+                    <li class="nav-item">
+                        <button class="btn btn-sm" onclick="toggleTheme()">
+                            <i
+                                class="bi bi-brightness-high text-warning"
+                                id="theme-toggle"
+                            ></i>
+                        </button>
+                    </li>
+                </ul>
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div
+                    class="collapse navbar-collapse"
+                    id="navbarSupportedContent"
+                >
+                    <ul class="navbar-nav mb-2 ms-auto mb-lg-0">
+                            
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about/">
+                                 About 
+                            </a>
+                        </li>
+                            
+                        <li class="nav-item">
+                            <a class="nav-link" href="/categories/">
+                                 Categories 
+                            </a>
+                        </li>
+                              
+                        <li class="nav-item">
+                            <a class="nav-link" href="/search/">
+                                
+                                <i class="bi bi-search"></i>
+                                
+                            </a>
+                        </li>
+                                                                                                                                          
+                        <!-- <li class="nav-item">
+                            <button
+                                class="btn btn-sm mt-1 ms-2"
+                                onclick="toggleTheme()"
+                            >
+                                <i
+                                    class="bi bi-brightness-high text-warning"
+                                    id="theme-toggle"
+                                ></i>
+                            </button>
+                        </li> -->
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="row mt-4">
+                <div class="col-md-12"><div class="row justify-content-center mb-5">
+    <div class="col-sm-12 col-md-12 col-lg-8">
+        
+        <h2 class="display-4">Adding Search Functionality To Jekyll Website</h2>
+        <div class="d-flex">
+            <p class="text-secondary"> December 29, 2023</p>
+            <p class="text-secondary ms-3">
+                <i class="bi bi-clock"></i> 2 minutes read
+            </p>
+        </div>
+        <div class="mb-3">
+            
+            <span class="badge text-bg-success">
+                <a
+                    href="/categories/jekyll"
+                    class="text-reset text-decoration-none"
+                >
+                    Jekyll
+                </a>
+            </span>
+            
+        </div>
+        <p>Jekyll, a popular static site generator, simplifies the process of creating and maintaining websites. However, one common feature that is often missing from basic Jekyll setups is a search functionality. In this blog post, we’ll explore how to seamlessly integrate a search feature into your Jekyll website to enhance user experience and make content discovery more efficient.</p>
+
+<p>Several plugins and services can add search functionality to your Jekyll site. Here are a few options:</p>
+
+<ol>
+  <li>
+    <p><strong>Simple-Jekyll-Search:</strong> A lightweight, client-side search plugin that requires no server-side processing. It’s easy to set up and works well for small to medium-sized sites.</p>
+  </li>
+  <li>
+    <p><strong>Lunr.js:</strong> A client-side search engine that indexes content and performs searches on the client side. It’s suitable for smaller sites without complex search requirements.</p>
+  </li>
+  <li>
+    <p><strong>Algolia:</strong> A robust, hosted search engine service that provides advanced features like typo-tolerance and faceted search. Integration with Algolia involves more steps but offers a superior search experience.</p>
+  </li>
+</ol>
+
+<blockquote class="blockquote">
+  <p>Here we will be using <strong>Simple-Jekyll-Search</strong> as its lightweight and easy to implement.</p>
+</blockquote>
+
+<h2 id="step-1---add-search-plugin-to-your-site">Step 1 - Add search plugin to your site</h2>
+
+<p>Download the <code class="language-plaintext highlighter-rouge">simple-jekyll-search.min.js</code> script from the <a href="https://github.com/christian-fei/Simple-Jekyll-Search/tree/master/dest">repository</a> and place it in your site’s assets directory.</p>
+
+<p>Include the script in your html layout.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"assets/simple-jekyll-search.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+</code></pre></div></div>
+
+<p>You can also add the below script tag directly in your html file.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://unpkg.com/simple-jekyll-search@latest/dest/simple-jekyll-search.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+</code></pre></div></div>
+
+<h2 id="step-2---configure-the-search">Step 2 - Configure the search</h2>
+
+<p>Create <code class="language-plaintext highlighter-rouge">search.json</code> file in the root of your jekyll website and place the following code.</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">//</span><span class="w"> </span><span class="err">search.json</span><span class="w">
+
+</span><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="err">%</span><span class="w"> </span><span class="err">for</span><span class="w"> </span><span class="err">post</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">site.posts</span><span class="w"> </span><span class="err">%</span><span class="p">}</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ post.title | escape }}"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ post.url | absolute_url }}"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"content"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ post.content | strip_html | strip_newlines | escape }}"</span><span class="w">
+    </span><span class="p">}{</span><span class="err">%</span><span class="w"> </span><span class="err">unless</span><span class="w"> </span><span class="err">forloop.last</span><span class="w"> </span><span class="err">%</span><span class="p">},{</span><span class="err">%</span><span class="w"> </span><span class="err">endunless</span><span class="w"> </span><span class="err">%</span><span class="p">}</span><span class="w">
+  </span><span class="p">{</span><span class="err">%</span><span class="w"> </span><span class="err">endfor</span><span class="w"> </span><span class="err">%</span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+
+</span></code></pre></div></div>
+
+<p>This will convert all the jekyll data from all the post into a key value pair which can be easily read by the search script.</p>
+
+<h2 id="step-3---initialize-the-search">Step 3 - Initialize the search</h2>
+
+<p>Create a search layout file <code class="language-plaintext highlighter-rouge">search.html</code> and add the following script before the closing <code class="language-plaintext highlighter-rouge">&lt;/body&gt;</code> tag.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- search.html --&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"assets/simple-jekyll-search.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+<span class="nt">&lt;script&gt;</span>
+    <span class="nc">SimpleJekyllSearch</span><span class="p">({</span>
+        <span class="na">searchInput</span><span class="p">:</span> <span class="nb">document</span><span class="p">.</span><span class="nf">getElementById</span><span class="p">(</span><span class="dl">'</span><span class="s1">search-input</span><span class="dl">'</span><span class="p">),</span>
+        <span class="na">resultsContainer</span><span class="p">:</span> <span class="nb">document</span><span class="p">.</span><span class="nf">getElementById</span><span class="p">(</span><span class="dl">'</span><span class="s1">search-results</span><span class="dl">'</span><span class="p">),</span>
+        <span class="na">json</span><span class="p">:</span> <span class="dl">'</span><span class="s1">/assets/search.json</span><span class="dl">'</span><span class="p">,</span>
+        <span class="na">searchResultTemplate</span><span class="p">:</span> <span class="dl">'</span><span class="s1">&lt;li&gt;&lt;a href="{url}"&gt;{title}&lt;/a&gt;&lt;/li&gt;</span><span class="dl">'</span><span class="p">,</span>
+        <span class="na">noResultsText</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Nothing found, try searching again.</span><span class="dl">'</span><span class="p">,</span>
+    <span class="p">});</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre></div></div>
+
+<blockquote class="blockquote">
+  <p>I’ve also included the search script in <code class="language-plaintext highlighter-rouge">search.html</code> layout. You can put the script in your default layout or homepage as per your requirement.</p>
+</blockquote>
+
+<h2 id="step-4---create-a-search-form">Step 4 - Create a search form</h2>
+
+<p>In the <code class="language-plaintext highlighter-rouge">search.html</code> layout, add the search input and result container to display the search results.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">id=</span><span class="s">"search-input"</span> <span class="na">placeholder=</span><span class="s">"Search blog posts.."</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;ul</span> <span class="na">id=</span><span class="s">"results-container"</span><span class="nt">&gt;&lt;/ul&gt;</span>
+</code></pre></div></div>
+
+<p>Your search functionality is ready. Now test it by typing something in the search input and check whether it displays any result.</p>
+
+<h2 id="customizations">Customizations</h2>
+
+<p>You can also customize the search input and search result by adding custom styles and other elements to match your site design.</p>
+
+<p>For example, if you are using bootstrap, you can add some css styles in the configuration script:</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>searchResultTemplate: '
+<span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"list-group-item"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;a</span> <span class="na">class=</span><span class="s">"link-body-emphasis"</span> <span class="na">href=</span><span class="s">"{url}"</span><span class="nt">&gt;</span>{title}<span class="nt">&lt;/a&gt;</span>
+<span class="nt">&lt;/li&gt;</span>
+',
+</code></pre></div></div>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Byy following these steps, you’ve successfully added search functionality to your Jekyll website providing users with the ability to search for your content easily which will enhance their overall experience on your site.</p>
+
+        <hr class="mt-5 border-3 border-info" />
+        <div class="pagination mt-2 d-flex">
+            
+            <a href="/node-express-mongodb-typescript-crud" class="previous btn btn-light">
+                <i class="bi bi-arrow-left"></i> Previous Post
+            </a>
+             
+            <a href="/nodejs/2024/01/18/update-nodejs-mac.html" class="next btn btn-light ms-auto"
+                >Next Post <i class="bi bi-arrow-right"></i
+            ></a>
+            
+        </div>
+    </div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="container my-4">
+    <div class="row justify-content-center">
+        <div
+            class="col-sm-12 col-md-12 col-lg-8 d-flex justify-content-between align-items-center"
+        >
+            <span class="word-spacing"
+                >Copyright &copy; 2024 | All rights reserved.</span
+            >
+            <div class="d-flex justify-content-center my-3">
+                <a
+                    href="https://www.instagram.com/banda_bekaar"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-instagram fs-5"></i>
+                </a>
+                <a
+                    href="https://github.com/bekaarcoder"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-github fs-5"></i>
+                </a>
+                <a
+                    href="https://twitter.com/banda_bekaar"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-twitter-x fs-5"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"
+        ></script>
+        <script src="/assets/js/scripts.js"></script>
+    </body>
+</html>

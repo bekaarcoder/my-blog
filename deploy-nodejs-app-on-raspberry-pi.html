@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+    <head>
+        <!-- Google tag (gtag.js) -->
+        <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-1N56V15RFF"
+        ></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+
+            gtag('config', 'G-1N56V15RFF');
+        </script>
+        <!-- Mailchimp Popup -->
+        <!-- <script id="mcjs">
+            !(function (c, h, i, m, p) {
+                (m = c.createElement(h)),
+                    (p = c.getElementsByTagName(h)[0]),
+                    (m.async = 1),
+                    (m.src = i),
+                    p.parentNode.insertBefore(m, p);
+            })(
+                document,
+                'script',
+                'https://chimpstatic.com/mcjs-connected/js/users/1da7ef4fb504bc638638b0a1d/21e4762bfbe0285b3056a20b5.js'
+            );
+        </script> -->
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+            name="google-site-verification"
+            content="BO_YUQmMLrwJZdus7XuVa_Z_B-VLJP5pTTwsrnzN-ew"
+        />
+        <meta name="google-adsense-account" content="ca-pub-7156088348148191" />
+        <title>
+             Bekaarcoder&#39;s Blog - Deploy a Node.js Application Using MySQL and Prisma on a Raspberry Pi 
+        </title>
+        <link rel="stylesheet" href="/assets/css/syntax.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+        />
+        <link rel="stylesheet" href="/assets/css/main.css" />
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/apple-touch-icon.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/favicon-32x32.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/favicon-16x16.png"
+        />
+        <link rel="manifest" href="/site.webmanifest" />
+        <!-- Begin Jekyll SEO tag v2.8.0 -->
+<meta name="generator" content="Jekyll v4.3.4" />
+<meta property="og:title" content="Deploy a Node.js Application Using MySQL and Prisma on a Raspberry Pi" />
+<meta name="author" content="bekaarcoder" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Learn how to deploy a Node.js application on a Raspberry Pi, configure environment variables, set up Nginx as a reverse proxy, and expose your app to the internet using Ngrok. This step-by-step guide is perfect for anyone looking to host and test their Node.js apps on a Raspberry Pi, both locally and remotely." />
+<meta property="og:description" content="Learn how to deploy a Node.js application on a Raspberry Pi, configure environment variables, set up Nginx as a reverse proxy, and expose your app to the internet using Ngrok. This step-by-step guide is perfect for anyone looking to host and test their Node.js apps on a Raspberry Pi, both locally and remotely." />
+<link rel="canonical" href="https://bekaarcoder.xyz/deploy-nodejs-app-on-raspberry-pi" />
+<meta property="og:url" content="https://bekaarcoder.xyz/deploy-nodejs-app-on-raspberry-pi" />
+<meta property="og:site_name" content="Bekaarcoder’s Blog" />
+<meta property="og:image" content="https://bekaarcoder.xyz/assets/images/cover_image_2025_01_05.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-01-05T04:10:05+00:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="https://bekaarcoder.xyz/assets/images/cover_image_2025_01_05.png" />
+<meta property="twitter:title" content="Deploy a Node.js Application Using MySQL and Prisma on a Raspberry Pi" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"bekaarcoder"},"dateModified":"2025-01-05T04:10:05+00:00","datePublished":"2025-01-05T04:10:05+00:00","description":"Learn how to deploy a Node.js application on a Raspberry Pi, configure environment variables, set up Nginx as a reverse proxy, and expose your app to the internet using Ngrok. This step-by-step guide is perfect for anyone looking to host and test their Node.js apps on a Raspberry Pi, both locally and remotely.","headline":"Deploy a Node.js Application Using MySQL and Prisma on a Raspberry Pi","image":"https://bekaarcoder.xyz/assets/images/cover_image_2025_01_05.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://bekaarcoder.xyz/deploy-nodejs-app-on-raspberry-pi"},"url":"https://bekaarcoder.xyz/deploy-nodejs-app-on-raspberry-pi"}</script>
+<!-- End Jekyll SEO tag -->
+
+    </head>
+    <body>
+        <div class="container">
+    <div class="row justify-content-center">
+        <div class="col-sm-12 col-md-12 col-lg-8">
+            <nav class="navbar navbar-expand-lg">
+                <a class="navbar-brand" href="/"> Bekaarcoder's Blog </a>
+                <ul class="navbar-nav mb-lg-0 me-auto">
+                    <li class="nav-item">
+                        <button class="btn btn-sm" onclick="toggleTheme()">
+                            <i
+                                class="bi bi-brightness-high text-warning"
+                                id="theme-toggle"
+                            ></i>
+                        </button>
+                    </li>
+                </ul>
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div
+                    class="collapse navbar-collapse"
+                    id="navbarSupportedContent"
+                >
+                    <ul class="navbar-nav mb-2 ms-auto mb-lg-0">
+                            
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about/">
+                                 About 
+                            </a>
+                        </li>
+                            
+                        <li class="nav-item">
+                            <a class="nav-link" href="/categories/">
+                                 Categories 
+                            </a>
+                        </li>
+                              
+                        <li class="nav-item">
+                            <a class="nav-link" href="/search/">
+                                
+                                <i class="bi bi-search"></i>
+                                
+                            </a>
+                        </li>
+                                                                                                                                          
+                        <!-- <li class="nav-item">
+                            <button
+                                class="btn btn-sm mt-1 ms-2"
+                                onclick="toggleTheme()"
+                            >
+                                <i
+                                    class="bi bi-brightness-high text-warning"
+                                    id="theme-toggle"
+                                ></i>
+                            </button>
+                        </li> -->
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="row mt-4">
+                <div class="col-md-12"><div class="row justify-content-center mb-5">
+    <div class="col-sm-12 col-md-12 col-lg-8">
+        
+        <div class="my-3">
+            <img
+                src="/assets/images/cover_image_2025_01_05.png"
+                alt="cover_image"
+                class="rounded"
+                width="100%"
+            />
+        </div>
+        
+        <h2 class="display-4">Deploy a Node.js Application Using MySQL and Prisma on a Raspberry Pi</h2>
+        <div class="d-flex">
+            <p class="text-secondary"> January 05, 2025</p>
+            <p class="text-secondary ms-3">
+                <i class="bi bi-clock"></i> 8 minutes read
+            </p>
+        </div>
+        <div class="mb-3">
+            
+            <span class="badge text-bg-success">
+                <a
+                    href="/categories/nodejs"
+                    class="text-reset text-decoration-none"
+                >
+                    Nodejs
+                </a>
+            </span>
+            
+            <span class="badge text-bg-success">
+                <a
+                    href="/categories/mysql"
+                    class="text-reset text-decoration-none"
+                >
+                    Mysql
+                </a>
+            </span>
+            
+            <span class="badge text-bg-success">
+                <a
+                    href="/categories/raspberrypi"
+                    class="text-reset text-decoration-none"
+                >
+                    Raspberrypi
+                </a>
+            </span>
+            
+            <span class="badge text-bg-success">
+                <a
+                    href="/categories/prisma"
+                    class="text-reset text-decoration-none"
+                >
+                    Prisma
+                </a>
+            </span>
+            
+            <span class="badge text-bg-success">
+                <a
+                    href="/categories/ngrok"
+                    class="text-reset text-decoration-none"
+                >
+                    Ngrok
+                </a>
+            </span>
+            
+        </div>
+        <p>Deploying applications has become increasingly accessible, with a range of free and paid hosting options like Render, AWS, and DigitalOcean. However, for developers who want to learn, experiment, and deploy applications without recurring hosting fees, a <strong>Raspberry Pi</strong> offers an excellent alternative. This compact yet powerful device allows you to create your own Linux-based server for hosting web applications.</p>
+
+<p>In this blog, we’ll explore how to deploy a <strong>TypeScript Node.js</strong> application using <strong>MySQL</strong> (MariaDB on Raspberry Pi) and <strong>Prisma ORM</strong> on a Raspberry Pi. Additionally, we’ll configure <strong>NGINX</strong> for reverse proxying and use <strong>Ngrok</strong> to expose the application to the internet. Let’s dive in!</p>
+
+<hr />
+
+<h2 id="tools-overview">Tools Overview</h2>
+
+<p><strong>Raspberry Pi</strong></p>
+
+<p>A low-cost, single-board computer that runs a Linux-based operating system. It’s ideal for creating your own server for IoT or web applications.</p>
+
+<p><strong>Node.js &amp; TypeScript</strong></p>
+
+<p>Node.js is a runtime environment for executing JavaScript on the server, and TypeScript adds static typing to JavaScript, making the codebase more maintainable.</p>
+
+<p><strong>MySQL (MariaDB on Raspberry Pi)</strong></p>
+
+<p>A popular relational database system, MariaDB is a compatible replacement for MySQL and is lightweight enough for a Raspberry Pi.</p>
+
+<p><strong>Prisma ORM</strong></p>
+
+<p>An Object-Relational Mapping (ORM) tool that simplifies database interactions with a type-safe query language and schema migrations.</p>
+
+<p><strong>NGINX</strong></p>
+
+<p>A high-performance HTTP server and reverse proxy server. It helps route traffic to your Node.js application.</p>
+
+<p><strong>Ngrok</strong></p>
+
+<p>A tunneling tool that exposes your locally hosted applications to the internet securely without complex network configurations.</p>
+
+<hr />
+
+<h3 id="prerequisites">Prerequisites</h3>
+
+<ol>
+  <li><strong>A working Raspberry Pi</strong> - Ensure that SSH is enabled on the Raspberry Pi and you can access it remotely.</li>
+  <li><strong>Github Repository</strong> - Your Node.js TypeScript application should be hosted in a GitHub repository for easy deployment.</li>
+  <li><strong>Ngrok Account</strong> - Create a free account on Ngrok to obtain an auth token for exposing your Raspberry Pi app to the internet.</li>
+</ol>
+
+<h2 id="setting-up-raspberry-pi">Setting Up Raspberry Pi</h2>
+
+<ol>
+  <li>
+    <p><strong>Install the OS</strong></p>
+
+    <p>Setup your Raspberry Pi with an OS like Raspberry Pi OS. Use the <code class="language-plaintext highlighter-rouge">Raspberry Pi Imager</code> to find other OS compatible to your Raspberry Pi.</p>
+  </li>
+  <li>
+    <p><strong>Find the IP Address</strong></p>
+
+    <p>Use a tool like <code class="language-plaintext highlighter-rouge">Angry IP Scanner</code> to discover your Raspberry Pi’s IP address. Ensure the Raspberry Pi is connected to the same network as your local machine.</p>
+  </li>
+  <li>
+    <p><strong>Check Raspberry Pi Status</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ping &lt;IP_ADDRESS_OF_RPI&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>SSH Into the Raspberry Pi</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ssh &lt;username&gt;@&lt;IP_ADDRESS_OF_RPI&gt;
+</code></pre></div>    </div>
+
+    <p>Replace <code class="language-plaintext highlighter-rouge">&lt;username&gt;</code> with your Raspberry Pi’s username and <code class="language-plaintext highlighter-rouge">&lt;IP_ADDRESS_OF_RPI&gt;</code> with the IP address and then enter the password.</p>
+  </li>
+  <li>
+    <p><strong>Update the System</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>apt update <span class="o">&amp;&amp;</span> <span class="nb">sudo </span>apt upgrade
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Install Git</strong></p>
+
+    <p>Check if git is installed. If not, run the below command to install git</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>apt <span class="nb">install </span>git
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<hr />
+
+<h3 id="installing-nodejs">Installing Node.js</h3>
+
+<p>To install node js, we will be using <code class="language-plaintext highlighter-rouge">nvm</code> (Node Version Manager). It allows you to quickly install and use different version of node via command line.</p>
+
+<ol>
+  <li>
+    <p><strong>Install NVM</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> curl <span class="nt">-o-</span> https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Verify Installation</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> nvm <span class="nt">--version</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Install the Latest LTS Version of Node.js</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> nvm <span class="nb">install</span> <span class="nt">--lts</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Verify Node.js and npm Installation</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> node <span class="nt">--version</span>
+ <span class="c"># v22.12.0</span>
+
+ npm <span class="nt">--version</span>
+ <span class="c"># 10.9.0</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<hr />
+
+<h2 id="setting-up-mysql-mariadb">Setting Up MySQL (MariaDB)</h2>
+
+<p>For Raspberry Pi OS, we will be installing MariaDB.</p>
+
+<ol>
+  <li>
+    <p><strong>Install the MariaDB SQL Server</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>apt <span class="nb">install </span>mariadb-server
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Secure MariaDB Installation</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>mysql_secure_installation
+</code></pre></div>    </div>
+
+    <p>Follow the prompts to secure your database.</p>
+
+    <ul>
+      <li><strong>Enter the current root password:</strong> - Press Enter when asked to enter the current password for the root user (since it hasn’t been set yet).</li>
+      <li><strong>Set the root password:</strong> - Type n when prompted to set the root password (we’ll set it later).</li>
+      <li><strong>Remove anonymous users:</strong> - Type Y to remove anonymous users and improve security. (For testing purposes, you can type n to keep anonymous users.)</li>
+      <li><strong>Disallow root login remotely:</strong> - Type n to allow root login remotely (optional but less secure).</li>
+      <li><strong>Remove the test database:</strong> - Type y to remove the test database and access to it. (Type n if you want to keep it.)</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Login to MariaDB Client</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>mysql
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Setup a Root password for MariaDB</strong></p>
+
+    <p>First, we need to tell the database server to reload the grant tables.</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> FLUSH PRIVILEGES<span class="p">;</span>
+</code></pre></div>    </div>
+
+    <p>Change the root password with below query.</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> ALTER USER <span class="s1">'root'</span>@<span class="s1">'localhost'</span> IDENTIFIED BY <span class="s1">'&lt;new_password&gt;'</span><span class="p">;</span>
+</code></pre></div>    </div>
+
+    <p>Replace <code class="language-plaintext highlighter-rouge">&lt;new_password&gt;</code> with your own password.</p>
+
+    <p>Use the <code class="language-plaintext highlighter-rouge">exit</code> command to exit from MariaDB CLI.</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> <span class="nb">exit</span><span class="p">;</span>
+ Bye
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Login to MariaDB Client With Root User</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>mysql <span class="nt">-u</span> root <span class="nt">-p</span>
+</code></pre></div>    </div>
+
+    <p>Enter the password for the root user.</p>
+  </li>
+</ol>
+
+<h3 id="setting-up-database-and-user">Setting up Database and User</h3>
+
+<p>Let’s create a new database and a user. We will be granting all privileges to the new user for the new database we have created.</p>
+
+<ol>
+  <li>
+    <p><strong>Create a Database</strong></p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> MariaDB [(none)]&gt; CREATE DATABASE &lt;database_name&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Create a New User With Password</strong></p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> MariaDB [(none)]&gt; CREATE USER '&lt;new_username&gt;'@'localhost' IDENTIFIED BY '&lt;new_password&gt;';
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Grant Privilege To New User Created</strong></p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> MariaDB [(none)]&gt; GRANT ALL PRIVILEGES ON &lt;database_name&gt;.* TO '&lt;new_username&gt;'@'localhost';
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Flush The Privileges Table</strong></p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> MariaDB [(none)]&gt; FLUSH PRIVILEGES;
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Exit from mysql client using <code class="language-plaintext highlighter-rouge">exit</code> command.</p>
+  </li>
+  <li>
+    <p><strong>Login With New User</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>mysql <span class="nt">-u</span> &lt;new_username&gt; <span class="nt">-p</span>
+</code></pre></div>    </div>
+
+    <p>Enter the password you used while creating the user.</p>
+  </li>
+  <li>
+    <p><strong>Verify User Can List The Database</strong></p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> MariaDB [(none)]&gt; SHOW DATABASES;
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>That’s it! We will use this database and user in our application.</p>
+
+<hr />
+
+<h2 id="setup-your-nodejs-application">Setup your Node.js Application</h2>
+
+<ol>
+  <li>
+    <p><strong>Clone Your Github Repository</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> git clone &lt;your_github_repo_url&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Navigate To Your Project Repository</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">cd</span> &lt;your_project_name&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Install Project Dependencies</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> npm <span class="nb">install</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Compile TypeScript Code</strong></p>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> npm run build
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<blockquote class="blockquote">
+  <p>Make sure you have configured the <code class="language-plaintext highlighter-rouge">outDir</code> property in your <code class="language-plaintext highlighter-rouge">tsconfig.json</code> file. This specifies the directory where the compiled JavaScript code will be generated. By default, it’s commonly set to <code class="language-plaintext highlighter-rouge">dist</code>, but you can customize it based on your project structure.</p>
+</blockquote>
+
+<h3 id="setting-up-environment-variables-optional">Setting up environment variables (Optional)</h3>
+
+<p>If your project uses environment variables, you need to set them on your Raspberry Pi. You can create a <code class="language-plaintext highlighter-rouge">.env</code> file in the root directory of your project to store all the environment variables.</p>
+
+<ol>
+  <li>
+    <p><strong>Create <code class="language-plaintext highlighter-rouge">.env</code> File</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">touch</span> .env
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Update <code class="language-plaintext highlighter-rouge">.env</code> File</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>nano .env
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Enter your Environment Variables</strong></p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> PORT=5000
+ DATABASE_URL="mysql://&lt;username&gt;:&lt;password&gt;@localhost:3306/&lt;database_name&gt;"
+</code></pre></div>    </div>
+
+    <p>Save the file by pressing <code class="language-plaintext highlighter-rouge">Ctrl+O</code>, then press <code class="language-plaintext highlighter-rouge">Enter</code>, and exit the editor using <code class="language-plaintext highlighter-rouge">Ctrl+X</code>.</p>
+  </li>
+</ol>
+
+<h3 id="migrate-prisma-schema">Migrate Prisma Schema</h3>
+
+<p>If you are using Prisma, all the schema files will be located inside the prisma/schema directory. We will now deploy these schemas to the database.</p>
+
+<p>Run the below command</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npx prisma migrate deploy
+</code></pre></div></div>
+
+<p>This command will use the <code class="language-plaintext highlighter-rouge">DATABASE_URL</code> provided in the <code class="language-plaintext highlighter-rouge">.env</code> file to deploy the schemas to the database. You can verify the deployment by logging into the MySQL client and using the command <code class="language-plaintext highlighter-rouge">SHOW TABLES;</code> to list all the tables.</p>
+
+<hr />
+
+<h2 id="setting-up-pm2">Setting Up PM2</h2>
+
+<p><code class="language-plaintext highlighter-rouge">PM2</code> is a production process manager for Node.js applications which helps in managing and keeping the application online. Install PM2 to manage your Node.js application.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install </span>pm2 <span class="nt">-g</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="configuring-nginx">Configuring NGINX</h2>
+
+<ol>
+  <li>
+    <p><strong>Install NGINX</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>apt <span class="nb">install </span>nginx
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Create a Site Configuration</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>nano /etc/nginx/sites-available/&lt;your_project_name&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Add the Below Code</strong></p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> server {
+     listen 80;
+     server_name &lt;your_raspberrypi_IP&gt;;
+
+     location / {
+         proxy_pass http://localhost:YOUR_NODE_JS_PORT;
+         proxy_http_version 1.1;
+         proxy_set_header Upgrade $http_upgrade;
+         proxy_set_header Connection 'upgrade';
+         proxy_set_header Host $host;
+         proxy_cache_bypass $http_upgrade;
+     }
+ }
+</code></pre></div>    </div>
+
+    <p>Here’s a breakdown of each part:</p>
+
+    <p><strong><code class="language-plaintext highlighter-rouge">listen 80;</code></strong> This directive tells NGINX to listen on port 80, which is the default port for HTTP traffic.</p>
+
+    <p><strong><code class="language-plaintext highlighter-rouge">server_name &lt;your_raspberrypi_IP&gt;;</code></strong> This specifies the domain name or IP address of your Raspberry Pi. Replace <your_raspberrypi_IP> with the actual IP address of your Raspberry Pi. NGINX will respond to requests sent to this address.</your_raspberrypi_IP></p>
+
+    <p><strong><code class="language-plaintext highlighter-rouge">location / { ... }</code></strong> This block defines how NGINX should handle requests to the root URL (/). Essentially, this tells NGINX that whenever a request is made to the root, it should be forwarded to the backend (your Node.js application) running on the specified port.</p>
+
+    <p><strong><code class="language-plaintext highlighter-rouge">proxy_pass http://localhost:YOUR_NODE_JS_PORT;</code></strong> This is the key line that forwards incoming requests to your Node.js application. Replace YOUR_NODE_JS_PORT with the actual port where your Node.js app is running (for example, 5000). The requests will be sent to the Node.js application running on the same machine (localhost).</p>
+
+    <p><strong><code class="language-plaintext highlighter-rouge">proxy_http_version 1.1;</code></strong> This sets the HTTP version to 1.1 for the proxy connection, which ensures better handling of certain features like WebSockets.</p>
+
+    <p><strong><code class="language-plaintext highlighter-rouge">proxy_set_header Upgrade $http_upgrade;</code></strong> This header allows WebSocket connections to be upgraded, which is important for real-time applications.</p>
+
+    <p><strong><code class="language-plaintext highlighter-rouge">proxy_set_header Connection 'upgrade';</code></strong> This header is used alongside the Upgrade header to manage WebSocket connections, ensuring that the connection is properly upgraded from HTTP to WebSocket.</p>
+
+    <p><strong><code class="language-plaintext highlighter-rouge">proxy_set_header Host $host;</code></strong> This passes the original Host header from the client request to the backend server. This is useful for applications that rely on the original Host header (e.g., for routing or virtual hosting).</p>
+
+    <p><strong><code class="language-plaintext highlighter-rouge">proxy_cache_bypass $http_upgrade;</code></strong> This ensures that WebSocket connections bypass any caching mechanisms, allowing real-time communication to work without interference from caching.</p>
+
+    <p>Save the file by pressing <code class="language-plaintext highlighter-rouge">Ctrl+O</code>, then press <code class="language-plaintext highlighter-rouge">Enter</code>, and exit the editor using <code class="language-plaintext highlighter-rouge">Ctrl+X</code>.</p>
+  </li>
+  <li>
+    <p><strong>Enable the Site Configuration</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo ln</span> <span class="nt">-s</span> /etc/nginx/sites-available/&lt;your_project_name&gt; /etc/nginx/sites-enabled/
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Test NGINX Configuration</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>nginx <span class="nt">-t</span>
+</code></pre></div>    </div>
+
+    <p>If the test is successfull, you will see something like below:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+ nginx: configuration file /etc/nginx/nginx.conf test is successful
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Restart NGINX Server To Apply the Changes</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>systemctl restart nginx
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Check NGINX Server Status</strong></p>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>systemctl status nginx
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<hr />
+
+<h2 id="running-the-application">Running the Application</h2>
+
+<ol>
+  <li>
+    <p><strong>Navigate to your project</strong></p>
+  </li>
+  <li>
+    <p><strong>Start Your Application Using PM2</strong></p>
+
+    <p>If you have setup a script in <code class="language-plaintext highlighter-rouge">package.json</code>, use the below command:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> pm2 start <span class="s2">"npm run start"</span>
+</code></pre></div>    </div>
+
+    <p>Or, you can directly run you application using <code class="language-plaintext highlighter-rouge">index.js</code> file in your <code class="language-plaintext highlighter-rouge">dist</code> directory:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> pm2 start dist/index.js
+</code></pre></div>    </div>
+
+    <p>You can also check the logs using below command:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> pm2 logs
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>Now, check your app by entering the IP address of your Raspberry Pi in the browser on your local machine. It should work. Make sure both your local machine and Raspberry Pi are connected to the same network; otherwise, it will not work.</p>
+
+<hr />
+
+<h2 id="exposing-your-app-to-the-world-using-ngrok">Exposing Your App To The World Using Ngrok</h2>
+
+<p>Now that you have deployed your app to the Raspberry Pi, you can only access the app from the same network in which the Raspberry Pi is running. To expose it to the internet, we need to use port forwarding.</p>
+
+<p>You can set up port forwarding using your router settings, but in this case, I will be using ngrok. <code class="language-plaintext highlighter-rouge">Ngrok</code> is useful for development, allowing us to run our apps for testing purposes for free.</p>
+
+<p>Make sure to create an account by visiting <a href="https://dashboard.ngrok.com/login">https://dashboard.ngrok.com/login</a>. You will need the auth token to configure ngrok on the Raspberry Pi.</p>
+
+<ol>
+  <li>
+    <p><strong>Install Ngrok</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> curl <span class="nt">-sSL</span> https://ngrok-agent.s3.amazonaws.com/ngrok.asc <span class="se">\</span>
+ | <span class="nb">sudo tee</span> /etc/apt/trusted.gpg.d/ngrok.asc <span class="o">&gt;</span>/dev/null <span class="se">\</span>
+ <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s2">"deb https://ngrok-agent.s3.amazonaws.com buster main"</span> <span class="se">\</span>
+ | <span class="nb">sudo tee</span> /etc/apt/sources.list.d/ngrok.list <span class="se">\</span>
+ <span class="o">&amp;&amp;</span> <span class="nb">sudo </span>apt update <span class="se">\</span>
+ <span class="o">&amp;&amp;</span> <span class="nb">sudo </span>apt <span class="nb">install </span>ngrok
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Add your auth token to ngrok configuration file</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ngrok config add-authtoken &lt;your_auth_token&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Disable default nginx config file</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo rm</span> /etc/nginx/sites-enabled/default
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Test NGINX configuration</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>nginx <span class="nt">-t</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Restart NGINX server to apply the changes</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>systemctl restart nginx
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Deploy your app online</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ngrok http 80
+</code></pre></div>    </div>
+
+    <p>This should provide a URL like <code class="language-plaintext highlighter-rouge">https://xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx.ngrok-free.app/</code> that forwards traffic to your Node.js app. You can navigate to this URL from any other network and access your application.</p>
+  </li>
+</ol>
+
+<hr />
+
+<h3 id="summary">Summary</h3>
+
+<p>In this guide, we successfully deployed a TypeScript Node.js application with MySQL and Prisma on a Raspberry Pi. We configured NGINX as a reverse proxy and used Ngrok to make the application accessible over the internet. With this setup, you have your own cost-effective, self-hosted development server.</p>
+
+<p>This approach is perfect for learning and experimenting with full-stack application deployment, all while gaining valuable experience in server management.</p>
+
+<p>Let me know if you deploy your application using this guide—I’d love to hear about your experience! 🚀</p>
+
+        <hr class="mt-5 border-3 border-info" />
+        <div class="pagination mt-2 d-flex">
+            
+            <a href="/scrape-goodreads-using-python" class="previous btn btn-light">
+                <i class="bi bi-arrow-left"></i> Previous Post
+            </a>
+             
+            <a href="/setup-jellyfin-on-raspberry-pi" class="next btn btn-light ms-auto"
+                >Next Post <i class="bi bi-arrow-right"></i
+            ></a>
+            
+        </div>
+    </div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="container my-4">
+    <div class="row justify-content-center">
+        <div
+            class="col-sm-12 col-md-12 col-lg-8 d-flex justify-content-between align-items-center"
+        >
+            <span class="word-spacing"
+                >Copyright &copy; 2024 | All rights reserved.</span
+            >
+            <div class="d-flex justify-content-center my-3">
+                <a
+                    href="https://www.instagram.com/banda_bekaar"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-instagram fs-5"></i>
+                </a>
+                <a
+                    href="https://github.com/bekaarcoder"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-github fs-5"></i>
+                </a>
+                <a
+                    href="https://twitter.com/banda_bekaar"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-twitter-x fs-5"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"
+        ></script>
+        <script src="/assets/js/scripts.js"></script>
+    </body>
+</html>

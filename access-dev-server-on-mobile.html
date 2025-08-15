@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+    <head>
+        <!-- Google tag (gtag.js) -->
+        <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-1N56V15RFF"
+        ></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+
+            gtag('config', 'G-1N56V15RFF');
+        </script>
+        <!-- Mailchimp Popup -->
+        <!-- <script id="mcjs">
+            !(function (c, h, i, m, p) {
+                (m = c.createElement(h)),
+                    (p = c.getElementsByTagName(h)[0]),
+                    (m.async = 1),
+                    (m.src = i),
+                    p.parentNode.insertBefore(m, p);
+            })(
+                document,
+                'script',
+                'https://chimpstatic.com/mcjs-connected/js/users/1da7ef4fb504bc638638b0a1d/21e4762bfbe0285b3056a20b5.js'
+            );
+        </script> -->
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+            name="google-site-verification"
+            content="BO_YUQmMLrwJZdus7XuVa_Z_B-VLJP5pTTwsrnzN-ew"
+        />
+        <meta name="google-adsense-account" content="ca-pub-7156088348148191" />
+        <title>
+             Bekaarcoder&#39;s Blog - How to Access the Localhost Development Server on Another Device 
+        </title>
+        <link rel="stylesheet" href="/assets/css/syntax.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+        />
+        <link rel="stylesheet" href="/assets/css/main.css" />
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/apple-touch-icon.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/favicon-32x32.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/favicon-16x16.png"
+        />
+        <link rel="manifest" href="/site.webmanifest" />
+        <!-- Begin Jekyll SEO tag v2.8.0 -->
+<meta name="generator" content="Jekyll v4.3.4" />
+<meta property="og:title" content="How to Access the Localhost Development Server on Another Device" />
+<meta name="author" content="bekaarcoder" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="When developing applications locally, we typically access them through a local server using the address “localhost.” However, there are instances where we need to test our applications on different devices. While deploying the application is an option, it’s not always practical for frequent testing. What if you could access your application directly without deploying it? This can be achieved by accessing the development server from another device." />
+<meta property="og:description" content="When developing applications locally, we typically access them through a local server using the address “localhost.” However, there are instances where we need to test our applications on different devices. While deploying the application is an option, it’s not always practical for frequent testing. What if you could access your application directly without deploying it? This can be achieved by accessing the development server from another device." />
+<link rel="canonical" href="https://bekaarcoder.xyz/access-dev-server-on-mobile" />
+<meta property="og:url" content="https://bekaarcoder.xyz/access-dev-server-on-mobile" />
+<meta property="og:site_name" content="Bekaarcoder’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-03-31T07:10:05+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="How to Access the Localhost Development Server on Another Device" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"bekaarcoder"},"dateModified":"2024-03-31T07:10:05+00:00","datePublished":"2024-03-31T07:10:05+00:00","description":"When developing applications locally, we typically access them through a local server using the address “localhost.” However, there are instances where we need to test our applications on different devices. While deploying the application is an option, it’s not always practical for frequent testing. What if you could access your application directly without deploying it? This can be achieved by accessing the development server from another device.","headline":"How to Access the Localhost Development Server on Another Device","mainEntityOfPage":{"@type":"WebPage","@id":"https://bekaarcoder.xyz/access-dev-server-on-mobile"},"url":"https://bekaarcoder.xyz/access-dev-server-on-mobile"}</script>
+<!-- End Jekyll SEO tag -->
+
+    </head>
+    <body>
+        <div class="container">
+    <div class="row justify-content-center">
+        <div class="col-sm-12 col-md-12 col-lg-8">
+            <nav class="navbar navbar-expand-lg">
+                <a class="navbar-brand" href="/"> Bekaarcoder's Blog </a>
+                <ul class="navbar-nav mb-lg-0 me-auto">
+                    <li class="nav-item">
+                        <button class="btn btn-sm" onclick="toggleTheme()">
+                            <i
+                                class="bi bi-brightness-high text-warning"
+                                id="theme-toggle"
+                            ></i>
+                        </button>
+                    </li>
+                </ul>
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div
+                    class="collapse navbar-collapse"
+                    id="navbarSupportedContent"
+                >
+                    <ul class="navbar-nav mb-2 ms-auto mb-lg-0">
+                            
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about/">
+                                 About 
+                            </a>
+                        </li>
+                            
+                        <li class="nav-item">
+                            <a class="nav-link" href="/categories/">
+                                 Categories 
+                            </a>
+                        </li>
+                              
+                        <li class="nav-item">
+                            <a class="nav-link" href="/search/">
+                                
+                                <i class="bi bi-search"></i>
+                                
+                            </a>
+                        </li>
+                                                                                                                                          
+                        <!-- <li class="nav-item">
+                            <button
+                                class="btn btn-sm mt-1 ms-2"
+                                onclick="toggleTheme()"
+                            >
+                                <i
+                                    class="bi bi-brightness-high text-warning"
+                                    id="theme-toggle"
+                                ></i>
+                            </button>
+                        </li> -->
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="row mt-4">
+                <div class="col-md-12"><div class="row justify-content-center mb-5">
+    <div class="col-sm-12 col-md-12 col-lg-8">
+        
+        <h2 class="display-4">How to Access the Localhost Development Server on Another Device</h2>
+        <div class="d-flex">
+            <p class="text-secondary"> March 31, 2024</p>
+            <p class="text-secondary ms-3">
+                <i class="bi bi-clock"></i> 3 minutes read
+            </p>
+        </div>
+        <div class="mb-3">
+            
+            <span class="badge text-bg-success">
+                <a
+                    href="/categories/react"
+                    class="text-reset text-decoration-none"
+                >
+                    React
+                </a>
+            </span>
+            
+            <span class="badge text-bg-success">
+                <a
+                    href="/categories/nodejs"
+                    class="text-reset text-decoration-none"
+                >
+                    Nodejs
+                </a>
+            </span>
+            
+        </div>
+        <p>When developing applications locally, we typically access them through a local server using the address “localhost.” However, there are instances where we need to test our applications on different devices. While deploying the application is an option, it’s not always practical for frequent testing. What if you could access your application directly without deploying it? This can be achieved by accessing the development server from another device.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<p>Ensure that all devices are connected to the same network. To access the development server from other devices, they must be on the same network as your computer, whether it’s a Wi-Fi or wired connection.</p>
+
+<h2 id="step-1---obtain-your-computers-ip-address">Step 1 - Obtain Your Computer’s IP Address</h2>
+
+<p>First, find out the local IP address of the machine running your application.</p>
+
+<p>On <code class="language-plaintext highlighter-rouge">Windows</code>, open <em>Powershell</em> or <em>Command Prompt</em> and type the below command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ipconfig
+</code></pre></div></div>
+
+<p>Look for the IPv4 address associated with your network interface (e.g., eth0 or wlan0).</p>
+
+<p>On <code class="language-plaintext highlighter-rouge">Mac/Linux</code>, open the <em>Terminal</em> and type the below command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ifconfig
+</code></pre></div></div>
+
+<p>Look for the entry corresponding to your active network connection (e.g., en0 for Ethernet or en1 for Wi-Fi), and you’ll find your IP address listed next to “inet”.</p>
+
+<h2 id="step-2---starting-the-vite-dev-server">Step 2 - Starting the Vite Dev Server</h2>
+
+<p>Assuming your React application is created using Vite, when you start the Vite dev server with <code class="language-plaintext highlighter-rouge">npm run dev</code>, it binds to <code class="language-plaintext highlighter-rouge">localhost</code> only. To allow access from other devices, start the application using the <code class="language-plaintext highlighter-rouge">--host</code> option and specify your computer’s IP address.</p>
+
+<p>Open <code class="language-plaintext highlighter-rouge">package.json</code> in your React application’s root directory and change the script from <code class="language-plaintext highlighter-rouge">"dev": "vite"</code> to <code class="language-plaintext highlighter-rouge">"dev": "vite --host"</code>.</p>
+
+<p>After making the changes, your package.json script should look like below:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">"scripts"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"dev"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vite --host"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"build"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tsc &amp;&amp; vite build"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"lint"</span><span class="p">:</span><span class="w"> </span><span class="s2">"eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"preview"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vite preview"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Alternatively, you can also start the server by running the below command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm run dev <span class="nt">--</span> <span class="nt">--host</span>
+</code></pre></div></div>
+
+<h2 id="step-3---accessing-the-vite-dev-server-from-another-device">Step 3 - Accessing the Vite Dev Server From Another Device</h2>
+
+<p>With the Vite dev server running and bound to the <code class="language-plaintext highlighter-rouge">--host</code> option, you can now access it from another device. Open a browser on your mobile or any other device and type the following URL:</p>
+
+<blockquote class="blockquote">
+  <p>http://&lt;COMPUTER_IP_ADDRESS&gt;:&lt;DEV_SERVER_PORT_NUMBER&gt;</p>
+</blockquote>
+
+<p>Replace <code class="language-plaintext highlighter-rouge">&lt;COMPUTER_IP_ADDRESS&gt;</code> with your Ip address which you found in Step 1 and <code class="language-plaintext highlighter-rouge">&lt;DEV_SERVER_PORT_NUMBER&gt;</code> with the port number you vite server is running.</p>
+
+<p>Example: <code class="language-plaintext highlighter-rouge">http://192.168.1.170:5173</code></p>
+
+<h2 id="step-4---setting-up-cors-in-the-backend">Step 4 - Setting Up CORS in the Backend</h2>
+
+<p>While you can now access the frontend React app from another device, interacting with the backend application might pose a challenge. If you’re using Node.js and Express for your backend, you need to set up <code class="language-plaintext highlighter-rouge">CORS</code> to allow access from other IP addresses.</p>
+
+<p>Navigate to your backend application and install CORS:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install </span>cors
+</code></pre></div></div>
+
+<p>Add the following code to your application’s index file:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">cors</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">cors</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nf">use</span><span class="p">(</span><span class="nf">cors</span><span class="p">());</span>
+</code></pre></div></div>
+
+<p>This allows incoming requests from any network. If you want to limit requests to certain networks, add the below code:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">allowedOrigins</span> <span class="o">=</span> <span class="p">[</span><span class="dl">'</span><span class="s1">http://localhost:5173</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">http://192.168.1.170:5173</span><span class="dl">'</span><span class="p">];</span>
+<span class="nx">app</span><span class="p">.</span><span class="nf">use</span><span class="p">(</span>
+    <span class="nf">cors</span><span class="p">({</span>
+        <span class="na">origin</span><span class="p">:</span> <span class="nf">function </span><span class="p">(</span><span class="nx">origin</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if </span><span class="p">(</span><span class="o">!</span><span class="nx">origin</span> <span class="o">||</span> <span class="nx">allowedOrigins</span><span class="p">.</span><span class="nf">includes</span><span class="p">(</span><span class="nx">origin</span><span class="p">))</span> <span class="p">{</span>
+                <span class="nf">callback</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="nf">callback</span><span class="p">(</span><span class="k">new</span> <span class="nc">Error</span><span class="p">(</span><span class="dl">'</span><span class="s1">Not allowed by CORS</span><span class="dl">'</span><span class="p">));</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="na">credentials</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="p">})</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p>Now run your backend server using the command specified in your <code class="language-plaintext highlighter-rouge">package.json</code> file.</p>
+
+<blockquote class="blockquote">
+  <p>NOTE: For a Node.js backend server, there’s no need to provide a host option to start the server.</p>
+</blockquote>
+
+<p>You can now access the application from different devices and send requests to the backend server.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Accessing the local development server from other devices on the same network provides a convenient way to test applications without the need for frequent deployments. By following the steps outlined above, you can easily access your application from various devices and ensure its functionality across different platforms. Additionally, setting up CORS in the backend enables seamless communication between frontend and backend components, allowing for comprehensive testing and development.</p>
+
+        <hr class="mt-5 border-3 border-info" />
+        <div class="pagination mt-2 d-flex">
+            
+            <a href="/mongodb-dump-restore-docker" class="previous btn btn-light">
+                <i class="bi bi-arrow-left"></i> Previous Post
+            </a>
+             
+            <a href="/running-playwright-tests-in-jenkins-using-docker" class="next btn btn-light ms-auto"
+                >Next Post <i class="bi bi-arrow-right"></i
+            ></a>
+            
+        </div>
+    </div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="container my-4">
+    <div class="row justify-content-center">
+        <div
+            class="col-sm-12 col-md-12 col-lg-8 d-flex justify-content-between align-items-center"
+        >
+            <span class="word-spacing"
+                >Copyright &copy; 2024 | All rights reserved.</span
+            >
+            <div class="d-flex justify-content-center my-3">
+                <a
+                    href="https://www.instagram.com/banda_bekaar"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-instagram fs-5"></i>
+                </a>
+                <a
+                    href="https://github.com/bekaarcoder"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-github fs-5"></i>
+                </a>
+                <a
+                    href="https://twitter.com/banda_bekaar"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-twitter-x fs-5"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"
+        ></script>
+        <script src="/assets/js/scripts.js"></script>
+    </body>
+</html>

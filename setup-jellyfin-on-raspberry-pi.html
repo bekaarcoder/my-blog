@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+    <head>
+        <!-- Google tag (gtag.js) -->
+        <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-1N56V15RFF"
+        ></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+
+            gtag('config', 'G-1N56V15RFF');
+        </script>
+        <!-- Mailchimp Popup -->
+        <!-- <script id="mcjs">
+            !(function (c, h, i, m, p) {
+                (m = c.createElement(h)),
+                    (p = c.getElementsByTagName(h)[0]),
+                    (m.async = 1),
+                    (m.src = i),
+                    p.parentNode.insertBefore(m, p);
+            })(
+                document,
+                'script',
+                'https://chimpstatic.com/mcjs-connected/js/users/1da7ef4fb504bc638638b0a1d/21e4762bfbe0285b3056a20b5.js'
+            );
+        </script> -->
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+            name="google-site-verification"
+            content="BO_YUQmMLrwJZdus7XuVa_Z_B-VLJP5pTTwsrnzN-ew"
+        />
+        <meta name="google-adsense-account" content="ca-pub-7156088348148191" />
+        <title>
+             Bekaarcoder&#39;s Blog - Setup Jellyfin On Raspberry Pi - Home Media Server 
+        </title>
+        <link rel="stylesheet" href="/assets/css/syntax.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+        />
+        <link rel="stylesheet" href="/assets/css/main.css" />
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/apple-touch-icon.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/favicon-32x32.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/favicon-16x16.png"
+        />
+        <link rel="manifest" href="/site.webmanifest" />
+        <!-- Begin Jekyll SEO tag v2.8.0 -->
+<meta name="generator" content="Jekyll v4.3.4" />
+<meta property="og:title" content="Setup Jellyfin On Raspberry Pi - Home Media Server" />
+<meta name="author" content="bekaarcoder" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Set up your own Jellyfin media server on Raspberry Pi 5 running Ubuntu 24.04 with media files stored on a USB drive and shared over the network using Samba." />
+<meta property="og:description" content="Set up your own Jellyfin media server on Raspberry Pi 5 running Ubuntu 24.04 with media files stored on a USB drive and shared over the network using Samba." />
+<link rel="canonical" href="https://bekaarcoder.xyz/setup-jellyfin-on-raspberry-pi" />
+<meta property="og:url" content="https://bekaarcoder.xyz/setup-jellyfin-on-raspberry-pi" />
+<meta property="og:site_name" content="Bekaarcoder’s Blog" />
+<meta property="og:image" content="https://bekaarcoder.xyz/assets/images/cover_image_2025-04-20.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-04-20T04:10:05+00:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="https://bekaarcoder.xyz/assets/images/cover_image_2025-04-20.png" />
+<meta property="twitter:title" content="Setup Jellyfin On Raspberry Pi - Home Media Server" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"bekaarcoder"},"dateModified":"2025-04-20T04:10:05+00:00","datePublished":"2025-04-20T04:10:05+00:00","description":"Set up your own Jellyfin media server on Raspberry Pi 5 running Ubuntu 24.04 with media files stored on a USB drive and shared over the network using Samba.","headline":"Setup Jellyfin On Raspberry Pi - Home Media Server","image":"https://bekaarcoder.xyz/assets/images/cover_image_2025-04-20.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://bekaarcoder.xyz/setup-jellyfin-on-raspberry-pi"},"url":"https://bekaarcoder.xyz/setup-jellyfin-on-raspberry-pi"}</script>
+<!-- End Jekyll SEO tag -->
+
+    </head>
+    <body>
+        <div class="container">
+    <div class="row justify-content-center">
+        <div class="col-sm-12 col-md-12 col-lg-8">
+            <nav class="navbar navbar-expand-lg">
+                <a class="navbar-brand" href="/"> Bekaarcoder's Blog </a>
+                <ul class="navbar-nav mb-lg-0 me-auto">
+                    <li class="nav-item">
+                        <button class="btn btn-sm" onclick="toggleTheme()">
+                            <i
+                                class="bi bi-brightness-high text-warning"
+                                id="theme-toggle"
+                            ></i>
+                        </button>
+                    </li>
+                </ul>
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div
+                    class="collapse navbar-collapse"
+                    id="navbarSupportedContent"
+                >
+                    <ul class="navbar-nav mb-2 ms-auto mb-lg-0">
+                            
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about/">
+                                 About 
+                            </a>
+                        </li>
+                            
+                        <li class="nav-item">
+                            <a class="nav-link" href="/categories/">
+                                 Categories 
+                            </a>
+                        </li>
+                              
+                        <li class="nav-item">
+                            <a class="nav-link" href="/search/">
+                                
+                                <i class="bi bi-search"></i>
+                                
+                            </a>
+                        </li>
+                                                                                                                                          
+                        <!-- <li class="nav-item">
+                            <button
+                                class="btn btn-sm mt-1 ms-2"
+                                onclick="toggleTheme()"
+                            >
+                                <i
+                                    class="bi bi-brightness-high text-warning"
+                                    id="theme-toggle"
+                                ></i>
+                            </button>
+                        </li> -->
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="row mt-4">
+                <div class="col-md-12"><div class="row justify-content-center mb-5">
+    <div class="col-sm-12 col-md-12 col-lg-8">
+        
+        <div class="my-3">
+            <img
+                src="/assets/images/cover_image_2025-04-20.png"
+                alt="cover_image"
+                class="rounded"
+                width="100%"
+            />
+        </div>
+        
+        <h2 class="display-4">Setup Jellyfin On Raspberry Pi - Home Media Server</h2>
+        <div class="d-flex">
+            <p class="text-secondary"> April 20, 2025</p>
+            <p class="text-secondary ms-3">
+                <i class="bi bi-clock"></i> 3 minutes read
+            </p>
+        </div>
+        <div class="mb-3">
+            
+            <span class="badge text-bg-success">
+                <a
+                    href="/categories/ubuntu"
+                    class="text-reset text-decoration-none"
+                >
+                    Ubuntu
+                </a>
+            </span>
+            
+            <span class="badge text-bg-success">
+                <a
+                    href="/categories/raspberrypi"
+                    class="text-reset text-decoration-none"
+                >
+                    Raspberrypi
+                </a>
+            </span>
+            
+            <span class="badge text-bg-success">
+                <a
+                    href="/categories/jellyfin"
+                    class="text-reset text-decoration-none"
+                >
+                    Jellyfin
+                </a>
+            </span>
+            
+        </div>
+        <p>In this guide, we’ll walk through setting up a personal media server using <code class="language-plaintext highlighter-rouge">Jellyfin</code> on a Raspberry Pi 5 running Ubuntu 24.04. We’ll configure a USB drive as the media storage, mount it properly, auto-mount it at boot, and set up Samba so you can transfer media from your PC or laptop over the network. Great for anyone wanting a self-hosted Netflix-like experience.</p>
+
+<hr />
+
+<h2 id="setting-up-jellyfin-media-server">Setting Up Jellyfin Media Server</h2>
+
+<h3 id="-step-1-install-jellyfin">📦 Step 1: Install Jellyfin</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt update
+curl <span class="nt">-s</span> https://repo.jellyfin.org/install-debuntu.sh | <span class="nb">sudo </span>bash
+</code></pre></div></div>
+
+<p>Once installed, Jellyfin runs on port <code class="language-plaintext highlighter-rouge">8096</code> by default.</p>
+
+<p>Open it in your browser:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://&lt;your-pi-ip&gt;:8096
+</code></pre></div></div>
+
+<p>Before setting up Jellyfin, lets go through other steps to add the media folders in Jellyfin server.</p>
+
+<hr />
+
+<h3 id="-step-2-connect-your-usb-drive">🔌 Step 2: Connect Your USB Drive</h3>
+
+<ol>
+  <li>Plug in your USB drive.</li>
+  <li>Ubuntu may <strong>auto-mount it</strong> under:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> /media/&lt;your-username&gt;/&lt;usb-name&gt;
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>👉 This location is fine temporarily, but it can <strong>change</strong> or fail to mount after a reboot — which is <strong>not reliable</strong> for a media server.</p>
+
+<hr />
+
+<h3 id="-step-3-identify-the-usb-drive-and-its-filesystem">🔍 Step 3: Identify the USB Drive and Its Filesystem</h3>
+
+<p>To list connected drives:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lsblk
+</code></pre></div></div>
+
+<p>To get UUID and filesystem type:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>blkid
+</code></pre></div></div>
+
+<p>Look for your USB device, something like:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/dev/sda1: UUID="1234-ABCD" TYPE="exfat"
+</code></pre></div></div>
+
+<p>Copy the <strong>UUID</strong> and note the <strong>TYPE</strong> (e.g., <code class="language-plaintext highlighter-rouge">exfat</code>, <code class="language-plaintext highlighter-rouge">ntfs</code>, <code class="language-plaintext highlighter-rouge">ext4</code>, or <code class="language-plaintext highlighter-rouge">vfat</code>).</p>
+
+<hr />
+
+<h3 id="-step-4-create-a-permanent-mount-point">📂 Step 4: Create a Permanent Mount Point</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo mkdir</span> <span class="nt">-p</span> /media/usbdrive
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">usbdrive</code> can be anything. You can use your actual usb drive name for this.</p>
+
+<hr />
+
+<h3 id="-step-5-install-filesystem-support-if-needed">🛠 Step 5: Install Filesystem Support (if needed)</h3>
+
+<p>For <code class="language-plaintext highlighter-rouge">exFAT</code>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt <span class="nb">install </span>exfat-fuse exfatprogs
+</code></pre></div></div>
+
+<p>For <code class="language-plaintext highlighter-rouge">NTFS</code>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt <span class="nb">install </span>ntfs-3g
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="️-step-6-configure-auto-mount-with-etcfstab-based-on-filesystem-type">⚙️ Step 6: Configure Auto-Mount with <code class="language-plaintext highlighter-rouge">/etc/fstab</code> (Based on Filesystem Type)</h3>
+
+<p>Edit your fstab:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /etc/fstab
+</code></pre></div></div>
+
+<h4 id="-for-exfat-drives">✅ For <code class="language-plaintext highlighter-rouge">exfat</code> drives:</h4>
+
+<pre><code class="language-fstab">UUID=1234-ABCD /media/usbdrive exfat uid=jellyfin,gid=jellyfin,umask=0022,nofail,x-systemd.automount 0 0
+</code></pre>
+
+<h4 id="-for-ext4-drives">✅ For <code class="language-plaintext highlighter-rouge">ext4</code> drives:</h4>
+
+<pre><code class="language-fstab">UUID=1234-ABCD /media/usbdrive ext4 defaults,nofail,x-systemd.automount 0 2
+</code></pre>
+
+<h4 id="-for-ntfs-drives">✅ For <code class="language-plaintext highlighter-rouge">ntfs</code> drives:</h4>
+
+<pre><code class="language-fstab">UUID=1234-ABCD /media/usbdrive ntfs-3g uid=jellyfin,gid=jellyfin,umask=0022,nofail,x-systemd.automount 0 0
+</code></pre>
+
+<h4 id="-for-vfat-fat32-drives">✅ For <code class="language-plaintext highlighter-rouge">vfat</code> (FAT32) drives:</h4>
+
+<pre><code class="language-fstab">UUID=1234-ABCD /media/usbdrive vfat uid=jellyfin,gid=jellyfin,umask=0022,nofail,x-systemd.automount 0 0
+</code></pre>
+
+<p>After saving, mount all drives:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>mount <span class="nt">-a</span>
+</code></pre></div></div>
+
+<p>Check if the drive mounted:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">ls</span> /media/usbdrive
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="-step-7-fix-permissions-if-needed">🔑 Step 7: Fix Permissions (if needed)</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo chown</span> <span class="nt">-R</span> jellyfin:jellyfin /media/usbdrive
+<span class="nb">sudo chmod</span> <span class="nt">-R</span> 755 /media/usbdrive
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="-step-8-add-usb-folder-to-jellyfin">🎞 Step 8: Add USB Folder to Jellyfin</h3>
+
+<ol>
+  <li>Open <code class="language-plaintext highlighter-rouge">http://&lt;your-pi-ip&gt;:8096</code></li>
+  <li>Go to <strong>Dashboard → Libraries</strong></li>
+  <li>Create a new library (e.g. “Movies”)</li>
+  <li>Set the path to:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> /media/usbdrive
+</code></pre></div>    </div>
+  </li>
+  <li>Save and scan the library</li>
+</ol>
+
+<blockquote class="blockquote">
+  <p>If you’re more old-school, you can simply disconnect the USB drive from your Raspberry Pi and connect it to another laptop to transfer files. But if you’d prefer to avoid that hassle and transfer files over the network, stick around — we’ll set up a Samba server to make file sharing seamless and easy.</p>
+</blockquote>
+
+<h2 id="transfering-files">Transfering Files</h2>
+
+<p>We can install Samba on Ubuntu to access the USB drive over the network from other PCs or laptops. However, currently only the <code class="language-plaintext highlighter-rouge">jellyfin</code> user has full permission to modify or delete files on the USB drive.</p>
+
+<p>To fix this, we’ll create a shared group, add both the <code class="language-plaintext highlighter-rouge">jellyfin</code> and <code class="language-plaintext highlighter-rouge">pi</code> users to it, and then mount the USB drive using this shared group to ensure proper access for both users.</p>
+
+<h3 id="-step-9-mount-usb-drive-as-a-shared-group">📁 Step 9. Mount USB Drive as a Shared Group</h3>
+
+<ol>
+  <li>
+    <p>Create and assign group:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>groupadd media
+ <span class="nb">sudo </span>usermod <span class="nt">-aG</span> media pi
+ <span class="nb">sudo </span>usermod <span class="nt">-aG</span> media jellyfin
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>FSTAB entry:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">UUID</span><span class="o">=</span>XXXX-XXXX  /media/usbdrive  exfat  defaults,uid<span class="o">=</span>pi,gid<span class="o">=</span>media,umask<span class="o">=</span>0002,nofail,x-systemd.automount  0  0
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Reload:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>umount /media/usbdrive
+ <span class="nb">sudo </span>mount <span class="nt">-a</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>To check ownership:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">ls</span> <span class="nt">-ld</span> /media/usbdrive
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="-step-10-set-up-samba-for-file-transfers">🌐 Step 10. Set up Samba for File Transfers</h3>
+
+<ol>
+  <li>
+    <p>Install Samba:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>apt <span class="nb">install </span>samba samba-common-bin
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Create a new config block at the end of <code class="language-plaintext highlighter-rouge">/etc/samba/smb.conf</code>:</p>
+
+    <p>Run:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>nano /etc/samba/smb.conf
+</code></pre></div>    </div>
+
+    <p>Add the below config</p>
+
+    <div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nn">[usbonpi]</span>
+   <span class="py">path</span> <span class="p">=</span> <span class="s">/media/usbdrive</span>
+   <span class="py">writeable</span> <span class="p">=</span> <span class="s">yes</span>
+   <span class="py">browseable</span> <span class="p">=</span> <span class="s">yes</span>
+   <span class="py">public</span> <span class="p">=</span> <span class="s">no</span>
+   <span class="err">read</span> <span class="py">only</span> <span class="p">=</span> <span class="s">no</span>
+   <span class="err">guest</span> <span class="py">ok</span> <span class="p">=</span> <span class="s">no</span>
+   <span class="err">force</span> <span class="py">user</span> <span class="p">=</span> <span class="s">pi</span>
+   <span class="err">force</span> <span class="py">group</span> <span class="p">=</span> <span class="s">pi</span>
+   <span class="err">create</span> <span class="py">mask</span> <span class="p">=</span> <span class="s">0777</span>
+   <span class="err">directory</span> <span class="py">mask</span> <span class="p">=</span> <span class="s">0777</span>
+   <span class="err">delete</span> <span class="py">readonly</span> <span class="p">=</span> <span class="s">yes</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Reload Samba Service:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>systemctl restart smbd
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Add a Samba user:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>smbpasswd <span class="nt">-a</span> pi
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p><strong>Access the share via another PC:</strong></p>
+
+<p>If you are on Mac:</p>
+
+<ol>
+  <li>Open Finder</li>
+  <li>Go to <code class="language-plaintext highlighter-rouge">Go</code> &gt; <code class="language-plaintext highlighter-rouge">Connect to Server</code></li>
+  <li>
+    <p>Type the following:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> smb://&lt;raspberrypi_ip&gt;\usbonpi
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>If you are on Windows:</p>
+
+<ol>
+  <li>Open File Explorer</li>
+  <li>
+    <p>In the address bar, type the following:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> \\&lt;raspberrypi_ip&gt;\usbonpi
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<hr />
+
+<h2 id="-summary">📋 Summary</h2>
+
+<ul>
+  <li>We installed Jellyfin and accessed it via a browser.</li>
+  <li>A USB drive was configured to auto-mount using <code class="language-plaintext highlighter-rouge">fstab</code>.</li>
+  <li>Permissions were assigned to allow both Jellyfin and the Samba-accessing user.</li>
+  <li>A Samba server was set up for easy file transfer.</li>
+</ul>
+
+<p>✅ You’re All Set! 🎉</p>
+
+<p>Your Raspberry Pi is now a full-fledged Jellyfin server with a persistent, auto-mounted USB drive as the media library.</p>
+
+        <hr class="mt-5 border-3 border-info" />
+        <div class="pagination mt-2 d-flex">
+            
+            <a href="/deploy-nodejs-app-on-raspberry-pi" class="previous btn btn-light">
+                <i class="bi bi-arrow-left"></i> Previous Post
+            </a>
+             
+            <a href="/github-pages-subdomains-setup" class="next btn btn-light ms-auto"
+                >Next Post <i class="bi bi-arrow-right"></i
+            ></a>
+            
+        </div>
+    </div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="container my-4">
+    <div class="row justify-content-center">
+        <div
+            class="col-sm-12 col-md-12 col-lg-8 d-flex justify-content-between align-items-center"
+        >
+            <span class="word-spacing"
+                >Copyright &copy; 2024 | All rights reserved.</span
+            >
+            <div class="d-flex justify-content-center my-3">
+                <a
+                    href="https://www.instagram.com/banda_bekaar"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-instagram fs-5"></i>
+                </a>
+                <a
+                    href="https://github.com/bekaarcoder"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-github fs-5"></i>
+                </a>
+                <a
+                    href="https://twitter.com/banda_bekaar"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-twitter-x fs-5"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"
+        ></script>
+        <script src="/assets/js/scripts.js"></script>
+    </body>
+</html>

@@ -1,0 +1,173 @@
+[
+    
+      {
+  
+        "title"    : "How to Host Multiple Sites Under One Domain Using GitHub Pages and Subdomains",
+        "url"      : "/github-pages-subdomains-setup",
+        "category" : "",
+        "tags"     : "",
+        "date"     : "2025-08-15 04:10:05 +0000"
+  
+      } ,
+    
+      {
+  
+        "title"    : "Setup Jellyfin On Raspberry Pi - Home Media Server",
+        "url"      : "/setup-jellyfin-on-raspberry-pi",
+        "category" : "",
+        "tags"     : "",
+        "date"     : "2025-04-20 04:10:05 +0000"
+  
+      } ,
+    
+      {
+  
+        "title"    : "Deploy a Node.js Application Using MySQL and Prisma on a Raspberry Pi",
+        "url"      : "/deploy-nodejs-app-on-raspberry-pi",
+        "category" : "",
+        "tags"     : "",
+        "date"     : "2025-01-05 04:10:05 +0000"
+  
+      } ,
+    
+      {
+  
+        "title"    : "How to Scrape Data From Goodreads Using Python and BeautifulSoup",
+        "url"      : "/scrape-goodreads-using-python",
+        "category" : "",
+        "tags"     : "",
+        "date"     : "2024-12-06 15:10:05 +0000"
+  
+      } ,
+    
+      {
+  
+        "title"    : "How to Run Playwright Tests in Jenkins Pipeline Using Docker",
+        "url"      : "/running-playwright-tests-in-jenkins-using-docker",
+        "category" : "",
+        "tags"     : "",
+        "date"     : "2024-12-01 07:10:05 +0000"
+  
+      } ,
+    
+      {
+  
+        "title"    : "How to Access the Localhost Development Server on Another Device",
+        "url"      : "/access-dev-server-on-mobile",
+        "category" : "",
+        "tags"     : "",
+        "date"     : "2024-03-31 07:10:05 +0000"
+  
+      } ,
+    
+      {
+  
+        "title"    : "Backup and Restore MongoDB Database in Docker Container",
+        "url"      : "/mongodb-dump-restore-docker",
+        "category" : "",
+        "tags"     : "",
+        "date"     : "2024-02-18 07:10:05 +0000"
+  
+      } ,
+    
+      {
+  
+        "title"    : "Setting Up MongoDB Using Docker and Docker Compose",
+        "url"      : "/mongodb-docker",
+        "category" : "",
+        "tags"     : "",
+        "date"     : "2024-01-28 09:10:05 +0000"
+  
+      } ,
+    
+      {
+  
+        "title"    : "A Comprehensive Guide to Updating Node.js on macOS",
+        "url"      : "/nodejs/2024/01/18/update-nodejs-mac.html",
+        "category" : "",
+        "tags"     : "",
+        "date"     : "2024-01-18 09:10:05 +0000"
+  
+      } ,
+    
+      {
+  
+        "title"    : "Adding Search Functionality To Jekyll Website",
+        "url"      : "/jekyll/2023/12/29/adding-search-in-jekyll-website.html",
+        "category" : "",
+        "tags"     : "",
+        "date"     : "2023-12-29 09:10:05 +0000"
+  
+      } ,
+    
+      {
+  
+        "title"    : "Creating a CRUD API with NodeJS, Express and MongoDB using TypeScript",
+        "url"      : "/node-express-mongodb-typescript-crud",
+        "category" : "",
+        "tags"     : "",
+        "date"     : "2023-12-04 17:30:00 +0000"
+  
+      } ,
+    
+      {
+  
+        "title"    : "Setting Up Playwright with Cucumber and TypeScript",
+        "url"      : "/playwright-cucumber-ts-setup",
+        "category" : "",
+        "tags"     : "",
+        "date"     : "2023-11-27 07:10:05 +0000"
+  
+      } ,
+    
+      {
+  
+        "title"    : "Running Playwright Tests in Gitlab CI",
+        "url"      : "/running-playwright-test-gitlabci",
+        "category" : "",
+        "tags"     : "",
+        "date"     : "2023-11-07 17:10:05 +0000"
+  
+      } ,
+    
+      {
+  
+        "title"    : "Deploying Jekyll Website On Github Pages With Github Actions",
+        "url"      : "/deploy-jekyll-github-actions",
+        "category" : "",
+        "tags"     : "",
+        "date"     : "2023-10-30 07:49:05 +0000"
+  
+      } ,
+    
+      {
+  
+        "title"    : "Getting Started With Playwright",
+        "url"      : "/setting-up-playwright",
+        "category" : "",
+        "tags"     : "",
+        "date"     : "2023-10-28 00:00:00 +0000"
+  
+      } ,
+    
+      {
+  
+        "title"    : "Deploying Jekyll Website On Github Pages",
+        "url"      : "/deploy-jekyll-github-pages",
+        "category" : "",
+        "tags"     : "",
+        "date"     : "2023-10-25 18:10:05 +0000"
+  
+      } ,
+    
+      {
+  
+        "title"    : "Getting Started with Jekyll",
+        "url"      : "/getting-started",
+        "category" : "",
+        "tags"     : "",
+        "date"     : "2023-10-24 07:43:05 +0000"
+  
+      } 
+    
+  ]

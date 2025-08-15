@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+    <head>
+        <!-- Google tag (gtag.js) -->
+        <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-1N56V15RFF"
+        ></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+
+            gtag('config', 'G-1N56V15RFF');
+        </script>
+        <!-- Mailchimp Popup -->
+        <!-- <script id="mcjs">
+            !(function (c, h, i, m, p) {
+                (m = c.createElement(h)),
+                    (p = c.getElementsByTagName(h)[0]),
+                    (m.async = 1),
+                    (m.src = i),
+                    p.parentNode.insertBefore(m, p);
+            })(
+                document,
+                'script',
+                'https://chimpstatic.com/mcjs-connected/js/users/1da7ef4fb504bc638638b0a1d/21e4762bfbe0285b3056a20b5.js'
+            );
+        </script> -->
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+            name="google-site-verification"
+            content="BO_YUQmMLrwJZdus7XuVa_Z_B-VLJP5pTTwsrnzN-ew"
+        />
+        <meta name="google-adsense-account" content="ca-pub-7156088348148191" />
+        <title>
+             Bekaarcoder&#39;s Blog - Creating a CRUD API with NodeJS, Express and MongoDB using TypeScript 
+        </title>
+        <link rel="stylesheet" href="/assets/css/syntax.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+        />
+        <link rel="stylesheet" href="/assets/css/main.css" />
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/apple-touch-icon.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/favicon-32x32.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/favicon-16x16.png"
+        />
+        <link rel="manifest" href="/site.webmanifest" />
+        <!-- Begin Jekyll SEO tag v2.8.0 -->
+<meta name="generator" content="Jekyll v4.3.4" />
+<meta property="og:title" content="Creating a CRUD API with NodeJS, Express and MongoDB using TypeScript" />
+<meta name="author" content="bekaarcoder" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Welcome to this step-by-step guide on setting up a NodeJS application with Express and MongoDB using TypeScript. In this tutorial, we’ll walk through the process of creating a simple Notes app that demonstrates a CRUD (Create, Read, Update, Delete) API using this tech stack." />
+<meta property="og:description" content="Welcome to this step-by-step guide on setting up a NodeJS application with Express and MongoDB using TypeScript. In this tutorial, we’ll walk through the process of creating a simple Notes app that demonstrates a CRUD (Create, Read, Update, Delete) API using this tech stack." />
+<link rel="canonical" href="https://bekaarcoder.xyz/node-express-mongodb-typescript-crud" />
+<meta property="og:url" content="https://bekaarcoder.xyz/node-express-mongodb-typescript-crud" />
+<meta property="og:site_name" content="Bekaarcoder’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-12-04T17:30:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Creating a CRUD API with NodeJS, Express and MongoDB using TypeScript" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"bekaarcoder"},"dateModified":"2023-12-04T17:30:00+00:00","datePublished":"2023-12-04T17:30:00+00:00","description":"Welcome to this step-by-step guide on setting up a NodeJS application with Express and MongoDB using TypeScript. In this tutorial, we’ll walk through the process of creating a simple Notes app that demonstrates a CRUD (Create, Read, Update, Delete) API using this tech stack.","headline":"Creating a CRUD API with NodeJS, Express and MongoDB using TypeScript","mainEntityOfPage":{"@type":"WebPage","@id":"https://bekaarcoder.xyz/node-express-mongodb-typescript-crud"},"url":"https://bekaarcoder.xyz/node-express-mongodb-typescript-crud"}</script>
+<!-- End Jekyll SEO tag -->
+
+    </head>
+    <body>
+        <div class="container">
+    <div class="row justify-content-center">
+        <div class="col-sm-12 col-md-12 col-lg-8">
+            <nav class="navbar navbar-expand-lg">
+                <a class="navbar-brand" href="/"> Bekaarcoder's Blog </a>
+                <ul class="navbar-nav mb-lg-0 me-auto">
+                    <li class="nav-item">
+                        <button class="btn btn-sm" onclick="toggleTheme()">
+                            <i
+                                class="bi bi-brightness-high text-warning"
+                                id="theme-toggle"
+                            ></i>
+                        </button>
+                    </li>
+                </ul>
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div
+                    class="collapse navbar-collapse"
+                    id="navbarSupportedContent"
+                >
+                    <ul class="navbar-nav mb-2 ms-auto mb-lg-0">
+                            
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about/">
+                                 About 
+                            </a>
+                        </li>
+                            
+                        <li class="nav-item">
+                            <a class="nav-link" href="/categories/">
+                                 Categories 
+                            </a>
+                        </li>
+                              
+                        <li class="nav-item">
+                            <a class="nav-link" href="/search/">
+                                
+                                <i class="bi bi-search"></i>
+                                
+                            </a>
+                        </li>
+                                                                                                                                          
+                        <!-- <li class="nav-item">
+                            <button
+                                class="btn btn-sm mt-1 ms-2"
+                                onclick="toggleTheme()"
+                            >
+                                <i
+                                    class="bi bi-brightness-high text-warning"
+                                    id="theme-toggle"
+                                ></i>
+                            </button>
+                        </li> -->
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="row mt-4">
+                <div class="col-md-12"><div class="row justify-content-center mb-5">
+    <div class="col-sm-12 col-md-12 col-lg-8">
+        
+        <h2 class="display-4">Creating a CRUD API with NodeJS, Express and MongoDB using TypeScript</h2>
+        <div class="d-flex">
+            <p class="text-secondary"> December 04, 2023</p>
+            <p class="text-secondary ms-3">
+                <i class="bi bi-clock"></i> 3 minutes read
+            </p>
+        </div>
+        <div class="mb-3">
+            
+            <span class="badge text-bg-success">
+                <a
+                    href="/categories/nodejs"
+                    class="text-reset text-decoration-none"
+                >
+                    Nodejs
+                </a>
+            </span>
+            
+            <span class="badge text-bg-success">
+                <a
+                    href="/categories/express"
+                    class="text-reset text-decoration-none"
+                >
+                    Express
+                </a>
+            </span>
+            
+            <span class="badge text-bg-success">
+                <a
+                    href="/categories/mongodb"
+                    class="text-reset text-decoration-none"
+                >
+                    Mongodb
+                </a>
+            </span>
+            
+            <span class="badge text-bg-success">
+                <a
+                    href="/categories/typescript"
+                    class="text-reset text-decoration-none"
+                >
+                    Typescript
+                </a>
+            </span>
+            
+        </div>
+        <p>Welcome to this step-by-step guide on setting up a NodeJS application with Express and MongoDB using TypeScript. In this tutorial, we’ll walk through the process of creating a simple Notes app that demonstrates a CRUD (Create, Read, Update, Delete) API using this tech stack.</p>
+
+<p>NodeJS, Express, and MongoDB form a powerful combination for building scalable and efficient web applications. TypeScript enhances the development experience by adding static typing to JavaScript, making the code more robust and maintainable. Follow the steps below to set up your development environment and create a basic Notes app.</p>
+
+<h2 id="setting-up-nodejs-express-and-mongodb-with-typescript">Setting Up NodeJS, Express and MongoDB with TypeScript</h2>
+
+<h3 id="step-1-install-dependencies">Step 1: Install Dependencies</h3>
+
+<p>First, let’s set up the project structure and install the necessary dependencies:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir </span>backend
+<span class="nb">cd </span>backend
+
+npm init <span class="nt">-y</span>
+
+<span class="c"># Install typescript as a dev dependency</span>
+npm i <span class="nt">-D</span> typescript
+
+<span class="c"># create tsconfig.json</span>
+npx tsc <span class="nt">--init</span>
+
+<span class="c"># Install express</span>
+npm i express
+npm i <span class="nt">-D</span> @types/express
+
+<span class="c"># Install nodemon</span>
+npm i <span class="nt">-D</span> nodemon
+
+<span class="c"># Install ts-node</span>
+npm i <span class="nt">-D</span> ts-node
+</code></pre></div></div>
+
+<h3 id="step-2-base-setup">Step 2: Base Setup</h3>
+
+<p>Create <code class="language-plaintext highlighter-rouge">src</code> folder inside the root directory. Inside the <code class="language-plaintext highlighter-rouge">src</code> folder, create <code class="language-plaintext highlighter-rouge">server.ts</code> file and add the base server code.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// server.ts</span>
+<span class="k">import</span> <span class="nx">express</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">express</span><span class="dl">'</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="nf">express</span><span class="p">();</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="dl">'</span><span class="s1">Hello Node!</span><span class="dl">'</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="kd">const</span> <span class="nx">port</span> <span class="o">=</span> <span class="mi">5050</span><span class="p">;</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nf">listen</span><span class="p">(</span><span class="nx">port</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="s2">`Server running on port </span><span class="p">${</span><span class="nx">port</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>Update the <code class="language-plaintext highlighter-rouge">package.json</code> file to include a start script using nodemon.</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">...</span><span class="w">
+</span><span class="nl">"scripts"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"nodemon src/server.ts"</span><span class="p">,</span><span class="w">
+</span><span class="p">}</span><span class="err">,</span><span class="w">
+</span><span class="err">...</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Now open the terminal and run the command: <code class="language-plaintext highlighter-rouge">npm start</code><br />
+This will start the server at port 5050</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span> backend@1.0.0 start
+<span class="o">&gt;</span> nodemon src/server.ts
+
+<span class="o">[</span>nodemon] 3.0.2
+<span class="o">[</span>nodemon] to restart at any <span class="nb">time</span>, enter <span class="sb">`</span>rs<span class="sb">`</span>
+<span class="o">[</span>nodemon] watching path<span class="o">(</span>s<span class="o">)</span>: <span class="k">*</span>.<span class="k">*</span>
+<span class="o">[</span>nodemon] watching extensions: ts,json
+<span class="o">[</span>nodemon] starting <span class="sb">`</span>ts-node src/server.ts<span class="sb">`</span>
+Server running on port 5050
+</code></pre></div></div>
+
+<h3 id="step-3-setting-up-environment-variables">Step 3: Setting Up Environment Variables</h3>
+
+<p>Set up environment variables using the <code class="language-plaintext highlighter-rouge">dotenv</code> and <code class="language-plaintext highlighter-rouge">envalid</code> packages. Create a <code class="language-plaintext highlighter-rouge">.env</code> file in the root directory with the desired port and install the required dependencies.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// .env
+PORT=5050
+</code></pre></div></div>
+
+<p>Install the dependencies</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm i dotenv envalid
+</code></pre></div></div>
+
+<p>Create <code class="language-plaintext highlighter-rouge">validateEnv.ts</code> file inside <code class="language-plaintext highlighter-rouge">src/util</code> folder and put the below code:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// src/util/validateEnv.ts</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">cleanEnv</span><span class="p">,</span> <span class="nx">port</span><span class="p">,</span> <span class="nx">str</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">envalid</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nf">cleanEnv</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">,</span> <span class="p">{</span>
+    <span class="na">PORT</span><span class="p">:</span> <span class="nf">port</span><span class="p">(),</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>Update the code in <code class="language-plaintext highlighter-rouge">server.ts</code></p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// server.ts</span>
+<span class="k">import</span> <span class="dl">'</span><span class="s1">dotenv/config</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">env</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./util/validateEnv</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">express</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">express</span><span class="dl">'</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="nf">express</span><span class="p">();</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="dl">'</span><span class="s1">Hello Node!</span><span class="dl">'</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="kd">const</span> <span class="nx">port</span> <span class="o">=</span> <span class="nx">env</span><span class="p">.</span><span class="nx">PORT</span> <span class="o">||</span> <span class="mi">5050</span><span class="p">;</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nf">listen</span><span class="p">(</span><span class="nx">port</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="s2">`Server running on port </span><span class="p">${</span><span class="nx">port</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<h3 id="step-4-setting-up-mongodb-with-mongoose">Step 4: Setting Up MongoDB With Mongoose</h3>
+
+<p>Install Mongoose: <code class="language-plaintext highlighter-rouge">npm i mongoose</code>.<br />
+Configure the MongoDB connection string in the .env file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// .env
+MONGO_CONNECTION_STRING=mongodb://127.0.0.1:27017/notesdb
+PORT=5050
+</code></pre></div></div>
+
+<p>Update the <code class="language-plaintext highlighter-rouge">server.ts</code> file to connect to MongoDB using Mongoos</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// server.ts</span>
+<span class="k">import</span> <span class="dl">'</span><span class="s1">dotenv/config</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">env</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./util/validateEnv</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">express</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">express</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">mongoose</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">mongoose</span><span class="dl">'</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="nf">express</span><span class="p">();</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nf">use</span><span class="p">(</span><span class="nx">express</span><span class="p">.</span><span class="nf">json</span><span class="p">());</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="dl">'</span><span class="s1">Hello Node!</span><span class="dl">'</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="kd">const</span> <span class="nx">port</span> <span class="o">=</span> <span class="nx">env</span><span class="p">.</span><span class="nx">PORT</span> <span class="o">||</span> <span class="mi">5050</span><span class="p">;</span>
+
+<span class="nx">mongoose</span>
+    <span class="p">.</span><span class="nf">connect</span><span class="p">(</span><span class="nx">env</span><span class="p">.</span><span class="nx">MONGO_CONNECTION_STRING</span><span class="p">)</span>
+    <span class="p">.</span><span class="nf">then</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="s2">`Mongo DB connected.`</span><span class="p">);</span>
+        <span class="nx">app</span><span class="p">.</span><span class="nf">listen</span><span class="p">(</span><span class="nx">port</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="s2">`Server running on port </span><span class="p">${</span><span class="nx">port</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+        <span class="p">});</span>
+    <span class="p">})</span>
+    <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+    <span class="p">});</span>
+</code></pre></div></div>
+
+<h2 id="creating-a-crud-application">Creating a CRUD Application</h2>
+
+<p>Now, let’s create a Notes app with CRUD functionality.</p>
+
+<h3 id="step-1-project-structure">Step 1: Project Structure</h3>
+
+<p>Create the project structure with folders like <code class="language-plaintext highlighter-rouge">controllers</code>, <code class="language-plaintext highlighter-rouge">models</code>, <code class="language-plaintext highlighter-rouge">routes</code>, and <code class="language-plaintext highlighter-rouge">util</code>.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>├── src
+│   ├── app.ts
+│   ├── controllers
+│   │   └── notes.ts
+│   ├── models
+│   │   └── note.ts
+│   ├── routes
+│   │   └── notes.ts
+│   ├── server.ts
+│   └── util
+│       └── validateEnv.ts
+</code></pre></div></div>
+
+<p>Create <code class="language-plaintext highlighter-rouge">app.ts</code> inside <code class="language-plaintext highlighter-rouge">src</code> directory. We will move some of the stuff from <code class="language-plaintext highlighter-rouge">server.ts</code> file to <code class="language-plaintext highlighter-rouge">app.ts</code></p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// app.ts</span>
+<span class="k">import</span> <span class="dl">'</span><span class="s1">dotenv/config</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">express</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">express</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="nf">express</span><span class="p">();</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nf">use</span><span class="p">(</span><span class="nx">express</span><span class="p">.</span><span class="nf">json</span><span class="p">());</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="dl">'</span><span class="s1">Hello Node!</span><span class="dl">'</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">app</span><span class="p">;</span>
+</code></pre></div></div>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// server.ts</span>
+<span class="k">import</span> <span class="nx">app</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./app</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">env</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./util/validateEnv</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">port</span> <span class="o">=</span> <span class="nx">env</span><span class="p">.</span><span class="nx">PORT</span> <span class="o">||</span> <span class="mi">5050</span><span class="p">;</span>
+
+<span class="nx">mongoose</span>
+    <span class="p">.</span><span class="nf">connect</span><span class="p">(</span><span class="nx">env</span><span class="p">.</span><span class="nx">MONGO_CONNECTION_STRING</span><span class="p">)</span>
+    <span class="p">.</span><span class="nf">then</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="s2">`Mongo DB connected.`</span><span class="p">);</span>
+        <span class="nx">app</span><span class="p">.</span><span class="nf">listen</span><span class="p">(</span><span class="nx">port</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="s2">`Server running on port </span><span class="p">${</span><span class="nx">port</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+        <span class="p">});</span>
+    <span class="p">})</span>
+    <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+    <span class="p">});</span>
+</code></pre></div></div>
+
+<h3 id="step-2-setup-express-error-handling">Step 2: Setup Express Error Handling</h3>
+
+<p>Enhance error handling by adding middleware to manage 404 errors and generic server errors using the <code class="language-plaintext highlighter-rouge">http-errors</code> package.</p>
+
+<p>Install dependency: <code class="language-plaintext highlighter-rouge">npm i http-errors</code>
+Add the following code in the <code class="language-plaintext highlighter-rouge">app.ts</code> file at the end but before the export statement.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// app.ts</span>
+<span class="p">...</span>
+<span class="k">import</span> <span class="nx">express</span><span class="p">,</span> <span class="p">{</span> <span class="nx">NextFunction</span><span class="p">,</span> <span class="nx">Request</span><span class="p">,</span> <span class="nx">Response</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">express</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">createHttpError</span><span class="p">,</span> <span class="p">{</span> <span class="nx">isHttpError</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">http-errors</span><span class="dl">'</span><span class="p">;</span>
+<span class="p">...</span>
+
+<span class="c1">// This will handle the error when api path is not defined</span>
+<span class="nx">app</span><span class="p">.</span><span class="nf">use</span><span class="p">((</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nf">next</span><span class="p">(</span><span class="nf">createHttpError</span><span class="p">(</span><span class="mi">404</span><span class="p">,</span> <span class="dl">'</span><span class="s1">Endpoint not found</span><span class="dl">'</span><span class="p">));</span>
+<span class="p">});</span>
+
+<span class="cm">/* eslint-disable @typescript-eslint/no-unused-vars */</span>
+<span class="nx">app</span><span class="p">.</span><span class="nf">use</span><span class="p">((</span><span class="nx">error</span><span class="p">:</span> <span class="nx">unknown</span><span class="p">,</span> <span class="nx">req</span><span class="p">:</span> <span class="nx">Request</span><span class="p">,</span> <span class="nx">res</span><span class="p">:</span> <span class="nx">Response</span><span class="p">,</span> <span class="nx">next</span><span class="p">:</span> <span class="nx">NextFunction</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nf">error</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+    <span class="kd">let</span> <span class="nx">errorMessage</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">An unknown error occurred</span><span class="dl">'</span><span class="p">;</span>
+    <span class="kd">let</span> <span class="nx">statusCode</span> <span class="o">=</span> <span class="mi">500</span><span class="p">;</span>
+    <span class="k">if </span><span class="p">(</span><span class="nf">isHttpError</span><span class="p">(</span><span class="nx">error</span><span class="p">))</span> <span class="p">{</span>
+        <span class="nx">statusCode</span> <span class="o">=</span> <span class="nx">error</span><span class="p">.</span><span class="nx">status</span><span class="p">;</span>
+        <span class="nx">errorMessage</span> <span class="o">=</span> <span class="nx">error</span><span class="p">.</span><span class="nx">message</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nf">status</span><span class="p">(</span><span class="nx">statusCode</span><span class="p">).</span><span class="nf">json</span><span class="p">({</span> <span class="na">error</span><span class="p">:</span> <span class="nx">errorMessage</span> <span class="p">});</span>
+<span class="p">});</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">app</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h3 id="step-3-creating-notes-model">Step 3: Creating Notes Model</h3>
+
+<p>Create a Mongoose schema for the Note model inside the <code class="language-plaintext highlighter-rouge">models</code> folder. This schema includes fields such as title and text.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// src/models/note.ts</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">InferSchemaType</span><span class="p">,</span> <span class="nx">Schema</span><span class="p">,</span> <span class="nx">model</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">mongoose</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">noteSchema</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Schema</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="na">title</span><span class="p">:</span> <span class="p">{</span>
+            <span class="na">type</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span>
+            <span class="na">required</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="na">text</span><span class="p">:</span> <span class="p">{</span>
+            <span class="na">type</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">},</span>
+    <span class="p">{</span> <span class="na">timestamps</span><span class="p">:</span> <span class="kc">true</span> <span class="p">}</span>
+<span class="p">);</span>
+
+<span class="nx">type</span> <span class="nx">Note</span> <span class="o">=</span> <span class="nx">InferSchemaType</span><span class="o">&lt;</span><span class="k">typeof</span> <span class="nx">noteSchema</span><span class="o">&gt;</span><span class="p">;</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">model</span> <span class="o">&lt;</span> <span class="nx">Note</span> <span class="o">&gt;</span> <span class="p">(</span><span class="dl">'</span><span class="s1">Note</span><span class="dl">'</span><span class="p">,</span> <span class="nx">noteSchema</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h3 id="step-4-creating-controller-for-the-notes-api">Step 4: Creating controller for the Notes API</h3>
+
+<p>Create a controller file <code class="language-plaintext highlighter-rouge">notes.ts</code> inside the <code class="language-plaintext highlighter-rouge">controllers</code> folder. Implement the logic for creating a new note.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// src/controllers/notes.ts</span>
+
+<span class="k">import</span> <span class="p">{</span> <span class="nx">RequestHandler</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">express</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">NoteModal</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">../models/note</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">createHttpError</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">http-errors</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">mongoose</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">mongoose</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kr">interface</span> <span class="nx">CreateNoteBody</span> <span class="p">{</span>
+    <span class="nx">title</span><span class="p">?:</span> <span class="nx">string</span><span class="p">;</span>
+    <span class="nx">text</span><span class="p">?:</span> <span class="nx">string</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">createNote</span><span class="p">:</span> <span class="nx">RequestHandler</span><span class="o">&lt;</span>
+    <span class="nx">unknown</span><span class="p">,</span>
+    <span class="nx">unknown</span><span class="p">,</span>
+    <span class="nx">CreateNoteBody</span><span class="p">,</span>
+    <span class="nx">unknown</span>
+<span class="o">&gt;</span> <span class="o">=</span> <span class="k">async </span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">title</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">title</span><span class="p">;</span>
+    <span class="kd">const</span> <span class="nx">text</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">text</span><span class="p">;</span>
+
+    <span class="k">try</span> <span class="p">{</span>
+        <span class="k">if </span><span class="p">(</span><span class="o">!</span><span class="nx">title</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">throw</span> <span class="nf">createHttpError</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="dl">'</span><span class="s1">Title is required</span><span class="dl">'</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="kd">const</span> <span class="nx">newNote</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">NoteModal</span><span class="p">.</span><span class="nf">create</span><span class="p">({</span>
+            <span class="na">title</span><span class="p">:</span> <span class="nx">title</span><span class="p">,</span>
+            <span class="na">text</span><span class="p">:</span> <span class="nx">text</span><span class="p">,</span>
+        <span class="p">});</span>
+
+        <span class="nx">res</span><span class="p">.</span><span class="nf">status</span><span class="p">(</span><span class="mi">201</span><span class="p">).</span><span class="nf">json</span><span class="p">(</span><span class="nx">newNote</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">catch </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nf">next</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<h3 id="step-5-add-route-for-note-creation">Step 5: Add Route For Note Creation</h3>
+
+<p>Create a <code class="language-plaintext highlighter-rouge">notes.ts</code> file inside the <code class="language-plaintext highlighter-rouge">routes</code> folder.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// src/routes/notes.ts</span>
+<span class="k">import</span> <span class="nx">express</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">express</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="o">*</span> <span class="nx">as</span> <span class="nx">NotesController</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">../controllers/notes</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">router</span> <span class="o">=</span> <span class="nx">express</span><span class="p">.</span><span class="nc">Router</span><span class="p">();</span>
+
+<span class="nx">router</span><span class="p">.</span><span class="nf">post</span><span class="p">(</span><span class="dl">'</span><span class="s1">/</span><span class="dl">'</span><span class="p">,</span> <span class="nx">NotesController</span><span class="p">.</span><span class="nx">createNote</span><span class="p">);</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">router</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>Import the create route in the <code class="language-plaintext highlighter-rouge">app.ts</code> file.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// src/app.ts</span>
+<span class="p">...</span>
+<span class="k">import</span> <span class="nx">notesRoutes</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./routes/notes</span><span class="dl">'</span><span class="p">;</span>
+<span class="p">...</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nf">use</span><span class="p">(</span><span class="nx">express</span><span class="p">.</span><span class="nf">json</span><span class="p">());</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nf">use</span><span class="p">(</span><span class="dl">'</span><span class="s1">/api/notes</span><span class="dl">'</span><span class="p">,</span> <span class="nx">notesRoutes</span><span class="p">);</span>
+
+<span class="p">...</span>
+</code></pre></div></div>
+
+<p><strong>API Endpoint:</strong> POST <code class="language-plaintext highlighter-rouge">http://localhost:5050/api/notes</code></p>
+
+<h3 id="step-6-fetch-all-the-notes">Step 6: Fetch All The Notes</h3>
+
+<p>Implement functionality to fetch all notes and display them using a GET endpoint.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// src/controllers/notes.ts</span>
+
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">getNotes</span><span class="p">:</span> <span class="nx">RequestHandler</span> <span class="o">=</span> <span class="k">async </span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">try</span> <span class="p">{</span>
+        <span class="kd">const</span> <span class="nx">notes</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">NoteModal</span><span class="p">.</span><span class="nf">find</span><span class="p">().</span><span class="nf">exec</span><span class="p">();</span>
+        <span class="nx">res</span><span class="p">.</span><span class="nf">status</span><span class="p">(</span><span class="mi">200</span><span class="p">).</span><span class="nf">json</span><span class="p">(</span><span class="nx">notes</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">catch </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nf">next</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// src/routes/notes.ts</span>
+
+<span class="nx">router</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/</span><span class="dl">'</span><span class="p">,</span> <span class="nx">NotesController</span><span class="p">.</span><span class="nx">getNotes</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><strong>API Endpoint:</strong> GET <code class="language-plaintext highlighter-rouge">https://localhost:5050/api/notes</code></p>
+
+<h3 id="step-7-fetch-note-by-id">Step 7: Fetch Note By ID</h3>
+
+<p>Create an endpoint to retrieve a specific note by its ID using a GET request.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// src/controllers/notes.ts</span>
+
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">getNote</span><span class="p">:</span> <span class="nx">RequestHandler</span> <span class="o">=</span> <span class="k">async </span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">noteId</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">noteId</span><span class="p">;</span>
+    <span class="k">try</span> <span class="p">{</span>
+        <span class="k">if </span><span class="p">(</span><span class="o">!</span><span class="nx">mongoose</span><span class="p">.</span><span class="nf">isValidObjectId</span><span class="p">(</span><span class="nx">noteId</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">throw</span> <span class="nf">createHttpError</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="dl">'</span><span class="s1">Invalid note id</span><span class="dl">'</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="kd">const</span> <span class="nx">note</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">NoteModal</span><span class="p">.</span><span class="nf">findById</span><span class="p">(</span><span class="nx">noteId</span><span class="p">).</span><span class="nf">exec</span><span class="p">();</span>
+
+        <span class="k">if </span><span class="p">(</span><span class="o">!</span><span class="nx">note</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">throw</span> <span class="nf">createHttpError</span><span class="p">(</span><span class="mi">404</span><span class="p">,</span> <span class="dl">'</span><span class="s1">Note not found</span><span class="dl">'</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="nx">res</span><span class="p">.</span><span class="nf">status</span><span class="p">(</span><span class="mi">200</span><span class="p">).</span><span class="nf">json</span><span class="p">(</span><span class="nx">note</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">catch </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nf">next</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// src/routes/notes.ts</span>
+
+<span class="nx">router</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/:noteId</span><span class="dl">'</span><span class="p">,</span> <span class="nx">NotesController</span><span class="p">.</span><span class="nx">getNote</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><strong>API Endpoint:</strong> GET <code class="language-plaintext highlighter-rouge">http://localhost:5050/api/notes/&lt;noteId&gt;</code></p>
+
+<h3 id="step-8-updating-note">Step 8: Updating Note</h3>
+
+<p>Add the ability to update a note using a PUT request.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// src/controllers/notes.ts</span>
+
+<span class="kr">interface</span> <span class="nx">UpdateNoteParams</span> <span class="p">{</span>
+    <span class="nl">noteId</span><span class="p">:</span> <span class="nx">string</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kr">interface</span> <span class="nx">UpdateNoteBody</span> <span class="p">{</span>
+    <span class="nx">title</span><span class="p">?:</span> <span class="nx">string</span><span class="p">;</span>
+    <span class="nx">text</span><span class="p">?:</span> <span class="nx">string</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">updateNote</span><span class="p">:</span> <span class="nx">RequestHandler</span><span class="o">&lt;</span>
+    <span class="nx">UpdateNoteParams</span><span class="p">,</span>
+    <span class="nx">unknown</span><span class="p">,</span>
+    <span class="nx">UpdateNoteBody</span><span class="p">,</span>
+    <span class="nx">unknown</span>
+<span class="o">&gt;</span> <span class="o">=</span> <span class="k">async </span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">noteId</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">noteId</span><span class="p">;</span>
+    <span class="kd">const</span> <span class="nx">newTitle</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">title</span><span class="p">;</span>
+    <span class="kd">const</span> <span class="nx">newText</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">text</span><span class="p">;</span>
+    <span class="k">try</span> <span class="p">{</span>
+        <span class="k">if </span><span class="p">(</span><span class="o">!</span><span class="nx">mongoose</span><span class="p">.</span><span class="nf">isValidObjectId</span><span class="p">(</span><span class="nx">noteId</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">throw</span> <span class="nf">createHttpError</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="dl">'</span><span class="s1">Invalid note id</span><span class="dl">'</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="k">if </span><span class="p">(</span><span class="o">!</span><span class="nx">newTitle</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">throw</span> <span class="nf">createHttpError</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="dl">'</span><span class="s1">Title is required</span><span class="dl">'</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="kd">const</span> <span class="nx">note</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">NoteModal</span><span class="p">.</span><span class="nf">findById</span><span class="p">(</span><span class="nx">noteId</span><span class="p">).</span><span class="nf">exec</span><span class="p">();</span>
+
+        <span class="k">if </span><span class="p">(</span><span class="o">!</span><span class="nx">note</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">throw</span> <span class="nf">createHttpError</span><span class="p">(</span><span class="mi">404</span><span class="p">,</span> <span class="dl">'</span><span class="s1">Note not found</span><span class="dl">'</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="nx">note</span><span class="p">.</span><span class="nx">title</span> <span class="o">=</span> <span class="nx">newTitle</span><span class="p">;</span>
+        <span class="nx">note</span><span class="p">.</span><span class="nx">text</span> <span class="o">=</span> <span class="nx">newText</span><span class="p">;</span>
+
+        <span class="kd">const</span> <span class="nx">updatedNote</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">note</span><span class="p">.</span><span class="nf">save</span><span class="p">();</span>
+
+        <span class="nx">res</span><span class="p">.</span><span class="nf">status</span><span class="p">(</span><span class="mi">200</span><span class="p">).</span><span class="nf">json</span><span class="p">(</span><span class="nx">updatedNote</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">catch </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nf">next</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// src/routes/notes.ts</span>
+
+<span class="nx">router</span><span class="p">.</span><span class="nf">put</span><span class="p">(</span><span class="dl">'</span><span class="s1">/:noteId</span><span class="dl">'</span><span class="p">,</span> <span class="nx">NotesController</span><span class="p">.</span><span class="nx">updateNote</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><strong>API Endpoint:</strong> PUT <code class="language-plaintext highlighter-rouge">http://localhost:5050/api/notes/&lt;noteId&gt;</code></p>
+
+<h3 id="step-9-deleting-note">Step 9: Deleting Note</h3>
+
+<p>Implement a DELETE endpoint to delete a note by its ID.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// src/controllers/notes.ts</span>
+
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">deleteNote</span><span class="p">:</span> <span class="nx">RequestHandler</span> <span class="o">=</span> <span class="k">async </span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">noteId</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">noteId</span><span class="p">;</span>
+
+    <span class="k">try</span> <span class="p">{</span>
+        <span class="k">if </span><span class="p">(</span><span class="o">!</span><span class="nx">mongoose</span><span class="p">.</span><span class="nf">isValidObjectId</span><span class="p">(</span><span class="nx">noteId</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">throw</span> <span class="nf">createHttpError</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="dl">'</span><span class="s1">Invalid note id</span><span class="dl">'</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="kd">const</span> <span class="nx">note</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">NoteModal</span><span class="p">.</span><span class="nf">findById</span><span class="p">(</span><span class="nx">noteId</span><span class="p">).</span><span class="nf">exec</span><span class="p">();</span>
+
+        <span class="k">if </span><span class="p">(</span><span class="o">!</span><span class="nx">note</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">throw</span> <span class="nf">createHttpError</span><span class="p">(</span><span class="mi">404</span><span class="p">,</span> <span class="dl">'</span><span class="s1">Note not found</span><span class="dl">'</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="k">await</span> <span class="nx">note</span><span class="p">.</span><span class="nf">deleteOne</span><span class="p">();</span>
+
+        <span class="nx">res</span><span class="p">.</span><span class="nf">sendStatus</span><span class="p">(</span><span class="mi">204</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">catch </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nf">next</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// src/routes/notes.ts</span>
+
+<span class="nx">router</span><span class="p">.</span><span class="k">delete</span><span class="p">(</span><span class="dl">'</span><span class="s1">/:noteId</span><span class="dl">'</span><span class="p">,</span> <span class="nx">NotesController</span><span class="p">.</span><span class="nx">deleteNote</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><strong>API Endpoint:</strong> DELETE <code class="language-plaintext highlighter-rouge">http://localhost:5050/api/notes/&lt;noteId&gt;</code></p>
+
+<hr />
+
+<p>Congratulations!🎉<br />
+You’ve successfully set up a NodeJS application with Express and MongoDB using TypeScript. This blog covered the initial setup, environment variables, MongoDB integration, and the creation of a CRUD application for managing notes.</p>
+
+<p>Check out the <a href="https://github.com/bekaarcoder/notes-app-ts/tree/main">source code on github</a>.</p>
+
+<p><br /></p>
+
+        <hr class="mt-5 border-3 border-info" />
+        <div class="pagination mt-2 d-flex">
+            
+            <a href="/playwright-cucumber-ts-setup" class="previous btn btn-light">
+                <i class="bi bi-arrow-left"></i> Previous Post
+            </a>
+             
+            <a href="/jekyll/2023/12/29/adding-search-in-jekyll-website.html" class="next btn btn-light ms-auto"
+                >Next Post <i class="bi bi-arrow-right"></i
+            ></a>
+            
+        </div>
+    </div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="container my-4">
+    <div class="row justify-content-center">
+        <div
+            class="col-sm-12 col-md-12 col-lg-8 d-flex justify-content-between align-items-center"
+        >
+            <span class="word-spacing"
+                >Copyright &copy; 2024 | All rights reserved.</span
+            >
+            <div class="d-flex justify-content-center my-3">
+                <a
+                    href="https://www.instagram.com/banda_bekaar"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-instagram fs-5"></i>
+                </a>
+                <a
+                    href="https://github.com/bekaarcoder"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-github fs-5"></i>
+                </a>
+                <a
+                    href="https://twitter.com/banda_bekaar"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-twitter-x fs-5"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"
+        ></script>
+        <script src="/assets/js/scripts.js"></script>
+    </body>
+</html>

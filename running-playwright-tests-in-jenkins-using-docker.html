@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+    <head>
+        <!-- Google tag (gtag.js) -->
+        <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-1N56V15RFF"
+        ></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+
+            gtag('config', 'G-1N56V15RFF');
+        </script>
+        <!-- Mailchimp Popup -->
+        <!-- <script id="mcjs">
+            !(function (c, h, i, m, p) {
+                (m = c.createElement(h)),
+                    (p = c.getElementsByTagName(h)[0]),
+                    (m.async = 1),
+                    (m.src = i),
+                    p.parentNode.insertBefore(m, p);
+            })(
+                document,
+                'script',
+                'https://chimpstatic.com/mcjs-connected/js/users/1da7ef4fb504bc638638b0a1d/21e4762bfbe0285b3056a20b5.js'
+            );
+        </script> -->
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+            name="google-site-verification"
+            content="BO_YUQmMLrwJZdus7XuVa_Z_B-VLJP5pTTwsrnzN-ew"
+        />
+        <meta name="google-adsense-account" content="ca-pub-7156088348148191" />
+        <title>
+             Bekaarcoder&#39;s Blog - How to Run Playwright Tests in Jenkins Pipeline Using Docker 
+        </title>
+        <link rel="stylesheet" href="/assets/css/syntax.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+        />
+        <link rel="stylesheet" href="/assets/css/main.css" />
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/apple-touch-icon.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/favicon-32x32.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/favicon-16x16.png"
+        />
+        <link rel="manifest" href="/site.webmanifest" />
+        <!-- Begin Jekyll SEO tag v2.8.0 -->
+<meta name="generator" content="Jekyll v4.3.4" />
+<meta property="og:title" content="How to Run Playwright Tests in Jenkins Pipeline Using Docker" />
+<meta name="author" content="bekaarcoder" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Automation testing has become an integral part of modern software development, and tools like Playwright have made it seamless to perform end-to-end testing. However, executing these tests in a continuous integration pipeline can be challenging without proper setup. In this guide, we will go through the steps to run Playwright tests in a Jenkins pipeline using Docker, ensuring an efficient and scalable testing process. By the end of this post, you’ll have a clear understanding of setting up Jenkins with Docker, connecting agent nodes, and creating pipelines to build and run tests." />
+<meta property="og:description" content="Automation testing has become an integral part of modern software development, and tools like Playwright have made it seamless to perform end-to-end testing. However, executing these tests in a continuous integration pipeline can be challenging without proper setup. In this guide, we will go through the steps to run Playwright tests in a Jenkins pipeline using Docker, ensuring an efficient and scalable testing process. By the end of this post, you’ll have a clear understanding of setting up Jenkins with Docker, connecting agent nodes, and creating pipelines to build and run tests." />
+<link rel="canonical" href="https://bekaarcoder.xyz/running-playwright-tests-in-jenkins-using-docker" />
+<meta property="og:url" content="https://bekaarcoder.xyz/running-playwright-tests-in-jenkins-using-docker" />
+<meta property="og:site_name" content="Bekaarcoder’s Blog" />
+<meta property="og:image" content="https://bekaarcoder.xyz/assets/images/cover_image_2024-12-01.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-12-01T07:10:05+00:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="https://bekaarcoder.xyz/assets/images/cover_image_2024-12-01.png" />
+<meta property="twitter:title" content="How to Run Playwright Tests in Jenkins Pipeline Using Docker" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"bekaarcoder"},"dateModified":"2024-12-01T07:10:05+00:00","datePublished":"2024-12-01T07:10:05+00:00","description":"Automation testing has become an integral part of modern software development, and tools like Playwright have made it seamless to perform end-to-end testing. However, executing these tests in a continuous integration pipeline can be challenging without proper setup. In this guide, we will go through the steps to run Playwright tests in a Jenkins pipeline using Docker, ensuring an efficient and scalable testing process. By the end of this post, you’ll have a clear understanding of setting up Jenkins with Docker, connecting agent nodes, and creating pipelines to build and run tests.","headline":"How to Run Playwright Tests in Jenkins Pipeline Using Docker","image":"https://bekaarcoder.xyz/assets/images/cover_image_2024-12-01.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://bekaarcoder.xyz/running-playwright-tests-in-jenkins-using-docker"},"url":"https://bekaarcoder.xyz/running-playwright-tests-in-jenkins-using-docker"}</script>
+<!-- End Jekyll SEO tag -->
+
+    </head>
+    <body>
+        <div class="container">
+    <div class="row justify-content-center">
+        <div class="col-sm-12 col-md-12 col-lg-8">
+            <nav class="navbar navbar-expand-lg">
+                <a class="navbar-brand" href="/"> Bekaarcoder's Blog </a>
+                <ul class="navbar-nav mb-lg-0 me-auto">
+                    <li class="nav-item">
+                        <button class="btn btn-sm" onclick="toggleTheme()">
+                            <i
+                                class="bi bi-brightness-high text-warning"
+                                id="theme-toggle"
+                            ></i>
+                        </button>
+                    </li>
+                </ul>
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div
+                    class="collapse navbar-collapse"
+                    id="navbarSupportedContent"
+                >
+                    <ul class="navbar-nav mb-2 ms-auto mb-lg-0">
+                            
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about/">
+                                 About 
+                            </a>
+                        </li>
+                            
+                        <li class="nav-item">
+                            <a class="nav-link" href="/categories/">
+                                 Categories 
+                            </a>
+                        </li>
+                              
+                        <li class="nav-item">
+                            <a class="nav-link" href="/search/">
+                                
+                                <i class="bi bi-search"></i>
+                                
+                            </a>
+                        </li>
+                                                                                                                                          
+                        <!-- <li class="nav-item">
+                            <button
+                                class="btn btn-sm mt-1 ms-2"
+                                onclick="toggleTheme()"
+                            >
+                                <i
+                                    class="bi bi-brightness-high text-warning"
+                                    id="theme-toggle"
+                                ></i>
+                            </button>
+                        </li> -->
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="row mt-4">
+                <div class="col-md-12"><div class="row justify-content-center mb-5">
+    <div class="col-sm-12 col-md-12 col-lg-8">
+        
+        <div class="my-3">
+            <img
+                src="/assets/images/cover_image_2024-12-01.png"
+                alt="cover_image"
+                class="rounded"
+                width="100%"
+            />
+        </div>
+        
+        <h2 class="display-4">How to Run Playwright Tests in Jenkins Pipeline Using Docker</h2>
+        <div class="d-flex">
+            <p class="text-secondary"> December 01, 2024</p>
+            <p class="text-secondary ms-3">
+                <i class="bi bi-clock"></i> 9 minutes read
+            </p>
+        </div>
+        <div class="mb-3">
+            
+            <span class="badge text-bg-success">
+                <a
+                    href="/categories/docker"
+                    class="text-reset text-decoration-none"
+                >
+                    Docker
+                </a>
+            </span>
+            
+            <span class="badge text-bg-success">
+                <a
+                    href="/categories/jenkins"
+                    class="text-reset text-decoration-none"
+                >
+                    Jenkins
+                </a>
+            </span>
+            
+            <span class="badge text-bg-success">
+                <a
+                    href="/categories/playwright"
+                    class="text-reset text-decoration-none"
+                >
+                    Playwright
+                </a>
+            </span>
+            
+        </div>
+        <p>Automation testing has become an integral part of modern software development, and tools like Playwright have made it seamless to perform end-to-end testing. However, executing these tests in a continuous integration pipeline can be challenging without proper setup. In this guide, we will go through the steps to run Playwright tests in a Jenkins pipeline using Docker, ensuring an efficient and scalable testing process. By the end of this post, you’ll have a clear understanding of setting up Jenkins with Docker, connecting agent nodes, and creating pipelines to build and run tests.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<p>Before starting, ensure you have the following:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Docker Desktop</code> installed on your local machine.</li>
+  <li><code class="language-plaintext highlighter-rouge">Docker Hub</code> account created for managing Docker images.</li>
+</ul>
+
+<h2 id="jenkins-controlleragent-architecture">Jenkins Controller/Agent Architecture</h2>
+
+<p>Before starting, let us look at the architecture. Jenkins <code class="language-plaintext highlighter-rouge">Controller/Agent Architecture</code> allows distributed builds, where tasks are delegated to agents for execution. This architecture improves scalability and resource utilization.</p>
+
+<p><img src="/assets/images/jenkins_architecture.png" alt="Jenkins Architecture" style="width:100%" /></p>
+
+<p><strong>Controller Node</strong></p>
+
+<ul>
+  <li>Controller is the central component of the Jenkins architecture.</li>
+  <li>It handles:
+    <ol>
+      <li><strong>Job scheduling:</strong> Assigns tasks to agent nodes.</li>
+      <li><strong>User interface:</strong> Provides a web-based UI (port 8080) for users to interact with Jenkins.</li>
+      <li><strong>Job configuration:</strong> Allows users to define build pipelines and workflows.</li>
+      <li><strong>Result aggregation:</strong> Collects and displays build/test results.</li>
+    </ol>
+  </li>
+  <li>It is not recommended to execute builds directly in the controller.</li>
+</ul>
+
+<p><strong>Agent Node</strong></p>
+
+<ul>
+  <li>The agents are distributed machines responsible for executing Jenkins jobs.</li>
+  <li>These nodes are connected to the master via the Jenkins Remoting protocol over port 50000.</li>
+  <li>They can execute builds or tests depending on the tasks assigned by the master.</li>
+  <li>Agents must have the necessary tools installed based on the jobs they run.</li>
+</ul>
+
+<p><strong>Communication Flow</strong></p>
+
+<ol>
+  <li>User interact with the Controller.</li>
+  <li>Controller delegates the tasks to Agents.</li>
+  <li>Agents execute the tasks.</li>
+  <li>Results are sent back to the Controller</li>
+</ol>
+
+<h2 id="setting-up-jenkins-using-docker">Setting Up Jenkins Using Docker</h2>
+
+<h3 id="docker-compose-setup-for-jenkins">Docker Compose Setup for Jenkins</h3>
+
+<p>To set up Jenkins using Docker, create a docker-compose.yml file. Organize your directory as follows:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jenkins-docker/
+├── docker-compose.yml
+└── volumes/
+    ├── master/
+    └── node/
+</code></pre></div></div>
+
+<p>Here’s the docker-compose.yml file:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">services</span><span class="pi">:</span>
+    <span class="na">jenkins</span><span class="pi">:</span>
+        <span class="na">image</span><span class="pi">:</span> <span class="s">jenkins/jenkins:lts-jdk17</span>
+        <span class="na">user</span><span class="pi">:</span> <span class="s">root</span>
+        <span class="na">ports</span><span class="pi">:</span>
+            <span class="pi">-</span> <span class="s">8080:8080</span>
+            <span class="pi">-</span> <span class="s">50000:50000</span>
+        <span class="na">volumes</span><span class="pi">:</span>
+            <span class="pi">-</span> <span class="s">./volumes/master:/var/jenkins_home</span>
+        <span class="na">environment</span><span class="pi">:</span>
+            <span class="pi">-</span> <span class="s">JAVA_OPTS="-Dhudson.model.DirectoryBrowserSupport.CSP="</span>
+</code></pre></div></div>
+
+<p><strong>Explanation</strong></p>
+
+<ol>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">jenkins</code>: Define service which will be created by Docker Compose.</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">jenkins/jenkins:lts-jdk17</code>: Docker image to create the container</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">user</code>: We have specified user as <code class="language-plaintext highlighter-rouge">root</code> to run the container with root privileges. This is necessary for certain administrative tasks (like installing plugins, setting permissions, or managing files)</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">ports</code> will map the ports on the host to the container. <code class="language-plaintext highlighter-rouge">8080:8080</code> maps the Jenkins web UI. <code class="language-plaintext highlighter-rouge">50000:50000</code> maps the port used for Jenkins agent communication</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">volumes</code>: Mounts a host directory (./volumes/master) to the container’s Jenkins home directory (/var/jenkins_home). This will persist Jenkins data even if the container is deleted.</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">JAVA_OPTS</code>: Configure JVM options for Jenkins.</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">-Dhudson.model.DirectoryBrowserSupport.CSP=</code>: Disables Jenkins Content Security Policy. Although not recommended in production, but useful for embedding resources like images or styles in Jenkins view.</p>
+  </li>
+</ol>
+
+<h3 id="running-docker-compose">Running Docker Compose</h3>
+
+<p>To start Jenkins, run:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker-compose up
+</code></pre></div></div>
+
+<p>Once Jenkins service has started, you can acces Jenkins at <code class="language-plaintext highlighter-rouge">http://localhost:8080</code> on your host machine.</p>
+
+<h3 id="setting-up-jenkins-web-interface">Setting Up Jenkins Web Interface</h3>
+
+<ol>
+  <li>Navigate to http://localhost:8080 in your browser.</li>
+  <li>Use the administrator password from the terminal (output during docker-compose up).</li>
+  <li>Install suggested plugins.</li>
+  <li>Create the first admin user and complete the setup wizard.</li>
+</ol>
+
+<!-- ![](jenkins_password.png) -->
+<p><img src="/assets/images/jenkins_credentials.png" alt="Jenkins Credentials" style="width:100%" /></p>
+
+<p>Once complete, the Jenkins files will be available in the <code class="language-plaintext highlighter-rouge">volumes/master</code> directory.</p>
+
+<h3 id="connecting-an-agent-node">Connecting An Agent Node</h3>
+
+<p>Follow these steps to connect an agent:</p>
+
+<ol>
+  <li>On the Jenkins homepage, click on <code class="language-plaintext highlighter-rouge">Set up an agent</code></li>
+  <li>Enter <code class="language-plaintext highlighter-rouge">NODE1</code> as the node name, select <code class="language-plaintext highlighter-rouge">Permanent Agent</code>, and configure the Remote root directory with the path to the node directory on your host.</li>
+  <li>Leave other fields to default and click on Save.</li>
+</ol>
+
+<p>Now you will see a new node <code class="language-plaintext highlighter-rouge">NODE1</code> is created which will be displayed with the Built-in Node.</p>
+
+<p>Click on the <code class="language-plaintext highlighter-rouge">NODE1</code> and you will see the instructions to run the agent.</p>
+
+<p>Navigate to <code class="language-plaintext highlighter-rouge">node</code> directory in your local machine from the terminal and run the commands provided by Jenkins to connect the node.</p>
+
+<p><strong>Tip:</strong> <em>Set the number of executors for the Built-in Node to 0 to ensure jobs only run on connected agents.</em></p>
+
+<ol>
+  <li>Navigate to <code class="language-plaintext highlighter-rouge">Built-in Node</code> &gt; <code class="language-plaintext highlighter-rouge">Configure</code></li>
+  <li>Set <code class="language-plaintext highlighter-rouge">Number of executers</code> to 0 and click on Save.</li>
+</ol>
+
+<h2 id="running-playwright-test-with-jenkins">Running Playwright Test With Jenkins</h2>
+
+<p>You can use the <a href="https://github.com/bekaarcoder/playwright-bdd-ts">Playwright Cucumber Framework</a> or your own Playwright project. For this guide, we will use Docker to build the test environment and Jenkins to execute the tests.</p>
+
+<blockquote class="blockquote">
+  <p>This framework is built using Playwright and Cucumber. Instead of using the default Playwright command to execute tests, a custom <code class="language-plaintext highlighter-rouge">index.ts</code> file has been created to run the tests using the Cucumber runner.</p>
+
+  <p>To execute the tests, run the command <code class="language-plaintext highlighter-rouge">npm run cucumber &lt;tag_name&gt;</code></p>
+
+  <p>Predefined tags, such as <code class="language-plaintext highlighter-rouge">smoke</code>, <code class="language-plaintext highlighter-rouge">regression</code>, etc., are specified in the <code class="language-plaintext highlighter-rouge">index.ts</code> file. Replace <code class="language-plaintext highlighter-rouge">&lt;tag_name&gt;</code> with one of these predefined values to run the corresponding test suite.</p>
+</blockquote>
+
+<p>We need to install below plugins inside Jenkins:</p>
+
+<ul>
+  <li>Docker</li>
+  <li>Docker Pipeline</li>
+</ul>
+
+<p>To install the plugins,</p>
+
+<ol>
+  <li>Navigate to <code class="language-plaintext highlighter-rouge">Manage Jenkins</code> &gt; <code class="language-plaintext highlighter-rouge">Plugins</code> &gt; <code class="language-plaintext highlighter-rouge">Available Plugins</code></li>
+  <li>Search for the above plugins and install</li>
+  <li>Once installed, restart jenkins</li>
+</ol>
+
+<p>To run jenkins again, run <code class="language-plaintext highlighter-rouge">docker-compose up</code> again.</p>
+
+<h3 id="creating-a-dockerfile-for-playwright">Creating a Dockerfile for Playwright</h3>
+
+<p>Create a <code class="language-plaintext highlighter-rouge">Dockerfile</code> in your project:</p>
+
+<div class="language-Dockerfile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">FROM</span><span class="s"> mcr.microsoft.com/playwright:v1.48.2-noble</span>
+
+<span class="k">WORKDIR</span><span class="s"> /app</span>
+<span class="k">COPY</span><span class="s"> . /app</span>
+
+<span class="k">RUN </span>npm <span class="nb">install</span>
+
+<span class="k">ENTRYPOINT</span><span class="s"> ["sh", "-c", "npm run cucumber ${TEST_TARGET}"]</span>
+</code></pre></div></div>
+
+<p><strong>Explanation</strong></p>
+
+<p><strong>Base Image</strong>
+<code class="language-plaintext highlighter-rouge">FROM mcr.microsoft.com/playwright:v1.48.2-noble</code> uses Playwright docker image to build our docker image.</p>
+
+<p><strong>Set Working Directory</strong>
+<code class="language-plaintext highlighter-rouge">WORKDIR /app</code> sets the working directory inside the container to <code class="language-plaintext highlighter-rouge">/app</code>. All subsequent commands and operations (e.g., COPY, RUN) will be executed relative to this directory.</p>
+
+<p><strong>Copy Files</strong>
+<code class="language-plaintext highlighter-rouge">COPY . /app</code> Copies the contents of the current directory (on the host) into the container’s /app directory.</p>
+
+<p><strong>Install Dependencies</strong>
+<code class="language-plaintext highlighter-rouge">RUN npm install</code> Installs Node.js dependencies from the package.json file.</p>
+
+<p><strong>Entry Point</strong>
+<code class="language-plaintext highlighter-rouge">ENTRYPOINT</code> Defines the command to execute when the container starts.</p>
+
+<h3 id="setting-up-docker-hub-credentials-in-jenkins">Setting Up Docker Hub Credentials In Jenkins</h3>
+
+<ol>
+  <li>Navigate to <code class="language-plaintext highlighter-rouge">Manage Jenkins</code> &gt; <code class="language-plaintext highlighter-rouge">Credentials</code></li>
+  <li>Click on <code class="language-plaintext highlighter-rouge">(global)</code> under Domains column.</li>
+  <li>Select Kind as <code class="language-plaintext highlighter-rouge">Username with password</code></li>
+  <li>Enter username and password of Docker Hub.</li>
+  <li>Enter ID (e.g., dockerhub-creds. This same id will be used to fetch username and password in the Jenkinsfile).</li>
+  <li>Click Create.</li>
+</ol>
+
+<h3 id="jenkins-pipeline-for-building-docker-image">Jenkins Pipeline for Building Docker Image</h3>
+
+<p>Create a <code class="language-plaintext highlighter-rouge">Jenkinsfile</code> in your project:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pipeline {
+    agent any
+
+    stages {
+        stage('Build Image') {
+            steps {
+                sh "docker build -t=&lt;username&gt;/playwright:latest ."
+            }
+        }
+
+        stage('Push Image') {
+            environment {
+                DOCKER_HUB = credentials('dockerhub-creds')
+            }
+            steps {
+                sh 'echo ${DOCKER_HUB_PSW} | docker login -u ${DOCKER_HUB_USR} --password-stdin'
+                sh "docker push &lt;username&gt;/playwright:latest"
+                sh "docker tag &lt;username&gt;/playwright:latest &lt;username&gt;/playwright:${env.BUILD_NUMBER}"
+                sh "docker push &lt;username&gt;/playwright:${env.BUILD_NUMBER}"
+            }
+        }
+    }
+
+    post {
+        always {
+            sh "docker logout"
+            sh "docker system prune -f"
+        }
+    }
+}
+</code></pre></div></div>
+
+<p><strong>Explanation</strong></p>
+
+<p><strong>Agents</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">agent any</code></p>
+
+<ul>
+  <li>Specifies that the pipeline can run on any available Jenkins agent.</li>
+</ul>
+
+<p><strong>Stages</strong></p>
+
+<p>The pipeline has two primary stages:</p>
+
+<p><code class="language-plaintext highlighter-rouge">stage('Build Image')</code></p>
+
+<ul>
+  <li>Builds a docker image from the Dockerfile in the current directory (.).</li>
+  <li>Tags the image as <code class="language-plaintext highlighter-rouge">&lt;username&gt;/playwright:latest</code>.</li>
+</ul>
+
+<blockquote class="blockquote">
+  <p>**Note: ** <code class="language-plaintext highlighter-rouge">&lt;username&gt;</code> refers to your Docker Hub username. Replace <code class="language-plaintext highlighter-rouge">&lt;username&gt;</code> with your actual Docker Hub username wherever it is mentioned.</p>
+</blockquote>
+
+<p><code class="language-plaintext highlighter-rouge">stage('Push Image')</code></p>
+
+<ul>
+  <li>Uses Jenkins credentials (dockerhub-creds) for authenticating with Docker Hub.
+    <ul>
+      <li>${DOCKER_HUB_USR}: The Docker Hub username.</li>
+      <li>${DOCKER_HUB_PSW}: The Docker Hub password.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">docker push &lt;username&gt;/playwright:latest</code> pushes the latest version of the Docker image to Docker Hub</li>
+  <li><code class="language-plaintext highlighter-rouge">docker tag &lt;username&gt;/playwright:latest &lt;username&gt;/playwright:${env.BUILD_NUMBER}</code> tags the image with the jenkins build number (e.g., 1, 2, etc.)</li>
+  <li><code class="language-plaintext highlighter-rouge">docker push &lt;username&gt;/playwright:${env.BUILD_NUMBER}</code> pushed the versioned image to Docker Hub</li>
+</ul>
+
+<p><strong>Post</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">post</code></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">docker logout</code> logs out from Docker Hub</li>
+  <li><code class="language-plaintext highlighter-rouge">docker system prune -f</code> cleans up unused docker data</li>
+</ul>
+
+<h3 id="building-a-docker-image-in-jenkins-pipeline">Building a Docker Image in Jenkins pipeline</h3>
+
+<p><strong>Create a New Pipeline</strong></p>
+
+<ol>
+  <li>Navigate to the Jenkins homepage and click on New Item.</li>
+  <li>Enter an Item Name (e.g., Playwright-Docker-Build) and select <code class="language-plaintext highlighter-rouge">Pipeline</code> and click OK.</li>
+  <li>Under Pipeline Definition, select <code class="language-plaintext highlighter-rouge">Pipeline script from SCM</code>.</li>
+  <li>Select SCM to <code class="language-plaintext highlighter-rouge">git</code>.</li>
+  <li>Provide the Repository URL. (<em>For private repositories, set up credentials for GitHub in Jenkins and select the credentials here.</em>)</li>
+  <li>Specify <code class="language-plaintext highlighter-rouge">Branch Specifier</code> for your repository. (e.g., <code class="language-plaintext highlighter-rouge">*/main</code>)</li>
+  <li>Under Additional Behaviours, choose <code class="language-plaintext highlighter-rouge">Clean before checkout</code>.</li>
+  <li>Set Script Path as <code class="language-plaintext highlighter-rouge">Jenkinsfile</code> (ensure the Jenkinsfile is located in the root directory of your repository).</li>
+  <li>Click on Save</li>
+</ol>
+
+<p><strong>Build the Image</strong></p>
+
+<ul>
+  <li>Click on <code class="language-plaintext highlighter-rouge">Build Now</code>.</li>
+  <li>Once the build is successful, verify your Docker Hub repository. A Docker image with the name <username>/playwright:latest should be pushed to your Docker Hub.</username></li>
+</ul>
+
+<h3 id="setting-up-jenkins-pipeline-for-running-tests">Setting Up Jenkins Pipeline for Running Tests</h3>
+
+<p>For running our tests, we will be creating a separate jenkins pipeline. Create another directory for running tests (e.g., playwright-runner) and include Jenkinsfile and Docker Compose file.</p>
+
+<p>In the root directory, create a <code class="language-plaintext highlighter-rouge">docker-compose.yml</code> file:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">services</span><span class="pi">:</span>
+    <span class="na">playwright-test</span><span class="pi">:</span>
+        <span class="na">image</span><span class="pi">:</span> <span class="s">&lt;username&gt;/playwright</span>
+        <span class="na">environment</span><span class="pi">:</span>
+            <span class="pi">-</span> <span class="s">TEST_TARGET</span>
+            <span class="pi">-</span> <span class="s">BROWSER_CHOICE</span>
+        <span class="na">volumes</span><span class="pi">:</span>
+            <span class="pi">-</span> <span class="s">./reports:/app/reports</span>
+</code></pre></div></div>
+
+<p><strong>Explanation</strong></p>
+
+<p><strong>Services</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">playwright-test</code>: defines the service</li>
+</ul>
+
+<p><strong>Image</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">image</code>: We will be using the prebuild image <code class="language-plaintext highlighter-rouge">&lt;username&gt;/playwright</code> which contains the Playwright test environment.</li>
+</ul>
+
+<p><strong>Environment Variables</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">environment</code>: Passes enviroment variables to the container.</li>
+  <li><code class="language-plaintext highlighter-rouge">TEST_TARGET</code>: This will be used to pass the specific tags to run the test.</li>
+  <li><code class="language-plaintext highlighter-rouge">BROWSER_CHOICE</code>: This will be used to pass the specific browser.</li>
+</ul>
+
+<p><strong>Volumes</strong>
+<code class="language-plaintext highlighter-rouge">volumes</code>: Mounts <code class="language-plaintext highlighter-rouge">./reports</code> directory on host to <code class="language-plaintext highlighter-rouge">/app/reports</code> directory on container.</p>
+
+<p>In the same directory, create a <code class="language-plaintext highlighter-rouge">Jenkinsfile</code> file:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pipeline {
+    agent any
+
+    parameters {
+        choice choices: ['login', 'smoke', 'regression', 'faker'], name: 'TEST_TARGET'
+        choice choices: ['chromium', 'firefox'], name: 'BROWSER_CHOICE'
+    }
+
+    stages {
+
+        stage('Run Test') {
+            steps {
+                sh "docker-compose up --pull=always"
+                script {
+                    def rerunExists = sh(script: '[ -f reports/rerun.txt ] &amp;&amp; [ -s reports/rerun.txt ]', returnStatus: true) == 0
+                    if(rerunExists) {
+                        error("Some tests failed.")
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            sh "docker-compose down"
+            archiveArtifacts artifacts: 'reports/*.html, reports/*.json', followSymlinks: false
+        }
+    }
+}
+</code></pre></div></div>
+
+<p><strong>Explanation</strong></p>
+
+<p><strong>Agent</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">agent any</code>: Run pipeline on any available agent.</li>
+</ul>
+
+<p><strong>Parameters</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">parameters</code>: Allows users to provide input when triggering the pipeline.</li>
+</ul>
+
+<p><strong>Stages</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">stage('Run Test')</code>: Defines the stage for the pipeline.</li>
+  <li><code class="language-plaintext highlighter-rouge">docker-compose up --pull=always</code>: Launches the Dockerized testing environment defined in the docker-compose.yml file pulling the latest image.</li>
+  <li><code class="language-plaintext highlighter-rouge">script</code>: Uses a shell script to check if the reports/rerun.txt file exists and is non-empty. If its not, the pipeline fails with an error.</li>
+</ul>
+
+<p><strong>Post</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">always</code>: Defines actions that are always executed regardless of the pipeline’s success or failure.</li>
+  <li><code class="language-plaintext highlighter-rouge">docker-compose down</code>: Shuts down the Docker containers and cleans up any associated resources.</li>
+  <li><code class="language-plaintext highlighter-rouge">archiveArtifacts artifacts</code>: Collects test reports (e.g., HTML and JSON files) from the reports directory and stores them in Jenkins as build artifacts.</li>
+</ul>
+
+<p>Now setup a github repository and push the code.</p>
+
+<h3 id="running-tests-in-jenkins">Running Tests in Jenkins</h3>
+
+<p><strong>Create New Pipeline</strong></p>
+
+<ol>
+  <li>Go to the Jenkins homepage and click on New Item.</li>
+  <li>Enter an Item Name (e.g., Playwright-Docker-Runner) and select <code class="language-plaintext highlighter-rouge">Pipeline</code> and click OK.</li>
+  <li>Under Pipeline Definition, select <code class="language-plaintext highlighter-rouge">Pipeline script from SCM</code>.</li>
+  <li>Select SCM as <code class="language-plaintext highlighter-rouge">git</code>.</li>
+  <li>Provide the Repository URL for <code class="language-plaintext highlighter-rouge">playwright-runner</code>. (<em>For private repositories, set up credentials for GitHub in Jenkins and select the credentials here.</em>)</li>
+  <li>Specify the <code class="language-plaintext highlighter-rouge">Branch Specifier</code> for your repository (e.g., <code class="language-plaintext highlighter-rouge">*/main</code>).</li>
+  <li>Under Additional Behaviours, choose <code class="language-plaintext highlighter-rouge">Clean before checkout</code>.</li>
+  <li>Set Script Path to <code class="language-plaintext highlighter-rouge">Jenkinsfile</code>. (<em>ensure the Jenkinsfile is located in the root directory of your repository</em>)</li>
+  <li>Click Save to create the pipeline.</li>
+</ol>
+
+<p><strong>Run Pipeline</strong></p>
+
+<p>Click Build Now.</p>
+
+<p><strong>Note:</strong> <em>The first build will run with the default parameters specified in the Jenkinsfile, as you will not be provided with parameter choices initially.</em></p>
+
+<p><strong>Run with Parameters</strong></p>
+
+<ul>
+  <li>After the initial pipeline execution, navigate back to your created pipeline (Playwright-Docker-Runner).</li>
+  <li>Click Build with Parameters.</li>
+  <li>Select the desired parameters and run the pipeline. This will execute all tests based on the provided parameters.</li>
+</ul>
+
+<p><strong>View Build Artifacts</strong></p>
+
+<p>Once the pipeline is executed, you can check the build artifacts attached to the pipeline job.</p>
+
+<hr />
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>This guide has covered the complete setup to run Playwright tests in a Jenkins pipeline using Docker. From configuring Jenkins with Docker to creating pipelines for building and running tests, each step ensures a streamlined and scalable testing process. Using this setup, you can integrate your Playwright tests seamlessly into your CI/CD pipeline and maintain a robust testing environment.</p>
+
+        <hr class="mt-5 border-3 border-info" />
+        <div class="pagination mt-2 d-flex">
+            
+            <a href="/access-dev-server-on-mobile" class="previous btn btn-light">
+                <i class="bi bi-arrow-left"></i> Previous Post
+            </a>
+             
+            <a href="/scrape-goodreads-using-python" class="next btn btn-light ms-auto"
+                >Next Post <i class="bi bi-arrow-right"></i
+            ></a>
+            
+        </div>
+    </div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="container my-4">
+    <div class="row justify-content-center">
+        <div
+            class="col-sm-12 col-md-12 col-lg-8 d-flex justify-content-between align-items-center"
+        >
+            <span class="word-spacing"
+                >Copyright &copy; 2024 | All rights reserved.</span
+            >
+            <div class="d-flex justify-content-center my-3">
+                <a
+                    href="https://www.instagram.com/banda_bekaar"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-instagram fs-5"></i>
+                </a>
+                <a
+                    href="https://github.com/bekaarcoder"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-github fs-5"></i>
+                </a>
+                <a
+                    href="https://twitter.com/banda_bekaar"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-twitter-x fs-5"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"
+        ></script>
+        <script src="/assets/js/scripts.js"></script>
+    </body>
+</html>

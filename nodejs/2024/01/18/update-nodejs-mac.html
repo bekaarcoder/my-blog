@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+    <head>
+        <!-- Google tag (gtag.js) -->
+        <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-1N56V15RFF"
+        ></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+
+            gtag('config', 'G-1N56V15RFF');
+        </script>
+        <!-- Mailchimp Popup -->
+        <!-- <script id="mcjs">
+            !(function (c, h, i, m, p) {
+                (m = c.createElement(h)),
+                    (p = c.getElementsByTagName(h)[0]),
+                    (m.async = 1),
+                    (m.src = i),
+                    p.parentNode.insertBefore(m, p);
+            })(
+                document,
+                'script',
+                'https://chimpstatic.com/mcjs-connected/js/users/1da7ef4fb504bc638638b0a1d/21e4762bfbe0285b3056a20b5.js'
+            );
+        </script> -->
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+            name="google-site-verification"
+            content="BO_YUQmMLrwJZdus7XuVa_Z_B-VLJP5pTTwsrnzN-ew"
+        />
+        <meta name="google-adsense-account" content="ca-pub-7156088348148191" />
+        <title>
+             Bekaarcoder&#39;s Blog - A Comprehensive Guide to Updating Node.js on macOS 
+        </title>
+        <link rel="stylesheet" href="/assets/css/syntax.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+        />
+        <link rel="stylesheet" href="/assets/css/main.css" />
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/apple-touch-icon.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/favicon-32x32.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/favicon-16x16.png"
+        />
+        <link rel="manifest" href="/site.webmanifest" />
+        <!-- Begin Jekyll SEO tag v2.8.0 -->
+<meta name="generator" content="Jekyll v4.3.4" />
+<meta property="og:title" content="A Comprehensive Guide to Updating Node.js on macOS" />
+<meta name="author" content="bekaarcoder" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Keeping your Node.js version up-to-date is crucial for leveraging the latest features and security enhancements. While updating on Windows is straightforward, updating Node.js on macOS may seem a bit more involved than on Windows, but fear not! In this guide, we’ll walk you through the process step by step." />
+<meta property="og:description" content="Keeping your Node.js version up-to-date is crucial for leveraging the latest features and security enhancements. While updating on Windows is straightforward, updating Node.js on macOS may seem a bit more involved than on Windows, but fear not! In this guide, we’ll walk you through the process step by step." />
+<link rel="canonical" href="https://bekaarcoder.xyz/nodejs/2024/01/18/update-nodejs-mac.html" />
+<meta property="og:url" content="https://bekaarcoder.xyz/nodejs/2024/01/18/update-nodejs-mac.html" />
+<meta property="og:site_name" content="Bekaarcoder’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-01-18T09:10:05+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="A Comprehensive Guide to Updating Node.js on macOS" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"bekaarcoder"},"dateModified":"2024-01-18T09:10:05+00:00","datePublished":"2024-01-18T09:10:05+00:00","description":"Keeping your Node.js version up-to-date is crucial for leveraging the latest features and security enhancements. While updating on Windows is straightforward, updating Node.js on macOS may seem a bit more involved than on Windows, but fear not! In this guide, we’ll walk you through the process step by step.","headline":"A Comprehensive Guide to Updating Node.js on macOS","mainEntityOfPage":{"@type":"WebPage","@id":"https://bekaarcoder.xyz/nodejs/2024/01/18/update-nodejs-mac.html"},"url":"https://bekaarcoder.xyz/nodejs/2024/01/18/update-nodejs-mac.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    </head>
+    <body>
+        <div class="container">
+    <div class="row justify-content-center">
+        <div class="col-sm-12 col-md-12 col-lg-8">
+            <nav class="navbar navbar-expand-lg">
+                <a class="navbar-brand" href="/"> Bekaarcoder's Blog </a>
+                <ul class="navbar-nav mb-lg-0 me-auto">
+                    <li class="nav-item">
+                        <button class="btn btn-sm" onclick="toggleTheme()">
+                            <i
+                                class="bi bi-brightness-high text-warning"
+                                id="theme-toggle"
+                            ></i>
+                        </button>
+                    </li>
+                </ul>
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div
+                    class="collapse navbar-collapse"
+                    id="navbarSupportedContent"
+                >
+                    <ul class="navbar-nav mb-2 ms-auto mb-lg-0">
+                            
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about/">
+                                 About 
+                            </a>
+                        </li>
+                            
+                        <li class="nav-item">
+                            <a class="nav-link" href="/categories/">
+                                 Categories 
+                            </a>
+                        </li>
+                              
+                        <li class="nav-item">
+                            <a class="nav-link" href="/search/">
+                                
+                                <i class="bi bi-search"></i>
+                                
+                            </a>
+                        </li>
+                                                                                                                                          
+                        <!-- <li class="nav-item">
+                            <button
+                                class="btn btn-sm mt-1 ms-2"
+                                onclick="toggleTheme()"
+                            >
+                                <i
+                                    class="bi bi-brightness-high text-warning"
+                                    id="theme-toggle"
+                                ></i>
+                            </button>
+                        </li> -->
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="row mt-4">
+                <div class="col-md-12"><div class="row justify-content-center mb-5">
+    <div class="col-sm-12 col-md-12 col-lg-8">
+        
+        <h2 class="display-4">A Comprehensive Guide to Updating Node.js on macOS</h2>
+        <div class="d-flex">
+            <p class="text-secondary"> January 18, 2024</p>
+            <p class="text-secondary ms-3">
+                <i class="bi bi-clock"></i> 1 minute read
+            </p>
+        </div>
+        <div class="mb-3">
+            
+            <span class="badge text-bg-success">
+                <a
+                    href="/categories/nodejs"
+                    class="text-reset text-decoration-none"
+                >
+                    Nodejs
+                </a>
+            </span>
+            
+        </div>
+        <p>Keeping your Node.js version up-to-date is crucial for leveraging the latest features and security enhancements. While updating on Windows is straightforward, updating Node.js on macOS may seem a bit more involved than on Windows, but fear not! In this guide, we’ll walk you through the process step by step.</p>
+
+<h2 id="step-1---check-your-nodejs-version">Step 1 - Check your Node.js version</h2>
+
+<p>Open you console/terminal and execute the following command::</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>node <span class="nt">-v</span>
+</code></pre></div></div>
+
+<p>This will display your current Node.js version as ‘v x.x.x.’</p>
+
+<h2 id="step-2---install-n-package-using-npm">Step 2 - Install ‘n’ package using npm</h2>
+
+<p>To make the update process smoother, we’ll use the ‘n’ package, a straightforward Node.js version manager. Execute the following command to install ‘n’ globally using npm:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>npm <span class="nb">install</span> <span class="nt">-g</span> n
+</code></pre></div></div>
+
+<h2 id="step-3---update-your-nodejs-version">Step 3 - Update your Node.js version</h2>
+
+<p>Now that ‘n’ is installed, updating Node.js is a breeze. Choose one of the following commands based on your preference:</p>
+
+<ul>
+  <li>
+    <p>To install the latest LTS Node.js release version:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>n lts
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>To install the latest Node.js release version</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>n latest
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>To install specific Node.js version</p>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>n x.x.x
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="step-4---verification">Step 4 - Verification</h2>
+
+<p>That’s it! Ensure the update was successful by checking your Node.js version again:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>node <span class="nt">-v</span>
+</code></pre></div></div>
+
+<p>The terminal should display the updated Node.js version as ‘v x.x.x.’</p>
+
+<p>Now you’re all set with the latest Node.js version, equipped to make the most of the newest features and improvements. Happy coding!</p>
+
+        <hr class="mt-5 border-3 border-info" />
+        <div class="pagination mt-2 d-flex">
+            
+            <a href="/jekyll/2023/12/29/adding-search-in-jekyll-website.html" class="previous btn btn-light">
+                <i class="bi bi-arrow-left"></i> Previous Post
+            </a>
+             
+            <a href="/mongodb-docker" class="next btn btn-light ms-auto"
+                >Next Post <i class="bi bi-arrow-right"></i
+            ></a>
+            
+        </div>
+    </div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="container my-4">
+    <div class="row justify-content-center">
+        <div
+            class="col-sm-12 col-md-12 col-lg-8 d-flex justify-content-between align-items-center"
+        >
+            <span class="word-spacing"
+                >Copyright &copy; 2024 | All rights reserved.</span
+            >
+            <div class="d-flex justify-content-center my-3">
+                <a
+                    href="https://www.instagram.com/banda_bekaar"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-instagram fs-5"></i>
+                </a>
+                <a
+                    href="https://github.com/bekaarcoder"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-github fs-5"></i>
+                </a>
+                <a
+                    href="https://twitter.com/banda_bekaar"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-twitter-x fs-5"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"
+        ></script>
+        <script src="/assets/js/scripts.js"></script>
+    </body>
+</html>
