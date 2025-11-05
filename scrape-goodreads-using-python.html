@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+    <head>
+        <!-- Google tag (gtag.js) -->
+        <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-1N56V15RFF"
+        ></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+
+            gtag('config', 'G-1N56V15RFF');
+        </script>
+        <!-- Mailchimp Popup -->
+        <!-- <script id="mcjs">
+            !(function (c, h, i, m, p) {
+                (m = c.createElement(h)),
+                    (p = c.getElementsByTagName(h)[0]),
+                    (m.async = 1),
+                    (m.src = i),
+                    p.parentNode.insertBefore(m, p);
+            })(
+                document,
+                'script',
+                'https://chimpstatic.com/mcjs-connected/js/users/1da7ef4fb504bc638638b0a1d/21e4762bfbe0285b3056a20b5.js'
+            );
+        </script> -->
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+            name="google-site-verification"
+            content="BO_YUQmMLrwJZdus7XuVa_Z_B-VLJP5pTTwsrnzN-ew"
+        />
+        <meta name="google-adsense-account" content="ca-pub-7156088348148191" />
+        <title>
+             Bekaarcoder&#39;s Blog - How to Scrape Data From Goodreads Using Python and BeautifulSoup 
+        </title>
+        <link rel="stylesheet" href="/assets/css/syntax.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+        />
+        <link rel="stylesheet" href="/assets/css/main.css" />
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/apple-touch-icon.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/favicon-32x32.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/favicon-16x16.png"
+        />
+        <link rel="manifest" href="/site.webmanifest" />
+        <!-- Begin Jekyll SEO tag v2.8.0 -->
+<meta name="generator" content="Jekyll v4.3.4" />
+<meta property="og:title" content="How to Scrape Data From Goodreads Using Python and BeautifulSoup" />
+<meta name="author" content="bekaarcoder" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Learn how to scrape Goodreads Choice Awards data using Python and BeautifulSoup. This step-by-step guide covers setup, data extraction, and saving information in a CSV file for analysis or applications." />
+<meta property="og:description" content="Learn how to scrape Goodreads Choice Awards data using Python and BeautifulSoup. This step-by-step guide covers setup, data extraction, and saving information in a CSV file for analysis or applications." />
+<link rel="canonical" href="https://bekaarcoder.xyz/scrape-goodreads-using-python" />
+<meta property="og:url" content="https://bekaarcoder.xyz/scrape-goodreads-using-python" />
+<meta property="og:site_name" content="Bekaarcoder’s Blog" />
+<meta property="og:image" content="https://bekaarcoder.xyz/assets/images/cover_image_2024-12-06.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-12-06T15:10:05+00:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="https://bekaarcoder.xyz/assets/images/cover_image_2024-12-06.png" />
+<meta property="twitter:title" content="How to Scrape Data From Goodreads Using Python and BeautifulSoup" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"bekaarcoder"},"dateModified":"2024-12-06T15:10:05+00:00","datePublished":"2024-12-06T15:10:05+00:00","description":"Learn how to scrape Goodreads Choice Awards data using Python and BeautifulSoup. This step-by-step guide covers setup, data extraction, and saving information in a CSV file for analysis or applications.","headline":"How to Scrape Data From Goodreads Using Python and BeautifulSoup","image":"https://bekaarcoder.xyz/assets/images/cover_image_2024-12-06.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://bekaarcoder.xyz/scrape-goodreads-using-python"},"url":"https://bekaarcoder.xyz/scrape-goodreads-using-python"}</script>
+<!-- End Jekyll SEO tag -->
+
+    </head>
+    <body>
+        <div class="container">
+    <div class="row justify-content-center">
+        <div class="col-sm-12 col-md-12 col-lg-8">
+            <nav class="navbar navbar-expand-lg">
+                <a class="navbar-brand" href="/"> Bekaarcoder's Blog </a>
+                <ul class="navbar-nav mb-lg-0 me-auto">
+                    <li class="nav-item">
+                        <button class="btn btn-sm" onclick="toggleTheme()">
+                            <i
+                                class="bi bi-brightness-high text-warning"
+                                id="theme-toggle"
+                            ></i>
+                        </button>
+                    </li>
+                </ul>
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div
+                    class="collapse navbar-collapse"
+                    id="navbarSupportedContent"
+                >
+                    <ul class="navbar-nav mb-2 ms-auto mb-lg-0">
+                            
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about/">
+                                 About 
+                            </a>
+                        </li>
+                            
+                        <li class="nav-item">
+                            <a class="nav-link" href="/categories/">
+                                 Categories 
+                            </a>
+                        </li>
+                              
+                        <li class="nav-item">
+                            <a class="nav-link" href="/search/">
+                                
+                                <i class="bi bi-search"></i>
+                                
+                            </a>
+                        </li>
+                                                                                                                                          
+                        <!-- <li class="nav-item">
+                            <button
+                                class="btn btn-sm mt-1 ms-2"
+                                onclick="toggleTheme()"
+                            >
+                                <i
+                                    class="bi bi-brightness-high text-warning"
+                                    id="theme-toggle"
+                                ></i>
+                            </button>
+                        </li> -->
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="row mt-4">
+                <div class="col-md-12"><div class="row justify-content-center mb-5">
+    <div class="col-sm-12 col-md-12 col-lg-8">
+        
+        <div class="my-3">
+            <img
+                src="/assets/images/cover_image_2024-12-06.png"
+                alt="cover_image"
+                class="rounded"
+                width="100%"
+            />
+        </div>
+        
+        <h2 class="display-4">How to Scrape Data From Goodreads Using Python and BeautifulSoup</h2>
+        <div class="d-flex">
+            <p class="text-secondary"> December 06, 2024</p>
+            <p class="text-secondary ms-3">
+                <i class="bi bi-clock"></i> 5 minutes read
+            </p>
+        </div>
+        <div class="mb-3">
+            
+            <span class="badge text-bg-success">
+                <a
+                    href="/categories/python"
+                    class="text-reset text-decoration-none"
+                >
+                    Python
+                </a>
+            </span>
+            
+            <span class="badge text-bg-success">
+                <a
+                    href="/categories/beautifulsoup"
+                    class="text-reset text-decoration-none"
+                >
+                    Beautifulsoup
+                </a>
+            </span>
+            
+            <span class="badge text-bg-success">
+                <a
+                    href="/categories/webscraping"
+                    class="text-reset text-decoration-none"
+                >
+                    Webscraping
+                </a>
+            </span>
+            
+        </div>
+        <p>Web scraping is a powerful tool for gathering data from websites. Whether you’re collecting product reviews, tracking prices, or, in our case, scraping Goodreads books, web scraping provides endless opportunities for data-driven applications.</p>
+
+<p>In this blog post, we’ll explore the fundamentals of web scraping, the power of the Python <code class="language-plaintext highlighter-rouge">BeautifulSoup</code> library, and break down a Python script designed to scrape Goodreads Choice Awards data. Finally, we’ll discuss how to store this data in a CSV file for further analysis or applications.</p>
+
+<p><strong>What is Goodreads?</strong></p>
+
+<p>Goodreads is the world’s largest platform for readers and book recommendations. It provides users with access to book reviews, author details, and popular rankings. Every year, Goodreads hosts the Goodreads Choice Awards, where readers vote for their favorite books across various genres like fiction, fantasy, romance, and more. This makes Goodreads an ideal target for web scraping to gather insights about trending books and authors.</p>
+
+<h3 id="what-is-web-scraping">What is Web Scraping?</h3>
+
+<p>Web scraping involves extracting data from websites in an automated manner. It allows you to collect and structure information for tasks such as:</p>
+
+<ul>
+  <li>Analyzing trends and patterns.</li>
+  <li>Aggregating content like reviews or articles.</li>
+  <li>Feeding machine learning models or databases.</li>
+</ul>
+
+<h2 id="setting-up-your-environment">Setting Up Your Environment</h2>
+
+<p>Before diving into the script, you need to install the necessary libraries.</p>
+
+<ol>
+  <li>
+    <p><strong>Install Python</strong></p>
+
+    <p>Make sure you have Python installed on your system.</p>
+  </li>
+  <li>
+    <p><strong>Install Required Libraries</strong></p>
+
+    <p>Install the required libraries using <code class="language-plaintext highlighter-rouge">pip</code>:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> pip <span class="nb">install </span>beautifulsoup4
+ pip <span class="nb">install </span>requests
+</code></pre></div>    </div>
+
+    <p><code class="language-plaintext highlighter-rouge">request</code>: Allows us to send HTTP requests to a URL and retrieve the web page’s content.</p>
+
+    <p><code class="language-plaintext highlighter-rouge">BeautifulSoup</code>: Simplifies HTML parsing and data extraction.</p>
+  </li>
+</ol>
+
+<p>Once these installations are complete, you’re ready to scraping!</p>
+
+<h3 id="introduction-to-beautifulsoup">Introduction to BeautifulSoup</h3>
+
+<p>BeautifulSoup is a Python library for parsing HTML and XML documents. It enables developers to navigate page structures, extract content, and transform raw HTML into a structured format.</p>
+
+<p><strong>Key Methods in BeautifulSoup</strong></p>
+
+<p>Here are a few essential methods that we will be using in our script:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">BeautifulSoup(html, 'html.parser')</code>: Initializes the parser and allows you to work with the HTML content.</li>
+  <li><code class="language-plaintext highlighter-rouge">soup.select(selector)</code>: Finds elements using CSS selectors, such as classes or tags.</li>
+  <li><code class="language-plaintext highlighter-rouge">soup.find(class_='class_name')</code>: Locates the first occurrence of an element with a specified class.</li>
+  <li><code class="language-plaintext highlighter-rouge">soup.find_parent(class_='class_name')</code>: Finds the parent tag of the current element.</li>
+  <li><code class="language-plaintext highlighter-rouge">soup.get('attribute')</code>: Retrieves the value of an attribute from an element, like href or src.</li>
+</ul>
+
+<p>For a complete list of methods, check out the <a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/">BeautifulSoup documentation</a>.</p>
+
+<h3 id="setting-up-the-script">Setting Up the Script</h3>
+
+<p>Let’s begin by importing the necessary libraries and defining custom headers to mimic a browser. This helps avoid getting blocked by the website.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span> <span class="k">as</span> <span class="n">bs</span>
+<span class="kn">import</span> <span class="n">requests</span>
+<span class="kn">import</span> <span class="n">re</span>
+<span class="kn">import</span> <span class="n">csv</span>
+
+<span class="n">HEADERS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="sh">"</span><span class="s">User-Agent</span><span class="sh">"</span><span class="p">:</span> <span class="sh">"</span><span class="s">Mozilla/5.0 (X11; Linux x86_64)...</span><span class="sh">"</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">Accept-Language</span><span class="sh">"</span><span class="p">:</span> <span class="sh">"</span><span class="s">en-US, en;q=0.5</span><span class="sh">"</span><span class="p">,</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="scraping-categories-and-books">Scraping Categories and Books</h3>
+
+<p>We start by defining the URLs for Goodreads’ Choice Awards page and the main application. We will send a request to <code class="language-plaintext highlighter-rouge">start_url</code> and get the web page’s content.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">app_url</span> <span class="o">=</span> <span class="sh">"</span><span class="s">https://www.goodreads.com</span><span class="sh">"</span>
+<span class="n">start_url</span> <span class="o">=</span> <span class="sh">"</span><span class="s">https://www.goodreads.com/choiceawards/best-books-2024</span><span class="sh">"</span>
+
+<span class="n">res</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="n">start_url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">HEADERS</span><span class="p">)</span>
+<span class="n">soup</span> <span class="o">=</span> <span class="nf">bs</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">text</span><span class="p">,</span> <span class="sh">'</span><span class="s">html.parser</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="n">categories</span> <span class="o">=</span> <span class="n">soup</span><span class="p">.</span><span class="nf">select</span><span class="p">(</span><span class="sh">'</span><span class="s">.category</span><span class="sh">'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Each category contains a genre and a link to its respective page. Using <code class="language-plaintext highlighter-rouge">soup.select</code>, we extract all categories listed under the <code class="language-plaintext highlighter-rouge">.category</code> class.</p>
+
+<p><img src="/assets/images/category_element.png" alt="Finding the parent category element" style="width:100%" /></p>
+
+<p>Next, iterate through each category to get the genre name and its page URL.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">category</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">categories</span><span class="p">):</span>
+    <span class="n">genre</span> <span class="o">=</span> <span class="n">category</span><span class="p">.</span><span class="nf">select</span><span class="p">(</span><span class="sh">'</span><span class="s">h4.category__copy</span><span class="sh">'</span><span class="p">)[</span><span class="mi">0</span><span class="p">].</span><span class="n">text</span><span class="p">.</span><span class="nf">strip</span><span class="p">()</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">category</span><span class="p">.</span><span class="nf">select</span><span class="p">(</span><span class="sh">'</span><span class="s">a</span><span class="sh">'</span><span class="p">)[</span><span class="mi">0</span><span class="p">].</span><span class="nf">get</span><span class="p">(</span><span class="sh">'</span><span class="s">href</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">category_url</span> <span class="o">=</span> <span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">app_url</span><span class="si">}{</span><span class="n">url</span><span class="si">}</span><span class="sh">"</span>
+</code></pre></div></div>
+
+<p>Here, we extract the category name (genre) and the category page URL for further processing.</p>
+
+<p>We will send another request to each <code class="language-plaintext highlighter-rouge">category_url</code> and locate all the books under that category.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">res</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="n">category_url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">HEADERS</span><span class="p">)</span>
+<span class="n">soup</span> <span class="o">=</span> <span class="nf">bs</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">text</span><span class="p">,</span> <span class="sh">'</span><span class="s">html.parser</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="n">category_books</span> <span class="o">=</span> <span class="n">soup</span><span class="p">.</span><span class="nf">select</span><span class="p">(</span><span class="sh">'</span><span class="s">.resultShown a.pollAnswer__bookLink</span><span class="sh">'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">category_books</code> will contain the list of all the books under the respective category.</p>
+
+<h3 id="extracting-book-data">Extracting Book Data</h3>
+
+<p>Once we have the list of books, we will be iterating over each books and extract the data.</p>
+
+<p><strong>Extract Votes</strong></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">book_index</span><span class="p">,</span> <span class="n">book</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">category_books</span><span class="p">):</span>
+    <span class="n">parent_tag</span> <span class="o">=</span> <span class="n">book</span><span class="p">.</span><span class="nf">find_parent</span><span class="p">(</span><span class="n">class_</span><span class="o">=</span><span class="sh">'</span><span class="s">resultShown</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">votes</span> <span class="o">=</span> <span class="n">parent_tag</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">class_</span><span class="o">=</span><span class="sh">'</span><span class="s">result</span><span class="sh">'</span><span class="p">).</span><span class="n">text</span><span class="p">.</span><span class="nf">strip</span><span class="p">()</span>
+    <span class="n">book_votes</span> <span class="o">=</span> <span class="nf">clean_string</span><span class="p">(</span><span class="n">votes</span><span class="p">).</span><span class="nf">split</span><span class="p">(</span><span class="sh">"</span><span class="s"> </span><span class="sh">"</span><span class="p">)[</span><span class="mi">0</span><span class="p">].</span><span class="nf">replace</span><span class="p">(</span><span class="sh">"</span><span class="s">,</span><span class="sh">"</span><span class="p">,</span> <span class="sh">""</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>If we see in the DOM, voting count is present in the parent element of the category element. So we need to use <code class="language-plaintext highlighter-rouge">find_parent</code> method to locate the element and extract the voting count.</p>
+
+<p><img src="/assets/images/vote_element.png" alt="Finding the parent vote element" style="width:100%" /></p>
+
+<p><strong>Extract Book Title, Author and Image URL</strong></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">book_url</span> <span class="o">=</span> <span class="n">book</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="sh">'</span><span class="s">href</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">book_url_formatted</span> <span class="o">=</span> <span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">app_url</span><span class="si">}{</span><span class="n">book_url</span><span class="si">}</span><span class="sh">"</span>
+<span class="n">book_img</span> <span class="o">=</span> <span class="n">book</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="sh">'</span><span class="s">img</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">book_img_url</span> <span class="o">=</span> <span class="n">book_img</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="sh">'</span><span class="s">src</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">book_img_alt</span> <span class="o">=</span> <span class="n">book_img</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="sh">'</span><span class="s">alt</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">book_title</span> <span class="o">=</span> <span class="nf">clean_string</span><span class="p">(</span><span class="n">book_img_alt</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">book_title</span><span class="p">)</span>
+<span class="n">book_name</span> <span class="o">=</span> <span class="n">book_title</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="sh">'</span><span class="s">by</span><span class="sh">'</span><span class="p">)[</span><span class="mi">0</span><span class="p">].</span><span class="nf">strip</span><span class="p">()</span>
+<span class="n">book_author</span> <span class="o">=</span> <span class="n">book_title</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="sh">'</span><span class="s">by</span><span class="sh">'</span><span class="p">)[</span><span class="mi">1</span><span class="p">].</span><span class="nf">strip</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Each book’s URL, cover image URL, title and author are extracted.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">clean_string</code> function ensures the title is neatly formatted. You can define it at the top of the script</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">clean_string</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
+    <span class="n">cleaned</span> <span class="o">=</span> <span class="n">re</span><span class="p">.</span><span class="nf">sub</span><span class="p">(</span><span class="sa">r</span><span class="sh">'</span><span class="s">\s+</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s"> </span><span class="sh">'</span><span class="p">,</span> <span class="n">string</span><span class="p">).</span><span class="nf">strip</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">cleaned</span>
+</code></pre></div></div>
+
+<p><strong>Extract More Book Details</strong></p>
+
+<p>To get more details about the book like rating, reviews, etc., we will be sending another request to <code class="language-plaintext highlighter-rouge">book_url_formatted</code>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">res</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="n">book_url_formatted</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">HEADERS</span><span class="p">)</span>
+<span class="n">soup</span> <span class="o">=</span> <span class="nf">bs</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">text</span><span class="p">,</span> <span class="sh">'</span><span class="s">html.parser</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="n">book_rating</span> <span class="o">=</span> <span class="n">soup</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">class_</span><span class="o">=</span><span class="sh">"</span><span class="s">RatingStatistics__rating</span><span class="sh">"</span><span class="p">).</span><span class="n">text</span><span class="p">.</span><span class="nf">strip</span><span class="p">()</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">book_rating</span><span class="p">)</span>
+
+<span class="n">book_ratings_reviews</span> <span class="o">=</span> <span class="n">soup</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">class_</span><span class="o">=</span><span class="sh">"</span><span class="s">RatingStatistics__meta</span><span class="sh">"</span><span class="p">).</span><span class="nf">get</span><span class="p">(</span><span class="sh">'</span><span class="s">aria-label</span><span class="sh">'</span><span class="p">).</span><span class="nf">strip</span><span class="p">()</span>
+<span class="n">book_ratings</span><span class="p">,</span> <span class="n">book_reviews</span> <span class="o">=</span> <span class="nf">get_ratings_reviews</span><span class="p">(</span><span class="n">book_ratings_reviews</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Ratings: </span><span class="si">{</span><span class="n">book_ratings</span><span class="si">}</span><span class="s">, Reviews: </span><span class="si">{</span><span class="n">book_reviews</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="n">book_description_elements</span> <span class="o">=</span> <span class="n">soup</span><span class="p">.</span><span class="nf">select</span><span class="p">(</span><span class="sh">'</span><span class="s">.BookPageMetadataSection__description .Formatted</span><span class="sh">'</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">book_description_elements</span><span class="p">:</span>
+    <span class="n">book_description</span> <span class="o">=</span> <span class="n">book_description_elements</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">text</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">book_description</span> <span class="o">=</span> <span class="sh">'</span><span class="s">No description found</span><span class="sh">'</span>
+</code></pre></div></div>
+
+<p>Here <code class="language-plaintext highlighter-rouge">get_ratings_reviews</code> returns the ratings and reviews text well formatted.</p>
+
+<p><img src="/assets/images/review_rating_element.png" alt="Rating and Reviews element" style="width:100%" /></p>
+
+<p>You can define this function at the top of the script.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">get_ratings_reviews</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="c1"># Find the substring for ratings
+</span>    <span class="n">ratings</span> <span class="o">=</span> <span class="n">text</span><span class="p">[:</span><span class="n">text</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="sh">"</span><span class="s"> ratings</span><span class="sh">"</span><span class="p">)].</span><span class="nf">replace</span><span class="p">(</span><span class="sh">"</span><span class="s">,</span><span class="sh">"</span><span class="p">,</span> <span class="sh">""</span><span class="p">)</span>
+
+    <span class="c1"># Find the substring for reviews
+</span>    <span class="n">reviews</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">text</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="sh">"</span><span class="s">and </span><span class="sh">"</span><span class="p">)</span> <span class="o">+</span> <span class="mi">4</span><span class="p">:</span><span class="n">text</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="sh">"</span><span class="s"> reviews</span><span class="sh">"</span><span class="p">)].</span><span class="nf">replace</span><span class="p">(</span><span class="sh">"</span><span class="s">,</span><span class="sh">"</span><span class="p">,</span> <span class="sh">""</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nf">int</span><span class="p">(</span><span class="n">ratings</span><span class="p">),</span> <span class="nf">int</span><span class="p">(</span><span class="n">reviews</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>By navigating to each book’s details page, additional information like ratings, reviews, and detailed descriptions is extracted. Here, we are also checking if book description element exists otherwise putting a default description so that the script does not fails.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">author_avatar_url_element</span> <span class="o">=</span> <span class="n">soup</span><span class="p">.</span><span class="nf">select</span><span class="p">(</span><span class="sh">'</span><span class="s">.PageSection .AuthorPreview a.Avatar img.Avatar__image</span><span class="sh">'</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">author_avatar_url_element</span><span class="p">:</span>
+    <span class="n">author_avatar_url</span> <span class="o">=</span> <span class="n">author_avatar_url_element</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">get</span><span class="p">(</span><span class="sh">'</span><span class="s">src</span><span class="sh">'</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">author_avatar_url</span> <span class="o">=</span> <span class="sh">'</span><span class="s">No Avatar found</span><span class="sh">'</span>
+
+<span class="n">author_description_element</span> <span class="o">=</span> <span class="n">soup</span><span class="p">.</span><span class="nf">select</span><span class="p">(</span><span class="sh">'</span><span class="s">.PageSection &gt; .TruncatedContent .Formatted</span><span class="sh">'</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">author_description_element</span><span class="p">:</span>
+    <span class="n">author_description</span> <span class="o">=</span> <span class="n">author_description_element</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">text</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">author_description</span> <span class="o">=</span> <span class="sh">'</span><span class="s">No description found</span><span class="sh">'</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="n">author_description</span><span class="p">)</span>
+
+<span class="n">bookPages</span> <span class="o">=</span> <span class="n">soup</span><span class="p">.</span><span class="nf">select_one</span><span class="p">(</span><span class="sh">"</span><span class="s">.FeaturedDetails p[data-testid=</span><span class="sh">'</span><span class="s">pagesFormat</span><span class="sh">'</span><span class="s">]</span><span class="sh">"</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">bookPages</span><span class="p">:</span>
+    <span class="n">pages_format</span> <span class="o">=</span> <span class="n">bookPages</span><span class="p">.</span><span class="n">text</span><span class="p">[:</span><span class="n">bookPages</span><span class="p">.</span><span class="n">text</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="sh">"</span><span class="s"> pages</span><span class="sh">"</span><span class="p">)]</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">pages_format</span> <span class="o">=</span> <span class="sh">"</span><span class="s">No pages found</span><span class="sh">"</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">pages_format</span><span class="p">)</span>
+
+<span class="n">publication_info</span> <span class="o">=</span> <span class="n">soup</span><span class="p">.</span><span class="nf">select_one</span><span class="p">(</span><span class="sh">"</span><span class="s">.FeaturedDetails p[data-testid=</span><span class="sh">'</span><span class="s">publicationInfo</span><span class="sh">'</span><span class="s">]</span><span class="sh">"</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">publication_info</span><span class="p">:</span>
+    <span class="n">publication</span> <span class="o">=</span> <span class="n">publication_info</span><span class="p">.</span><span class="n">text</span><span class="p">[</span><span class="mi">16</span><span class="p">:]</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">publication</span> <span class="o">=</span> <span class="sh">"</span><span class="s">No publication found</span><span class="sh">"</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">publication</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Here, we have also gathered author details, publication information and other metadata.</p>
+
+<p><strong>Create a Book Dictionary</strong></p>
+
+<p>Let’s store all the data we have extracted for a book in a dictionary.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">book_dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="sh">"</span><span class="s">category</span><span class="sh">"</span><span class="p">:</span> <span class="n">genre</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">votes</span><span class="sh">"</span><span class="p">:</span> <span class="n">book_votes</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">title</span><span class="sh">"</span><span class="p">:</span> <span class="n">book_name</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">description</span><span class="sh">"</span><span class="p">:</span> <span class="n">book_description</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">author_name</span><span class="sh">"</span><span class="p">:</span> <span class="n">book_author</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">author_about</span><span class="sh">"</span><span class="p">:</span> <span class="n">author_description</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">avatar_url</span><span class="sh">"</span><span class="p">:</span> <span class="n">author_avatar_url</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">pages</span><span class="sh">"</span><span class="p">:</span> <span class="n">pages_format</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">rating</span><span class="sh">"</span><span class="p">:</span> <span class="n">book_rating</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">ratings</span><span class="sh">"</span><span class="p">:</span> <span class="n">book_ratings</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">reviews</span><span class="sh">"</span><span class="p">:</span> <span class="n">book_reviews</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">publication_info</span><span class="sh">"</span><span class="p">:</span> <span class="n">publication</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">img_url</span><span class="sh">"</span><span class="p">:</span> <span class="n">book_img_url</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">book_url</span><span class="sh">"</span><span class="p">:</span> <span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">app_url</span><span class="si">}{</span><span class="n">book_url</span><span class="si">}</span><span class="sh">"</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>We will use this dictionary to add the data in a csv file.</p>
+
+<h3 id="storing-data-in-a-csv-file">Storing Data in a CSV File</h3>
+
+<p>We will use the <code class="language-plaintext highlighter-rouge">csv</code> module which is a part of Python’s standard library. So you don’t need to install it separately.</p>
+
+<p>First we need to check if this is the first entry. This check is required to add the header in the csv file in the first row.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">csv_filename</span> <span class="o">=</span> <span class="sh">"</span><span class="s">books.csv</span><span class="sh">"</span>
+
+<span class="k">if</span> <span class="n">index</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">book_index</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="n">csv_filename</span><span class="p">,</span> <span class="sh">"</span><span class="s">w</span><span class="sh">"</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="sh">""</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="sh">"</span><span class="s">utf-8</span><span class="sh">"</span><span class="p">)</span> <span class="k">as</span> <span class="n">csv_file</span><span class="p">:</span>
+        <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="p">.</span><span class="nc">DictWriter</span><span class="p">(</span><span class="n">csv_file</span><span class="p">,</span> <span class="n">fieldnames</span><span class="o">=</span><span class="n">book_dict</span><span class="p">.</span><span class="nf">keys</span><span class="p">())</span>
+        <span class="n">writer</span><span class="p">.</span><span class="nf">writeheader</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>We are using <code class="language-plaintext highlighter-rouge">mode="w"</code> which will create a new csv file with the header entry.</p>
+
+<p>Now for all subsequent entries, we will append the data to the CSV file:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="n">csv_filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="sh">"</span><span class="s">a</span><span class="sh">"</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="sh">""</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="sh">"</span><span class="s">utf-8</span><span class="sh">"</span><span class="p">)</span> <span class="k">as</span> <span class="n">csv_file</span><span class="p">:</span>
+    <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="p">.</span><span class="nc">DictWriter</span><span class="p">(</span><span class="n">csv_file</span><span class="p">,</span> <span class="n">fieldnames</span><span class="o">=</span><span class="n">book_dict</span><span class="p">.</span><span class="nf">keys</span><span class="p">())</span>
+    <span class="n">writer</span><span class="p">.</span><span class="nf">writerow</span><span class="p">(</span><span class="n">book_dict</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">mode="a"</code> will append the data to CSV file.</p>
+
+<p>Now, sit back, relax, and enjoy a cup of coffee ☕️ while the script runs.</p>
+
+<p>Once it’s done, the final data will look like this:</p>
+
+<p><img src="/assets/images/final_csv_data.png" alt="Final CSV File Data" style="width:100%" /></p>
+
+<p>You can find the complete source code in this <a href="https://github.com/bekaarcoder/goodreads-scraper">github repository</a>.</p>
+
+<hr />
+
+<h3 id="summary">Summary</h3>
+
+<p>We have learned how to scrape Goodreads data using Python and BeautifulSoup. Starting from basic setup to storing data in a CSV file, we explored every aspect of the scraping process. The scraped data can be used for:</p>
+
+<ul>
+  <li>Data visualization (e.g., most popular genres or authors).</li>
+  <li>Machine learning models to predict book popularity.</li>
+  <li>Building personal book recommendation systems.</li>
+</ul>
+
+<p>Web scraping opens up possibilities for creative data analysis and applications. With libraries like BeautifulSoup, even complex scraping tasks become manageable. Just remember to follow ethical practices and respect the website’s terms of service while scraping!</p>
+
+        <hr class="mt-5 border-3 border-info" />
+        <div class="pagination mt-2 d-flex">
+            
+            <a href="/running-playwright-tests-in-jenkins-using-docker" class="previous btn btn-light">
+                <i class="bi bi-arrow-left"></i> Previous Post
+            </a>
+             
+            <a href="/deploy-nodejs-app-on-raspberry-pi" class="next btn btn-light ms-auto"
+                >Next Post <i class="bi bi-arrow-right"></i
+            ></a>
+            
+        </div>
+    </div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="container my-4">
+    <div class="row justify-content-center">
+        <div
+            class="col-sm-12 col-md-12 col-lg-8 d-flex justify-content-between align-items-center"
+        >
+            <span class="word-spacing"
+                >Copyright &copy; 2024 | All rights reserved.</span
+            >
+            <div class="d-flex justify-content-center my-3">
+                <a
+                    href="https://www.instagram.com/banda_bekaar"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-instagram fs-5"></i>
+                </a>
+                <a
+                    href="https://github.com/bekaarcoder"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-github fs-5"></i>
+                </a>
+                <a
+                    href="https://twitter.com/banda_bekaar"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-twitter-x fs-5"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"
+        ></script>
+        <script src="/assets/js/scripts.js"></script>
+    </body>
+</html>

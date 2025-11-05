@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+    <head>
+        <!-- Google tag (gtag.js) -->
+        <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-1N56V15RFF"
+        ></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+
+            gtag('config', 'G-1N56V15RFF');
+        </script>
+        <!-- Mailchimp Popup -->
+        <!-- <script id="mcjs">
+            !(function (c, h, i, m, p) {
+                (m = c.createElement(h)),
+                    (p = c.getElementsByTagName(h)[0]),
+                    (m.async = 1),
+                    (m.src = i),
+                    p.parentNode.insertBefore(m, p);
+            })(
+                document,
+                'script',
+                'https://chimpstatic.com/mcjs-connected/js/users/1da7ef4fb504bc638638b0a1d/21e4762bfbe0285b3056a20b5.js'
+            );
+        </script> -->
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+            name="google-site-verification"
+            content="BO_YUQmMLrwJZdus7XuVa_Z_B-VLJP5pTTwsrnzN-ew"
+        />
+        <meta name="google-adsense-account" content="ca-pub-7156088348148191" />
+        <title>
+             Bekaarcoder&#39;s Blog - Running Playwright Tests in Gitlab CI 
+        </title>
+        <link rel="stylesheet" href="/assets/css/syntax.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+        />
+        <link rel="stylesheet" href="/assets/css/main.css" />
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/apple-touch-icon.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/favicon-32x32.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/favicon-16x16.png"
+        />
+        <link rel="manifest" href="/site.webmanifest" />
+        <!-- Begin Jekyll SEO tag v2.8.0 -->
+<meta name="generator" content="Jekyll v4.3.4" />
+<meta property="og:title" content="Running Playwright Tests in Gitlab CI" />
+<meta name="author" content="bekaarcoder" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="In this guide, we will setup and run Playwright automation tests in Gitlab CI. We will also publish the HTML report in the Gitlab CI pipeline." />
+<meta property="og:description" content="In this guide, we will setup and run Playwright automation tests in Gitlab CI. We will also publish the HTML report in the Gitlab CI pipeline." />
+<link rel="canonical" href="https://bekaarcoder.xyz/running-playwright-test-gitlabci" />
+<meta property="og:url" content="https://bekaarcoder.xyz/running-playwright-test-gitlabci" />
+<meta property="og:site_name" content="Bekaarcoder’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-11-07T17:10:05+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Running Playwright Tests in Gitlab CI" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"bekaarcoder"},"dateModified":"2023-11-07T17:10:05+00:00","datePublished":"2023-11-07T17:10:05+00:00","description":"In this guide, we will setup and run Playwright automation tests in Gitlab CI. We will also publish the HTML report in the Gitlab CI pipeline.","headline":"Running Playwright Tests in Gitlab CI","mainEntityOfPage":{"@type":"WebPage","@id":"https://bekaarcoder.xyz/running-playwright-test-gitlabci"},"url":"https://bekaarcoder.xyz/running-playwright-test-gitlabci"}</script>
+<!-- End Jekyll SEO tag -->
+
+    </head>
+    <body>
+        <div class="container">
+    <div class="row justify-content-center">
+        <div class="col-sm-12 col-md-12 col-lg-8">
+            <nav class="navbar navbar-expand-lg">
+                <a class="navbar-brand" href="/"> Bekaarcoder's Blog </a>
+                <ul class="navbar-nav mb-lg-0 me-auto">
+                    <li class="nav-item">
+                        <button class="btn btn-sm" onclick="toggleTheme()">
+                            <i
+                                class="bi bi-brightness-high text-warning"
+                                id="theme-toggle"
+                            ></i>
+                        </button>
+                    </li>
+                </ul>
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div
+                    class="collapse navbar-collapse"
+                    id="navbarSupportedContent"
+                >
+                    <ul class="navbar-nav mb-2 ms-auto mb-lg-0">
+                            
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about/">
+                                 About 
+                            </a>
+                        </li>
+                            
+                        <li class="nav-item">
+                            <a class="nav-link" href="/categories/">
+                                 Categories 
+                            </a>
+                        </li>
+                              
+                        <li class="nav-item">
+                            <a class="nav-link" href="/search/">
+                                
+                                <i class="bi bi-search"></i>
+                                
+                            </a>
+                        </li>
+                                                                                                                                          
+                        <!-- <li class="nav-item">
+                            <button
+                                class="btn btn-sm mt-1 ms-2"
+                                onclick="toggleTheme()"
+                            >
+                                <i
+                                    class="bi bi-brightness-high text-warning"
+                                    id="theme-toggle"
+                                ></i>
+                            </button>
+                        </li> -->
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="row mt-4">
+                <div class="col-md-12"><div class="row justify-content-center mb-5">
+    <div class="col-sm-12 col-md-12 col-lg-8">
+        
+        <h2 class="display-4">Running Playwright Tests in Gitlab CI</h2>
+        <div class="d-flex">
+            <p class="text-secondary"> November 07, 2023</p>
+            <p class="text-secondary ms-3">
+                <i class="bi bi-clock"></i> 2 minutes read
+            </p>
+        </div>
+        <div class="mb-3">
+            
+            <span class="badge text-bg-success">
+                <a
+                    href="/categories/playwright"
+                    class="text-reset text-decoration-none"
+                >
+                    Playwright
+                </a>
+            </span>
+            
+            <span class="badge text-bg-success">
+                <a
+                    href="/categories/gitlab"
+                    class="text-reset text-decoration-none"
+                >
+                    Gitlab
+                </a>
+            </span>
+            
+        </div>
+        <p>In this guide, we will setup and run Playwright automation tests in Gitlab CI. We will also publish the HTML report in the Gitlab CI pipeline.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<p>To setup Gitlab CI for playwright test automation, we need the following:</p>
+
+<ul>
+  <li>Gitlab account</li>
+  <li>Gitlab repository for the project</li>
+  <li>Playwright test automation suite setup for the project.</li>
+</ul>
+
+<p>To get started, you can follow this <a href="/setting-up-playwright">guide</a> to create a basic playwright project.</p>
+
+<h2 id="setup-gitlab-ci-pipeline">Setup Gitlab CI Pipeline</h2>
+
+<p>To setup the Gitlab CI pipeline, create a <code class="language-plaintext highlighter-rouge">.gitlab-ci.yml</code> file in the root of the project.</p>
+
+<p>Paste the following code into this file.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">stages</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">test</span>
+
+<span class="na">e2e tests</span><span class="pi">:</span>
+    <span class="na">stage</span><span class="pi">:</span> <span class="s">test</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">mcr.microsoft.com/playwright:v1.39.0-jammy</span>
+    <span class="na">script</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="s">npm ci</span>
+        <span class="pi">-</span> <span class="s">npm run test:e2e</span>
+    <span class="na">artifacts</span><span class="pi">:</span>
+        <span class="na">when</span><span class="pi">:</span> <span class="s">always</span>
+        <span class="na">paths</span><span class="pi">:</span>
+            <span class="pi">-</span> <span class="s">playwright-report/</span>
+            <span class="pi">-</span> <span class="s">test-results/</span>
+</code></pre></div></div>
+
+<p>We have defined a single stage called <code class="language-plaintext highlighter-rouge">test</code> and a single job called <code class="language-plaintext highlighter-rouge">e2e tests</code>.<br />
+We are using the latest version of Playwright docker image <code class="language-plaintext highlighter-rouge">mcr.microsoft.com/playwright:v1.39.0-jammy</code>.<br />
+In the <code class="language-plaintext highlighter-rouge">script</code> section, we are running two commands:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">npm ci</code> - This will install all the dependencies of the project.</li>
+  <li><code class="language-plaintext highlighter-rouge">npm run test:e2e</code> - This will run all the tests.</li>
+</ul>
+
+<blockquote class="blockquote">
+  <p>As I have created a separate script in the package.json file for running the tests, so I am using <code class="language-plaintext highlighter-rouge">npm run test:e2e</code>.<br />
+You can also replace the second command with <code class="language-plaintext highlighter-rouge">npx playwright test</code> if you want to use the default playwright configuration file <code class="language-plaintext highlighter-rouge">playwright.config.ts</code>.</p>
+</blockquote>
+
+<p>To publish the HTML report in the Gitlab CI, we have added the <code class="language-plaintext highlighter-rouge">artifacts</code> section in the <code class="language-plaintext highlighter-rouge">.gitlab-ci.yml</code> file.<br />
+If you check inside the <code class="language-plaintext highlighter-rouge">playwright.config.ts</code>, you will find the following settings:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">reporter</span><span class="p">:</span> <span class="dl">'</span><span class="s1">html</span><span class="dl">'</span><span class="p">,</span>
+</code></pre></div></div>
+
+<p>This means an HTML report is getting generated for the tests. The reports and test results are generated in the folder <code class="language-plaintext highlighter-rouge">playwright-report</code> and <code class="language-plaintext highlighter-rouge">test-results</code>. So we have provided the <code class="language-plaintext highlighter-rouge">paths</code> in the <code class="language-plaintext highlighter-rouge">artifacts</code>. This will save the test reports in Gitlab CI after the tests are executed in the pipeline.</p>
+
+<h2 id="running-tests-on-gitlab-ci">Running Tests On Gitlab CI</h2>
+
+<p>Once you have added the <code class="language-plaintext highlighter-rouge">.gitlab-ci.yml</code> file, commit and push the changes to your repository. When you push the changes, Gitlab CI will automatically run the job in the pipeline.</p>
+
+<p><img src="/assets/images/playwright-gitlab-ci.png" alt="Gitlab CI Pipeline" style="width:100%" />
+<!-- ![Gitlab CI Pipeline](/assets/images/playwright-gitlab-ci.png) --></p>
+
+<p>To see the HTML report, you can download or browse the artifacts and open the <code class="language-plaintext highlighter-rouge">index.html</code> file inside the folder <code class="language-plaintext highlighter-rouge">playwright-report</code>. You will see the similar report as per the below screenshot.</p>
+
+<p><img src="/assets/images/gitlab-ci-artifact.png" alt="Playwright automation tests HTML report" style="width:100%" />
+<!-- ![Gitlab CI Artifact](/assets/images/gitlab-ci-artifact.png 'Playwright Automation Tests HTML Report') --></p>
+
+        <hr class="mt-5 border-3 border-info" />
+        <div class="pagination mt-2 d-flex">
+            
+            <a href="/deploy-jekyll-github-actions" class="previous btn btn-light">
+                <i class="bi bi-arrow-left"></i> Previous Post
+            </a>
+             
+            <a href="/playwright-cucumber-ts-setup" class="next btn btn-light ms-auto"
+                >Next Post <i class="bi bi-arrow-right"></i
+            ></a>
+            
+        </div>
+    </div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="container my-4">
+    <div class="row justify-content-center">
+        <div
+            class="col-sm-12 col-md-12 col-lg-8 d-flex justify-content-between align-items-center"
+        >
+            <span class="word-spacing"
+                >Copyright &copy; 2024 | All rights reserved.</span
+            >
+            <div class="d-flex justify-content-center my-3">
+                <a
+                    href="https://www.instagram.com/banda_bekaar"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-instagram fs-5"></i>
+                </a>
+                <a
+                    href="https://github.com/bekaarcoder"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-github fs-5"></i>
+                </a>
+                <a
+                    href="https://twitter.com/banda_bekaar"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-twitter-x fs-5"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"
+        ></script>
+        <script src="/assets/js/scripts.js"></script>
+    </body>
+</html>

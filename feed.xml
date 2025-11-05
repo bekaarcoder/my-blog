@@ -1,0 +1,2048 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://bekaarcoder.xyz/feed.xml" rel="self" type="application/atom+xml" /><link href="https://bekaarcoder.xyz/" rel="alternate" type="text/html" /><updated>2025-11-05T04:49:18+00:00</updated><id>https://bekaarcoder.xyz/feed.xml</id><title type="html">Bekaarcoder’s Blog</title><subtitle>Welcome to bekaarcoder&apos;s blog</subtitle><author><name>bekaarcoder</name></author><entry><title type="html">How to Host Multiple Sites Under One Domain Using GitHub Pages and Subdomains</title><link href="https://bekaarcoder.xyz/github-pages-subdomains-setup" rel="alternate" type="text/html" title="How to Host Multiple Sites Under One Domain Using GitHub Pages and Subdomains" /><published>2025-08-15T04:10:05+00:00</published><updated>2025-08-15T04:10:05+00:00</updated><id>https://bekaarcoder.xyz/custom-domain-github</id><content type="html" xml:base="https://bekaarcoder.xyz/github-pages-subdomains-setup"><![CDATA[<p>If you own a custom domain, you can serve multiple sites from it — one on the main domain and others on subdomains — using GitHub Pages for free.</p>
+
+<p>In this guide, I’ll show you how did I set up my portfolio on <a href="https://shashank.im">shashank.im</a> and my blog on <a href="https://blog.shashank.im">blog.shashank.im</a>, both hosted on different GitHub repositories.</p>
+
+<blockquote class="blockquote">
+  <p>Wherever I’ve used <code class="language-plaintext highlighter-rouge">shashank.im</code> or <code class="language-plaintext highlighter-rouge">blog.shashank.im</code> in this guide, replace them with your own custom domain and subdomains.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="why-use-subdomains">Why Use Subdomains?</h2>
+
+<p>Subdomains let you keep different projects separated but still under your main brand. For example:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>shashank.im             → Portfolio
+blog.shashank.im        → Blog
+projects.shashank.im    → Side Projects
+resume.shashank.im      → Interactive Resume
+</code></pre></div></div>
+
+<p>Each subdomain can have its own GitHub Pages site, making it easy to maintain and update independently.</p>
+
+<hr />
+
+<h2 id="step-1--set-up-dns-records">Step 1 — Set Up DNS Records</h2>
+
+<p>Log into your domain registrar (the place where you bought your domain) and edit the DNS settings.</p>
+
+<h4 id="for-the-root-domain-shashankim">For the root domain (shashank.im)</h4>
+
+<p>Add four <code class="language-plaintext highlighter-rouge">A</code> records pointing to GitHub Pages IP addresses:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>A   @   185.199.108.153
+A   @   185.199.109.153
+A   @   185.199.110.153
+A   @   185.199.111.153
+</code></pre></div></div>
+
+<h4 id="for-the-blog-subdomain-blogshashankim">For the blog subdomain (blog.shashank.im)</h4>
+
+<p>Add a CNAME record:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CNAME   blog   &lt;your-github-username&gt;.github.io
+</code></pre></div></div>
+
+<p>Replace <code class="language-plaintext highlighter-rouge">&lt;your-github-username&gt;</code> with your GitHub username.</p>
+
+<p>(Optional) If you want www.shashank.im to work:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CNAME   www   &lt;your-github-username&gt;.github.io
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="step-2--configure-github-pages-for-each-site">Step 2 — Configure GitHub Pages for Each Site</h2>
+
+<h4 id="portfolio-repository">Portfolio Repository</h4>
+
+<ol>
+  <li>On your Github repository, Go to Settings → Pages.</li>
+  <li>Set the source branch (usually main).</li>
+  <li>Enter <code class="language-plaintext highlighter-rouge">shashank.im</code> as the custom domain.</li>
+  <li>Create a file named CNAME in the repo root containing:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> shashank.im
+</code></pre></div>    </div>
+  </li>
+  <li>Enable <code class="language-plaintext highlighter-rouge">Enforce HTTPS</code>.</li>
+</ol>
+
+<h4 id="blog-repository">Blog Repository</h4>
+
+<ol>
+  <li>Go to Settings → Pages.</li>
+  <li>Set the source branch.</li>
+  <li>Enter <code class="language-plaintext highlighter-rouge">blog.shashank.im</code> as the custom domain.</li>
+  <li>Create a file named CNAME in the repo root containing:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> blog.shashank.im
+</code></pre></div>    </div>
+  </li>
+  <li>Enable <code class="language-plaintext highlighter-rouge">Enforce HTTPS</code>.</li>
+</ol>
+
+<hr />
+
+<h2 id="step-3--verify-the-setup">Step 3 — Verify the Setup</h2>
+
+<p>After DNS changes propagate (usually within an hour but can take up to 24 hours):</p>
+
+<ol>
+  <li>
+    <p>Visit <code class="language-plaintext highlighter-rouge">shashank.im</code> → Portfolio loads.</p>
+  </li>
+  <li>
+    <p>Visit <code class="language-plaintext highlighter-rouge">blog.shashank.im</code> → Blog loads.</p>
+  </li>
+</ol>
+
+<hr />
+
+<h2 id="managing-multiple-subdomains">Managing Multiple Subdomains</h2>
+
+<p>If you plan to add more:</p>
+
+<ul>
+  <li>Create one repo per subdomain.</li>
+  <li>Add a matching CNAME record in DNS.</li>
+  <li>Set the same custom domain in repo settings.</li>
+  <li>Add a CNAME file to the repo.</li>
+</ul>
+
+<p>There’s no strict technical limit to subdomains — you can add as many as your DNS provider allows.</p>
+
+<hr />
+
+<h2 id="summary">Summary</h2>
+
+<p>By following this guide, you’ve successfully linked your portfolio and blog under a single domain name, both secured with HTTPS and managed easily through GitHub Pages.
+Now you can grow your personal brand under one domain, hosting multiple sites for free with GitHub Pages.</p>]]></content><author><name>bekaarcoder</name></author><category term="githubpages" /><category term="subdomains" /><category term="hosting" /><summary type="html"><![CDATA[Step-by-step guide to hosting your main site and multiple subdomains using GitHub Pages, with a custom domain.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://bekaarcoder.xyz/assets/images/cover_image_2025-08-15.png" /><media:content medium="image" url="https://bekaarcoder.xyz/assets/images/cover_image_2025-08-15.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Setup Jellyfin On Raspberry Pi - Home Media Server</title><link href="https://bekaarcoder.xyz/setup-jellyfin-on-raspberry-pi" rel="alternate" type="text/html" title="Setup Jellyfin On Raspberry Pi - Home Media Server" /><published>2025-04-20T04:10:05+00:00</published><updated>2025-04-20T04:10:05+00:00</updated><id>https://bekaarcoder.xyz/jellyfin-setup-ubuntu-raspberrypi</id><content type="html" xml:base="https://bekaarcoder.xyz/setup-jellyfin-on-raspberry-pi"><![CDATA[<p>In this guide, we’ll walk through setting up a personal media server using <code class="language-plaintext highlighter-rouge">Jellyfin</code> on a Raspberry Pi 5 running Ubuntu 24.04. We’ll configure a USB drive as the media storage, mount it properly, auto-mount it at boot, and set up Samba so you can transfer media from your PC or laptop over the network. Great for anyone wanting a self-hosted Netflix-like experience.</p>
+
+<hr />
+
+<h2 id="setting-up-jellyfin-media-server">Setting Up Jellyfin Media Server</h2>
+
+<h3 id="-step-1-install-jellyfin">📦 Step 1: Install Jellyfin</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt update
+curl <span class="nt">-s</span> https://repo.jellyfin.org/install-debuntu.sh | <span class="nb">sudo </span>bash
+</code></pre></div></div>
+
+<p>Once installed, Jellyfin runs on port <code class="language-plaintext highlighter-rouge">8096</code> by default.</p>
+
+<p>Open it in your browser:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://&lt;your-pi-ip&gt;:8096
+</code></pre></div></div>
+
+<p>Before setting up Jellyfin, lets go through other steps to add the media folders in Jellyfin server.</p>
+
+<hr />
+
+<h3 id="-step-2-connect-your-usb-drive">🔌 Step 2: Connect Your USB Drive</h3>
+
+<ol>
+  <li>Plug in your USB drive.</li>
+  <li>Ubuntu may <strong>auto-mount it</strong> under:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> /media/&lt;your-username&gt;/&lt;usb-name&gt;
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>👉 This location is fine temporarily, but it can <strong>change</strong> or fail to mount after a reboot — which is <strong>not reliable</strong> for a media server.</p>
+
+<hr />
+
+<h3 id="-step-3-identify-the-usb-drive-and-its-filesystem">🔍 Step 3: Identify the USB Drive and Its Filesystem</h3>
+
+<p>To list connected drives:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lsblk
+</code></pre></div></div>
+
+<p>To get UUID and filesystem type:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>blkid
+</code></pre></div></div>
+
+<p>Look for your USB device, something like:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/dev/sda1: UUID="1234-ABCD" TYPE="exfat"
+</code></pre></div></div>
+
+<p>Copy the <strong>UUID</strong> and note the <strong>TYPE</strong> (e.g., <code class="language-plaintext highlighter-rouge">exfat</code>, <code class="language-plaintext highlighter-rouge">ntfs</code>, <code class="language-plaintext highlighter-rouge">ext4</code>, or <code class="language-plaintext highlighter-rouge">vfat</code>).</p>
+
+<hr />
+
+<h3 id="-step-4-create-a-permanent-mount-point">📂 Step 4: Create a Permanent Mount Point</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo mkdir</span> <span class="nt">-p</span> /media/usbdrive
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">usbdrive</code> can be anything. You can use your actual usb drive name for this.</p>
+
+<hr />
+
+<h3 id="-step-5-install-filesystem-support-if-needed">🛠 Step 5: Install Filesystem Support (if needed)</h3>
+
+<p>For <code class="language-plaintext highlighter-rouge">exFAT</code>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt <span class="nb">install </span>exfat-fuse exfatprogs
+</code></pre></div></div>
+
+<p>For <code class="language-plaintext highlighter-rouge">NTFS</code>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt <span class="nb">install </span>ntfs-3g
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="️-step-6-configure-auto-mount-with-etcfstab-based-on-filesystem-type">⚙️ Step 6: Configure Auto-Mount with <code class="language-plaintext highlighter-rouge">/etc/fstab</code> (Based on Filesystem Type)</h3>
+
+<p>Edit your fstab:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /etc/fstab
+</code></pre></div></div>
+
+<h4 id="-for-exfat-drives">✅ For <code class="language-plaintext highlighter-rouge">exfat</code> drives:</h4>
+
+<pre><code class="language-fstab">UUID=1234-ABCD /media/usbdrive exfat uid=jellyfin,gid=jellyfin,umask=0022,nofail,x-systemd.automount 0 0
+</code></pre>
+
+<h4 id="-for-ext4-drives">✅ For <code class="language-plaintext highlighter-rouge">ext4</code> drives:</h4>
+
+<pre><code class="language-fstab">UUID=1234-ABCD /media/usbdrive ext4 defaults,nofail,x-systemd.automount 0 2
+</code></pre>
+
+<h4 id="-for-ntfs-drives">✅ For <code class="language-plaintext highlighter-rouge">ntfs</code> drives:</h4>
+
+<pre><code class="language-fstab">UUID=1234-ABCD /media/usbdrive ntfs-3g uid=jellyfin,gid=jellyfin,umask=0022,nofail,x-systemd.automount 0 0
+</code></pre>
+
+<h4 id="-for-vfat-fat32-drives">✅ For <code class="language-plaintext highlighter-rouge">vfat</code> (FAT32) drives:</h4>
+
+<pre><code class="language-fstab">UUID=1234-ABCD /media/usbdrive vfat uid=jellyfin,gid=jellyfin,umask=0022,nofail,x-systemd.automount 0 0
+</code></pre>
+
+<p>After saving, mount all drives:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>mount <span class="nt">-a</span>
+</code></pre></div></div>
+
+<p>Check if the drive mounted:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">ls</span> /media/usbdrive
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="-step-7-fix-permissions-if-needed">🔑 Step 7: Fix Permissions (if needed)</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo chown</span> <span class="nt">-R</span> jellyfin:jellyfin /media/usbdrive
+<span class="nb">sudo chmod</span> <span class="nt">-R</span> 755 /media/usbdrive
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="-step-8-add-usb-folder-to-jellyfin">🎞 Step 8: Add USB Folder to Jellyfin</h3>
+
+<ol>
+  <li>Open <code class="language-plaintext highlighter-rouge">http://&lt;your-pi-ip&gt;:8096</code></li>
+  <li>Go to <strong>Dashboard → Libraries</strong></li>
+  <li>Create a new library (e.g. “Movies”)</li>
+  <li>Set the path to:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> /media/usbdrive
+</code></pre></div>    </div>
+  </li>
+  <li>Save and scan the library</li>
+</ol>
+
+<blockquote class="blockquote">
+  <p>If you’re more old-school, you can simply disconnect the USB drive from your Raspberry Pi and connect it to another laptop to transfer files. But if you’d prefer to avoid that hassle and transfer files over the network, stick around — we’ll set up a Samba server to make file sharing seamless and easy.</p>
+</blockquote>
+
+<h2 id="transfering-files">Transfering Files</h2>
+
+<p>We can install Samba on Ubuntu to access the USB drive over the network from other PCs or laptops. However, currently only the <code class="language-plaintext highlighter-rouge">jellyfin</code> user has full permission to modify or delete files on the USB drive.</p>
+
+<p>To fix this, we’ll create a shared group, add both the <code class="language-plaintext highlighter-rouge">jellyfin</code> and <code class="language-plaintext highlighter-rouge">pi</code> users to it, and then mount the USB drive using this shared group to ensure proper access for both users.</p>
+
+<h3 id="-step-9-mount-usb-drive-as-a-shared-group">📁 Step 9. Mount USB Drive as a Shared Group</h3>
+
+<ol>
+  <li>
+    <p>Create and assign group:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>groupadd media
+ <span class="nb">sudo </span>usermod <span class="nt">-aG</span> media pi
+ <span class="nb">sudo </span>usermod <span class="nt">-aG</span> media jellyfin
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>FSTAB entry:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">UUID</span><span class="o">=</span>XXXX-XXXX  /media/usbdrive  exfat  defaults,uid<span class="o">=</span>pi,gid<span class="o">=</span>media,umask<span class="o">=</span>0002,nofail,x-systemd.automount  0  0
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Reload:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>umount /media/usbdrive
+ <span class="nb">sudo </span>mount <span class="nt">-a</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>To check ownership:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">ls</span> <span class="nt">-ld</span> /media/usbdrive
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="-step-10-set-up-samba-for-file-transfers">🌐 Step 10. Set up Samba for File Transfers</h3>
+
+<ol>
+  <li>
+    <p>Install Samba:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>apt <span class="nb">install </span>samba samba-common-bin
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Create a new config block at the end of <code class="language-plaintext highlighter-rouge">/etc/samba/smb.conf</code>:</p>
+
+    <p>Run:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>nano /etc/samba/smb.conf
+</code></pre></div>    </div>
+
+    <p>Add the below config</p>
+
+    <div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nn">[usbonpi]</span>
+   <span class="py">path</span> <span class="p">=</span> <span class="s">/media/usbdrive</span>
+   <span class="py">writeable</span> <span class="p">=</span> <span class="s">yes</span>
+   <span class="py">browseable</span> <span class="p">=</span> <span class="s">yes</span>
+   <span class="py">public</span> <span class="p">=</span> <span class="s">no</span>
+   <span class="err">read</span> <span class="py">only</span> <span class="p">=</span> <span class="s">no</span>
+   <span class="err">guest</span> <span class="py">ok</span> <span class="p">=</span> <span class="s">no</span>
+   <span class="err">force</span> <span class="py">user</span> <span class="p">=</span> <span class="s">pi</span>
+   <span class="err">force</span> <span class="py">group</span> <span class="p">=</span> <span class="s">pi</span>
+   <span class="err">create</span> <span class="py">mask</span> <span class="p">=</span> <span class="s">0777</span>
+   <span class="err">directory</span> <span class="py">mask</span> <span class="p">=</span> <span class="s">0777</span>
+   <span class="err">delete</span> <span class="py">readonly</span> <span class="p">=</span> <span class="s">yes</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Reload Samba Service:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>systemctl restart smbd
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Add a Samba user:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>smbpasswd <span class="nt">-a</span> pi
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p><strong>Access the share via another PC:</strong></p>
+
+<p>If you are on Mac:</p>
+
+<ol>
+  <li>Open Finder</li>
+  <li>Go to <code class="language-plaintext highlighter-rouge">Go</code> &gt; <code class="language-plaintext highlighter-rouge">Connect to Server</code></li>
+  <li>
+    <p>Type the following:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> smb://&lt;raspberrypi_ip&gt;\usbonpi
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>If you are on Windows:</p>
+
+<ol>
+  <li>Open File Explorer</li>
+  <li>
+    <p>In the address bar, type the following:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> \\&lt;raspberrypi_ip&gt;\usbonpi
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<hr />
+
+<h2 id="-summary">📋 Summary</h2>
+
+<ul>
+  <li>We installed Jellyfin and accessed it via a browser.</li>
+  <li>A USB drive was configured to auto-mount using <code class="language-plaintext highlighter-rouge">fstab</code>.</li>
+  <li>Permissions were assigned to allow both Jellyfin and the Samba-accessing user.</li>
+  <li>A Samba server was set up for easy file transfer.</li>
+</ul>
+
+<p>✅ You’re All Set! 🎉</p>
+
+<p>Your Raspberry Pi is now a full-fledged Jellyfin server with a persistent, auto-mounted USB drive as the media library.</p>]]></content><author><name>bekaarcoder</name></author><category term="ubuntu" /><category term="raspberrypi" /><category term="jellyfin" /><summary type="html"><![CDATA[Set up your own Jellyfin media server on Raspberry Pi 5 running Ubuntu 24.04 with media files stored on a USB drive and shared over the network using Samba.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://bekaarcoder.xyz/assets/images/cover_image_2025-04-20.png" /><media:content medium="image" url="https://bekaarcoder.xyz/assets/images/cover_image_2025-04-20.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Deploy a Node.js Application Using MySQL and Prisma on a Raspberry Pi</title><link href="https://bekaarcoder.xyz/deploy-nodejs-app-on-raspberry-pi" rel="alternate" type="text/html" title="Deploy a Node.js Application Using MySQL and Prisma on a Raspberry Pi" /><published>2025-01-05T04:10:05+00:00</published><updated>2025-01-05T04:10:05+00:00</updated><id>https://bekaarcoder.xyz/nodejs-in-raspberrypi</id><content type="html" xml:base="https://bekaarcoder.xyz/deploy-nodejs-app-on-raspberry-pi"><![CDATA[<p>Deploying applications has become increasingly accessible, with a range of free and paid hosting options like Render, AWS, and DigitalOcean. However, for developers who want to learn, experiment, and deploy applications without recurring hosting fees, a <strong>Raspberry Pi</strong> offers an excellent alternative. This compact yet powerful device allows you to create your own Linux-based server for hosting web applications.</p>
+
+<p>In this blog, we’ll explore how to deploy a <strong>TypeScript Node.js</strong> application using <strong>MySQL</strong> (MariaDB on Raspberry Pi) and <strong>Prisma ORM</strong> on a Raspberry Pi. Additionally, we’ll configure <strong>NGINX</strong> for reverse proxying and use <strong>Ngrok</strong> to expose the application to the internet. Let’s dive in!</p>
+
+<hr />
+
+<h2 id="tools-overview">Tools Overview</h2>
+
+<p><strong>Raspberry Pi</strong></p>
+
+<p>A low-cost, single-board computer that runs a Linux-based operating system. It’s ideal for creating your own server for IoT or web applications.</p>
+
+<p><strong>Node.js &amp; TypeScript</strong></p>
+
+<p>Node.js is a runtime environment for executing JavaScript on the server, and TypeScript adds static typing to JavaScript, making the codebase more maintainable.</p>
+
+<p><strong>MySQL (MariaDB on Raspberry Pi)</strong></p>
+
+<p>A popular relational database system, MariaDB is a compatible replacement for MySQL and is lightweight enough for a Raspberry Pi.</p>
+
+<p><strong>Prisma ORM</strong></p>
+
+<p>An Object-Relational Mapping (ORM) tool that simplifies database interactions with a type-safe query language and schema migrations.</p>
+
+<p><strong>NGINX</strong></p>
+
+<p>A high-performance HTTP server and reverse proxy server. It helps route traffic to your Node.js application.</p>
+
+<p><strong>Ngrok</strong></p>
+
+<p>A tunneling tool that exposes your locally hosted applications to the internet securely without complex network configurations.</p>
+
+<hr />
+
+<h3 id="prerequisites">Prerequisites</h3>
+
+<ol>
+  <li><strong>A working Raspberry Pi</strong> - Ensure that SSH is enabled on the Raspberry Pi and you can access it remotely.</li>
+  <li><strong>Github Repository</strong> - Your Node.js TypeScript application should be hosted in a GitHub repository for easy deployment.</li>
+  <li><strong>Ngrok Account</strong> - Create a free account on Ngrok to obtain an auth token for exposing your Raspberry Pi app to the internet.</li>
+</ol>
+
+<h2 id="setting-up-raspberry-pi">Setting Up Raspberry Pi</h2>
+
+<ol>
+  <li>
+    <p><strong>Install the OS</strong></p>
+
+    <p>Setup your Raspberry Pi with an OS like Raspberry Pi OS. Use the <code class="language-plaintext highlighter-rouge">Raspberry Pi Imager</code> to find other OS compatible to your Raspberry Pi.</p>
+  </li>
+  <li>
+    <p><strong>Find the IP Address</strong></p>
+
+    <p>Use a tool like <code class="language-plaintext highlighter-rouge">Angry IP Scanner</code> to discover your Raspberry Pi’s IP address. Ensure the Raspberry Pi is connected to the same network as your local machine.</p>
+  </li>
+  <li>
+    <p><strong>Check Raspberry Pi Status</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ping &lt;IP_ADDRESS_OF_RPI&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>SSH Into the Raspberry Pi</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ssh &lt;username&gt;@&lt;IP_ADDRESS_OF_RPI&gt;
+</code></pre></div>    </div>
+
+    <p>Replace <code class="language-plaintext highlighter-rouge">&lt;username&gt;</code> with your Raspberry Pi’s username and <code class="language-plaintext highlighter-rouge">&lt;IP_ADDRESS_OF_RPI&gt;</code> with the IP address and then enter the password.</p>
+  </li>
+  <li>
+    <p><strong>Update the System</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>apt update <span class="o">&amp;&amp;</span> <span class="nb">sudo </span>apt upgrade
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Install Git</strong></p>
+
+    <p>Check if git is installed. If not, run the below command to install git</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>apt <span class="nb">install </span>git
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<hr />
+
+<h3 id="installing-nodejs">Installing Node.js</h3>
+
+<p>To install node js, we will be using <code class="language-plaintext highlighter-rouge">nvm</code> (Node Version Manager). It allows you to quickly install and use different version of node via command line.</p>
+
+<ol>
+  <li>
+    <p><strong>Install NVM</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> curl <span class="nt">-o-</span> https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Verify Installation</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> nvm <span class="nt">--version</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Install the Latest LTS Version of Node.js</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> nvm <span class="nb">install</span> <span class="nt">--lts</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Verify Node.js and npm Installation</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> node <span class="nt">--version</span>
+ <span class="c"># v22.12.0</span>
+
+ npm <span class="nt">--version</span>
+ <span class="c"># 10.9.0</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<hr />
+
+<h2 id="setting-up-mysql-mariadb">Setting Up MySQL (MariaDB)</h2>
+
+<p>For Raspberry Pi OS, we will be installing MariaDB.</p>
+
+<ol>
+  <li>
+    <p><strong>Install the MariaDB SQL Server</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>apt <span class="nb">install </span>mariadb-server
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Secure MariaDB Installation</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>mysql_secure_installation
+</code></pre></div>    </div>
+
+    <p>Follow the prompts to secure your database.</p>
+
+    <ul>
+      <li><strong>Enter the current root password:</strong> - Press Enter when asked to enter the current password for the root user (since it hasn’t been set yet).</li>
+      <li><strong>Set the root password:</strong> - Type n when prompted to set the root password (we’ll set it later).</li>
+      <li><strong>Remove anonymous users:</strong> - Type Y to remove anonymous users and improve security. (For testing purposes, you can type n to keep anonymous users.)</li>
+      <li><strong>Disallow root login remotely:</strong> - Type n to allow root login remotely (optional but less secure).</li>
+      <li><strong>Remove the test database:</strong> - Type y to remove the test database and access to it. (Type n if you want to keep it.)</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Login to MariaDB Client</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>mysql
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Setup a Root password for MariaDB</strong></p>
+
+    <p>First, we need to tell the database server to reload the grant tables.</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> FLUSH PRIVILEGES<span class="p">;</span>
+</code></pre></div>    </div>
+
+    <p>Change the root password with below query.</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> ALTER USER <span class="s1">'root'</span>@<span class="s1">'localhost'</span> IDENTIFIED BY <span class="s1">'&lt;new_password&gt;'</span><span class="p">;</span>
+</code></pre></div>    </div>
+
+    <p>Replace <code class="language-plaintext highlighter-rouge">&lt;new_password&gt;</code> with your own password.</p>
+
+    <p>Use the <code class="language-plaintext highlighter-rouge">exit</code> command to exit from MariaDB CLI.</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> <span class="nb">exit</span><span class="p">;</span>
+ Bye
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Login to MariaDB Client With Root User</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>mysql <span class="nt">-u</span> root <span class="nt">-p</span>
+</code></pre></div>    </div>
+
+    <p>Enter the password for the root user.</p>
+  </li>
+</ol>
+
+<h3 id="setting-up-database-and-user">Setting up Database and User</h3>
+
+<p>Let’s create a new database and a user. We will be granting all privileges to the new user for the new database we have created.</p>
+
+<ol>
+  <li>
+    <p><strong>Create a Database</strong></p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> MariaDB [(none)]&gt; CREATE DATABASE &lt;database_name&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Create a New User With Password</strong></p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> MariaDB [(none)]&gt; CREATE USER '&lt;new_username&gt;'@'localhost' IDENTIFIED BY '&lt;new_password&gt;';
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Grant Privilege To New User Created</strong></p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> MariaDB [(none)]&gt; GRANT ALL PRIVILEGES ON &lt;database_name&gt;.* TO '&lt;new_username&gt;'@'localhost';
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Flush The Privileges Table</strong></p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> MariaDB [(none)]&gt; FLUSH PRIVILEGES;
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Exit from mysql client using <code class="language-plaintext highlighter-rouge">exit</code> command.</p>
+  </li>
+  <li>
+    <p><strong>Login With New User</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>mysql <span class="nt">-u</span> &lt;new_username&gt; <span class="nt">-p</span>
+</code></pre></div>    </div>
+
+    <p>Enter the password you used while creating the user.</p>
+  </li>
+  <li>
+    <p><strong>Verify User Can List The Database</strong></p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> MariaDB [(none)]&gt; SHOW DATABASES;
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>That’s it! We will use this database and user in our application.</p>
+
+<hr />
+
+<h2 id="setup-your-nodejs-application">Setup your Node.js Application</h2>
+
+<ol>
+  <li>
+    <p><strong>Clone Your Github Repository</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> git clone &lt;your_github_repo_url&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Navigate To Your Project Repository</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">cd</span> &lt;your_project_name&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Install Project Dependencies</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> npm <span class="nb">install</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Compile TypeScript Code</strong></p>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> npm run build
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<blockquote class="blockquote">
+  <p>Make sure you have configured the <code class="language-plaintext highlighter-rouge">outDir</code> property in your <code class="language-plaintext highlighter-rouge">tsconfig.json</code> file. This specifies the directory where the compiled JavaScript code will be generated. By default, it’s commonly set to <code class="language-plaintext highlighter-rouge">dist</code>, but you can customize it based on your project structure.</p>
+</blockquote>
+
+<h3 id="setting-up-environment-variables-optional">Setting up environment variables (Optional)</h3>
+
+<p>If your project uses environment variables, you need to set them on your Raspberry Pi. You can create a <code class="language-plaintext highlighter-rouge">.env</code> file in the root directory of your project to store all the environment variables.</p>
+
+<ol>
+  <li>
+    <p><strong>Create <code class="language-plaintext highlighter-rouge">.env</code> File</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">touch</span> .env
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Update <code class="language-plaintext highlighter-rouge">.env</code> File</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>nano .env
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Enter your Environment Variables</strong></p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> PORT=5000
+ DATABASE_URL="mysql://&lt;username&gt;:&lt;password&gt;@localhost:3306/&lt;database_name&gt;"
+</code></pre></div>    </div>
+
+    <p>Save the file by pressing <code class="language-plaintext highlighter-rouge">Ctrl+O</code>, then press <code class="language-plaintext highlighter-rouge">Enter</code>, and exit the editor using <code class="language-plaintext highlighter-rouge">Ctrl+X</code>.</p>
+  </li>
+</ol>
+
+<h3 id="migrate-prisma-schema">Migrate Prisma Schema</h3>
+
+<p>If you are using Prisma, all the schema files will be located inside the prisma/schema directory. We will now deploy these schemas to the database.</p>
+
+<p>Run the below command</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npx prisma migrate deploy
+</code></pre></div></div>
+
+<p>This command will use the <code class="language-plaintext highlighter-rouge">DATABASE_URL</code> provided in the <code class="language-plaintext highlighter-rouge">.env</code> file to deploy the schemas to the database. You can verify the deployment by logging into the MySQL client and using the command <code class="language-plaintext highlighter-rouge">SHOW TABLES;</code> to list all the tables.</p>
+
+<hr />
+
+<h2 id="setting-up-pm2">Setting Up PM2</h2>
+
+<p><code class="language-plaintext highlighter-rouge">PM2</code> is a production process manager for Node.js applications which helps in managing and keeping the application online. Install PM2 to manage your Node.js application.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install </span>pm2 <span class="nt">-g</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="configuring-nginx">Configuring NGINX</h2>
+
+<ol>
+  <li>
+    <p><strong>Install NGINX</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>apt <span class="nb">install </span>nginx
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Create a Site Configuration</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>nano /etc/nginx/sites-available/&lt;your_project_name&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Add the Below Code</strong></p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> server {
+     listen 80;
+     server_name &lt;your_raspberrypi_IP&gt;;
+
+     location / {
+         proxy_pass http://localhost:YOUR_NODE_JS_PORT;
+         proxy_http_version 1.1;
+         proxy_set_header Upgrade $http_upgrade;
+         proxy_set_header Connection 'upgrade';
+         proxy_set_header Host $host;
+         proxy_cache_bypass $http_upgrade;
+     }
+ }
+</code></pre></div>    </div>
+
+    <p>Here’s a breakdown of each part:</p>
+
+    <p><strong><code class="language-plaintext highlighter-rouge">listen 80;</code></strong> This directive tells NGINX to listen on port 80, which is the default port for HTTP traffic.</p>
+
+    <p><strong><code class="language-plaintext highlighter-rouge">server_name &lt;your_raspberrypi_IP&gt;;</code></strong> This specifies the domain name or IP address of your Raspberry Pi. Replace <your_raspberrypi_IP> with the actual IP address of your Raspberry Pi. NGINX will respond to requests sent to this address.</your_raspberrypi_IP></p>
+
+    <p><strong><code class="language-plaintext highlighter-rouge">location / { ... }</code></strong> This block defines how NGINX should handle requests to the root URL (/). Essentially, this tells NGINX that whenever a request is made to the root, it should be forwarded to the backend (your Node.js application) running on the specified port.</p>
+
+    <p><strong><code class="language-plaintext highlighter-rouge">proxy_pass http://localhost:YOUR_NODE_JS_PORT;</code></strong> This is the key line that forwards incoming requests to your Node.js application. Replace YOUR_NODE_JS_PORT with the actual port where your Node.js app is running (for example, 5000). The requests will be sent to the Node.js application running on the same machine (localhost).</p>
+
+    <p><strong><code class="language-plaintext highlighter-rouge">proxy_http_version 1.1;</code></strong> This sets the HTTP version to 1.1 for the proxy connection, which ensures better handling of certain features like WebSockets.</p>
+
+    <p><strong><code class="language-plaintext highlighter-rouge">proxy_set_header Upgrade $http_upgrade;</code></strong> This header allows WebSocket connections to be upgraded, which is important for real-time applications.</p>
+
+    <p><strong><code class="language-plaintext highlighter-rouge">proxy_set_header Connection 'upgrade';</code></strong> This header is used alongside the Upgrade header to manage WebSocket connections, ensuring that the connection is properly upgraded from HTTP to WebSocket.</p>
+
+    <p><strong><code class="language-plaintext highlighter-rouge">proxy_set_header Host $host;</code></strong> This passes the original Host header from the client request to the backend server. This is useful for applications that rely on the original Host header (e.g., for routing or virtual hosting).</p>
+
+    <p><strong><code class="language-plaintext highlighter-rouge">proxy_cache_bypass $http_upgrade;</code></strong> This ensures that WebSocket connections bypass any caching mechanisms, allowing real-time communication to work without interference from caching.</p>
+
+    <p>Save the file by pressing <code class="language-plaintext highlighter-rouge">Ctrl+O</code>, then press <code class="language-plaintext highlighter-rouge">Enter</code>, and exit the editor using <code class="language-plaintext highlighter-rouge">Ctrl+X</code>.</p>
+  </li>
+  <li>
+    <p><strong>Enable the Site Configuration</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo ln</span> <span class="nt">-s</span> /etc/nginx/sites-available/&lt;your_project_name&gt; /etc/nginx/sites-enabled/
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Test NGINX Configuration</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>nginx <span class="nt">-t</span>
+</code></pre></div>    </div>
+
+    <p>If the test is successfull, you will see something like below:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+ nginx: configuration file /etc/nginx/nginx.conf test is successful
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Restart NGINX Server To Apply the Changes</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>systemctl restart nginx
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Check NGINX Server Status</strong></p>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>systemctl status nginx
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<hr />
+
+<h2 id="running-the-application">Running the Application</h2>
+
+<ol>
+  <li>
+    <p><strong>Navigate to your project</strong></p>
+  </li>
+  <li>
+    <p><strong>Start Your Application Using PM2</strong></p>
+
+    <p>If you have setup a script in <code class="language-plaintext highlighter-rouge">package.json</code>, use the below command:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> pm2 start <span class="s2">"npm run start"</span>
+</code></pre></div>    </div>
+
+    <p>Or, you can directly run you application using <code class="language-plaintext highlighter-rouge">index.js</code> file in your <code class="language-plaintext highlighter-rouge">dist</code> directory:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> pm2 start dist/index.js
+</code></pre></div>    </div>
+
+    <p>You can also check the logs using below command:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> pm2 logs
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>Now, check your app by entering the IP address of your Raspberry Pi in the browser on your local machine. It should work. Make sure both your local machine and Raspberry Pi are connected to the same network; otherwise, it will not work.</p>
+
+<hr />
+
+<h2 id="exposing-your-app-to-the-world-using-ngrok">Exposing Your App To The World Using Ngrok</h2>
+
+<p>Now that you have deployed your app to the Raspberry Pi, you can only access the app from the same network in which the Raspberry Pi is running. To expose it to the internet, we need to use port forwarding.</p>
+
+<p>You can set up port forwarding using your router settings, but in this case, I will be using ngrok. <code class="language-plaintext highlighter-rouge">Ngrok</code> is useful for development, allowing us to run our apps for testing purposes for free.</p>
+
+<p>Make sure to create an account by visiting <a href="https://dashboard.ngrok.com/login">https://dashboard.ngrok.com/login</a>. You will need the auth token to configure ngrok on the Raspberry Pi.</p>
+
+<ol>
+  <li>
+    <p><strong>Install Ngrok</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> curl <span class="nt">-sSL</span> https://ngrok-agent.s3.amazonaws.com/ngrok.asc <span class="se">\</span>
+ | <span class="nb">sudo tee</span> /etc/apt/trusted.gpg.d/ngrok.asc <span class="o">&gt;</span>/dev/null <span class="se">\</span>
+ <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s2">"deb https://ngrok-agent.s3.amazonaws.com buster main"</span> <span class="se">\</span>
+ | <span class="nb">sudo tee</span> /etc/apt/sources.list.d/ngrok.list <span class="se">\</span>
+ <span class="o">&amp;&amp;</span> <span class="nb">sudo </span>apt update <span class="se">\</span>
+ <span class="o">&amp;&amp;</span> <span class="nb">sudo </span>apt <span class="nb">install </span>ngrok
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Add your auth token to ngrok configuration file</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ngrok config add-authtoken &lt;your_auth_token&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Disable default nginx config file</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo rm</span> /etc/nginx/sites-enabled/default
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Test NGINX configuration</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>nginx <span class="nt">-t</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Restart NGINX server to apply the changes</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>systemctl restart nginx
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Deploy your app online</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ngrok http 80
+</code></pre></div>    </div>
+
+    <p>This should provide a URL like <code class="language-plaintext highlighter-rouge">https://xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx.ngrok-free.app/</code> that forwards traffic to your Node.js app. You can navigate to this URL from any other network and access your application.</p>
+  </li>
+</ol>
+
+<hr />
+
+<h3 id="summary">Summary</h3>
+
+<p>In this guide, we successfully deployed a TypeScript Node.js application with MySQL and Prisma on a Raspberry Pi. We configured NGINX as a reverse proxy and used Ngrok to make the application accessible over the internet. With this setup, you have your own cost-effective, self-hosted development server.</p>
+
+<p>This approach is perfect for learning and experimenting with full-stack application deployment, all while gaining valuable experience in server management.</p>
+
+<p>Let me know if you deploy your application using this guide—I’d love to hear about your experience! 🚀</p>]]></content><author><name>bekaarcoder</name></author><category term="nodejs" /><category term="mysql" /><category term="raspberrypi" /><category term="prisma" /><category term="ngrok" /><summary type="html"><![CDATA[Learn how to deploy a Node.js application on a Raspberry Pi, configure environment variables, set up Nginx as a reverse proxy, and expose your app to the internet using Ngrok. This step-by-step guide is perfect for anyone looking to host and test their Node.js apps on a Raspberry Pi, both locally and remotely.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://bekaarcoder.xyz/assets/images/cover_image_2025_01_05.png" /><media:content medium="image" url="https://bekaarcoder.xyz/assets/images/cover_image_2025_01_05.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">How to Scrape Data From Goodreads Using Python and BeautifulSoup</title><link href="https://bekaarcoder.xyz/scrape-goodreads-using-python" rel="alternate" type="text/html" title="How to Scrape Data From Goodreads Using Python and BeautifulSoup" /><published>2024-12-06T15:10:05+00:00</published><updated>2024-12-06T15:10:05+00:00</updated><id>https://bekaarcoder.xyz/webscraping-goodreads</id><content type="html" xml:base="https://bekaarcoder.xyz/scrape-goodreads-using-python"><![CDATA[<p>Web scraping is a powerful tool for gathering data from websites. Whether you’re collecting product reviews, tracking prices, or, in our case, scraping Goodreads books, web scraping provides endless opportunities for data-driven applications.</p>
+
+<p>In this blog post, we’ll explore the fundamentals of web scraping, the power of the Python <code class="language-plaintext highlighter-rouge">BeautifulSoup</code> library, and break down a Python script designed to scrape Goodreads Choice Awards data. Finally, we’ll discuss how to store this data in a CSV file for further analysis or applications.</p>
+
+<p><strong>What is Goodreads?</strong></p>
+
+<p>Goodreads is the world’s largest platform for readers and book recommendations. It provides users with access to book reviews, author details, and popular rankings. Every year, Goodreads hosts the Goodreads Choice Awards, where readers vote for their favorite books across various genres like fiction, fantasy, romance, and more. This makes Goodreads an ideal target for web scraping to gather insights about trending books and authors.</p>
+
+<h3 id="what-is-web-scraping">What is Web Scraping?</h3>
+
+<p>Web scraping involves extracting data from websites in an automated manner. It allows you to collect and structure information for tasks such as:</p>
+
+<ul>
+  <li>Analyzing trends and patterns.</li>
+  <li>Aggregating content like reviews or articles.</li>
+  <li>Feeding machine learning models or databases.</li>
+</ul>
+
+<h2 id="setting-up-your-environment">Setting Up Your Environment</h2>
+
+<p>Before diving into the script, you need to install the necessary libraries.</p>
+
+<ol>
+  <li>
+    <p><strong>Install Python</strong></p>
+
+    <p>Make sure you have Python installed on your system.</p>
+  </li>
+  <li>
+    <p><strong>Install Required Libraries</strong></p>
+
+    <p>Install the required libraries using <code class="language-plaintext highlighter-rouge">pip</code>:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> pip <span class="nb">install </span>beautifulsoup4
+ pip <span class="nb">install </span>requests
+</code></pre></div>    </div>
+
+    <p><code class="language-plaintext highlighter-rouge">request</code>: Allows us to send HTTP requests to a URL and retrieve the web page’s content.</p>
+
+    <p><code class="language-plaintext highlighter-rouge">BeautifulSoup</code>: Simplifies HTML parsing and data extraction.</p>
+  </li>
+</ol>
+
+<p>Once these installations are complete, you’re ready to scraping!</p>
+
+<h3 id="introduction-to-beautifulsoup">Introduction to BeautifulSoup</h3>
+
+<p>BeautifulSoup is a Python library for parsing HTML and XML documents. It enables developers to navigate page structures, extract content, and transform raw HTML into a structured format.</p>
+
+<p><strong>Key Methods in BeautifulSoup</strong></p>
+
+<p>Here are a few essential methods that we will be using in our script:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">BeautifulSoup(html, 'html.parser')</code>: Initializes the parser and allows you to work with the HTML content.</li>
+  <li><code class="language-plaintext highlighter-rouge">soup.select(selector)</code>: Finds elements using CSS selectors, such as classes or tags.</li>
+  <li><code class="language-plaintext highlighter-rouge">soup.find(class_='class_name')</code>: Locates the first occurrence of an element with a specified class.</li>
+  <li><code class="language-plaintext highlighter-rouge">soup.find_parent(class_='class_name')</code>: Finds the parent tag of the current element.</li>
+  <li><code class="language-plaintext highlighter-rouge">soup.get('attribute')</code>: Retrieves the value of an attribute from an element, like href or src.</li>
+</ul>
+
+<p>For a complete list of methods, check out the <a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/">BeautifulSoup documentation</a>.</p>
+
+<h3 id="setting-up-the-script">Setting Up the Script</h3>
+
+<p>Let’s begin by importing the necessary libraries and defining custom headers to mimic a browser. This helps avoid getting blocked by the website.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span> <span class="k">as</span> <span class="n">bs</span>
+<span class="kn">import</span> <span class="n">requests</span>
+<span class="kn">import</span> <span class="n">re</span>
+<span class="kn">import</span> <span class="n">csv</span>
+
+<span class="n">HEADERS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="sh">"</span><span class="s">User-Agent</span><span class="sh">"</span><span class="p">:</span> <span class="sh">"</span><span class="s">Mozilla/5.0 (X11; Linux x86_64)...</span><span class="sh">"</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">Accept-Language</span><span class="sh">"</span><span class="p">:</span> <span class="sh">"</span><span class="s">en-US, en;q=0.5</span><span class="sh">"</span><span class="p">,</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="scraping-categories-and-books">Scraping Categories and Books</h3>
+
+<p>We start by defining the URLs for Goodreads’ Choice Awards page and the main application. We will send a request to <code class="language-plaintext highlighter-rouge">start_url</code> and get the web page’s content.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">app_url</span> <span class="o">=</span> <span class="sh">"</span><span class="s">https://www.goodreads.com</span><span class="sh">"</span>
+<span class="n">start_url</span> <span class="o">=</span> <span class="sh">"</span><span class="s">https://www.goodreads.com/choiceawards/best-books-2024</span><span class="sh">"</span>
+
+<span class="n">res</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="n">start_url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">HEADERS</span><span class="p">)</span>
+<span class="n">soup</span> <span class="o">=</span> <span class="nf">bs</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">text</span><span class="p">,</span> <span class="sh">'</span><span class="s">html.parser</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="n">categories</span> <span class="o">=</span> <span class="n">soup</span><span class="p">.</span><span class="nf">select</span><span class="p">(</span><span class="sh">'</span><span class="s">.category</span><span class="sh">'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Each category contains a genre and a link to its respective page. Using <code class="language-plaintext highlighter-rouge">soup.select</code>, we extract all categories listed under the <code class="language-plaintext highlighter-rouge">.category</code> class.</p>
+
+<p><img src="/assets/images/category_element.png" alt="Finding the parent category element" style="width:100%" /></p>
+
+<p>Next, iterate through each category to get the genre name and its page URL.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">category</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">categories</span><span class="p">):</span>
+    <span class="n">genre</span> <span class="o">=</span> <span class="n">category</span><span class="p">.</span><span class="nf">select</span><span class="p">(</span><span class="sh">'</span><span class="s">h4.category__copy</span><span class="sh">'</span><span class="p">)[</span><span class="mi">0</span><span class="p">].</span><span class="n">text</span><span class="p">.</span><span class="nf">strip</span><span class="p">()</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">category</span><span class="p">.</span><span class="nf">select</span><span class="p">(</span><span class="sh">'</span><span class="s">a</span><span class="sh">'</span><span class="p">)[</span><span class="mi">0</span><span class="p">].</span><span class="nf">get</span><span class="p">(</span><span class="sh">'</span><span class="s">href</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">category_url</span> <span class="o">=</span> <span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">app_url</span><span class="si">}{</span><span class="n">url</span><span class="si">}</span><span class="sh">"</span>
+</code></pre></div></div>
+
+<p>Here, we extract the category name (genre) and the category page URL for further processing.</p>
+
+<p>We will send another request to each <code class="language-plaintext highlighter-rouge">category_url</code> and locate all the books under that category.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">res</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="n">category_url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">HEADERS</span><span class="p">)</span>
+<span class="n">soup</span> <span class="o">=</span> <span class="nf">bs</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">text</span><span class="p">,</span> <span class="sh">'</span><span class="s">html.parser</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="n">category_books</span> <span class="o">=</span> <span class="n">soup</span><span class="p">.</span><span class="nf">select</span><span class="p">(</span><span class="sh">'</span><span class="s">.resultShown a.pollAnswer__bookLink</span><span class="sh">'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">category_books</code> will contain the list of all the books under the respective category.</p>
+
+<h3 id="extracting-book-data">Extracting Book Data</h3>
+
+<p>Once we have the list of books, we will be iterating over each books and extract the data.</p>
+
+<p><strong>Extract Votes</strong></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">book_index</span><span class="p">,</span> <span class="n">book</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">category_books</span><span class="p">):</span>
+    <span class="n">parent_tag</span> <span class="o">=</span> <span class="n">book</span><span class="p">.</span><span class="nf">find_parent</span><span class="p">(</span><span class="n">class_</span><span class="o">=</span><span class="sh">'</span><span class="s">resultShown</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">votes</span> <span class="o">=</span> <span class="n">parent_tag</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">class_</span><span class="o">=</span><span class="sh">'</span><span class="s">result</span><span class="sh">'</span><span class="p">).</span><span class="n">text</span><span class="p">.</span><span class="nf">strip</span><span class="p">()</span>
+    <span class="n">book_votes</span> <span class="o">=</span> <span class="nf">clean_string</span><span class="p">(</span><span class="n">votes</span><span class="p">).</span><span class="nf">split</span><span class="p">(</span><span class="sh">"</span><span class="s"> </span><span class="sh">"</span><span class="p">)[</span><span class="mi">0</span><span class="p">].</span><span class="nf">replace</span><span class="p">(</span><span class="sh">"</span><span class="s">,</span><span class="sh">"</span><span class="p">,</span> <span class="sh">""</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>If we see in the DOM, voting count is present in the parent element of the category element. So we need to use <code class="language-plaintext highlighter-rouge">find_parent</code> method to locate the element and extract the voting count.</p>
+
+<p><img src="/assets/images/vote_element.png" alt="Finding the parent vote element" style="width:100%" /></p>
+
+<p><strong>Extract Book Title, Author and Image URL</strong></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">book_url</span> <span class="o">=</span> <span class="n">book</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="sh">'</span><span class="s">href</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">book_url_formatted</span> <span class="o">=</span> <span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">app_url</span><span class="si">}{</span><span class="n">book_url</span><span class="si">}</span><span class="sh">"</span>
+<span class="n">book_img</span> <span class="o">=</span> <span class="n">book</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="sh">'</span><span class="s">img</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">book_img_url</span> <span class="o">=</span> <span class="n">book_img</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="sh">'</span><span class="s">src</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">book_img_alt</span> <span class="o">=</span> <span class="n">book_img</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="sh">'</span><span class="s">alt</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">book_title</span> <span class="o">=</span> <span class="nf">clean_string</span><span class="p">(</span><span class="n">book_img_alt</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">book_title</span><span class="p">)</span>
+<span class="n">book_name</span> <span class="o">=</span> <span class="n">book_title</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="sh">'</span><span class="s">by</span><span class="sh">'</span><span class="p">)[</span><span class="mi">0</span><span class="p">].</span><span class="nf">strip</span><span class="p">()</span>
+<span class="n">book_author</span> <span class="o">=</span> <span class="n">book_title</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="sh">'</span><span class="s">by</span><span class="sh">'</span><span class="p">)[</span><span class="mi">1</span><span class="p">].</span><span class="nf">strip</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Each book’s URL, cover image URL, title and author are extracted.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">clean_string</code> function ensures the title is neatly formatted. You can define it at the top of the script</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">clean_string</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
+    <span class="n">cleaned</span> <span class="o">=</span> <span class="n">re</span><span class="p">.</span><span class="nf">sub</span><span class="p">(</span><span class="sa">r</span><span class="sh">'</span><span class="s">\s+</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s"> </span><span class="sh">'</span><span class="p">,</span> <span class="n">string</span><span class="p">).</span><span class="nf">strip</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">cleaned</span>
+</code></pre></div></div>
+
+<p><strong>Extract More Book Details</strong></p>
+
+<p>To get more details about the book like rating, reviews, etc., we will be sending another request to <code class="language-plaintext highlighter-rouge">book_url_formatted</code>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">res</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="n">book_url_formatted</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">HEADERS</span><span class="p">)</span>
+<span class="n">soup</span> <span class="o">=</span> <span class="nf">bs</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">text</span><span class="p">,</span> <span class="sh">'</span><span class="s">html.parser</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="n">book_rating</span> <span class="o">=</span> <span class="n">soup</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">class_</span><span class="o">=</span><span class="sh">"</span><span class="s">RatingStatistics__rating</span><span class="sh">"</span><span class="p">).</span><span class="n">text</span><span class="p">.</span><span class="nf">strip</span><span class="p">()</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">book_rating</span><span class="p">)</span>
+
+<span class="n">book_ratings_reviews</span> <span class="o">=</span> <span class="n">soup</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">class_</span><span class="o">=</span><span class="sh">"</span><span class="s">RatingStatistics__meta</span><span class="sh">"</span><span class="p">).</span><span class="nf">get</span><span class="p">(</span><span class="sh">'</span><span class="s">aria-label</span><span class="sh">'</span><span class="p">).</span><span class="nf">strip</span><span class="p">()</span>
+<span class="n">book_ratings</span><span class="p">,</span> <span class="n">book_reviews</span> <span class="o">=</span> <span class="nf">get_ratings_reviews</span><span class="p">(</span><span class="n">book_ratings_reviews</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Ratings: </span><span class="si">{</span><span class="n">book_ratings</span><span class="si">}</span><span class="s">, Reviews: </span><span class="si">{</span><span class="n">book_reviews</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="n">book_description_elements</span> <span class="o">=</span> <span class="n">soup</span><span class="p">.</span><span class="nf">select</span><span class="p">(</span><span class="sh">'</span><span class="s">.BookPageMetadataSection__description .Formatted</span><span class="sh">'</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">book_description_elements</span><span class="p">:</span>
+    <span class="n">book_description</span> <span class="o">=</span> <span class="n">book_description_elements</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">text</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">book_description</span> <span class="o">=</span> <span class="sh">'</span><span class="s">No description found</span><span class="sh">'</span>
+</code></pre></div></div>
+
+<p>Here <code class="language-plaintext highlighter-rouge">get_ratings_reviews</code> returns the ratings and reviews text well formatted.</p>
+
+<p><img src="/assets/images/review_rating_element.png" alt="Rating and Reviews element" style="width:100%" /></p>
+
+<p>You can define this function at the top of the script.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">get_ratings_reviews</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="c1"># Find the substring for ratings
+</span>    <span class="n">ratings</span> <span class="o">=</span> <span class="n">text</span><span class="p">[:</span><span class="n">text</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="sh">"</span><span class="s"> ratings</span><span class="sh">"</span><span class="p">)].</span><span class="nf">replace</span><span class="p">(</span><span class="sh">"</span><span class="s">,</span><span class="sh">"</span><span class="p">,</span> <span class="sh">""</span><span class="p">)</span>
+
+    <span class="c1"># Find the substring for reviews
+</span>    <span class="n">reviews</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">text</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="sh">"</span><span class="s">and </span><span class="sh">"</span><span class="p">)</span> <span class="o">+</span> <span class="mi">4</span><span class="p">:</span><span class="n">text</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="sh">"</span><span class="s"> reviews</span><span class="sh">"</span><span class="p">)].</span><span class="nf">replace</span><span class="p">(</span><span class="sh">"</span><span class="s">,</span><span class="sh">"</span><span class="p">,</span> <span class="sh">""</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nf">int</span><span class="p">(</span><span class="n">ratings</span><span class="p">),</span> <span class="nf">int</span><span class="p">(</span><span class="n">reviews</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>By navigating to each book’s details page, additional information like ratings, reviews, and detailed descriptions is extracted. Here, we are also checking if book description element exists otherwise putting a default description so that the script does not fails.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">author_avatar_url_element</span> <span class="o">=</span> <span class="n">soup</span><span class="p">.</span><span class="nf">select</span><span class="p">(</span><span class="sh">'</span><span class="s">.PageSection .AuthorPreview a.Avatar img.Avatar__image</span><span class="sh">'</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">author_avatar_url_element</span><span class="p">:</span>
+    <span class="n">author_avatar_url</span> <span class="o">=</span> <span class="n">author_avatar_url_element</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">get</span><span class="p">(</span><span class="sh">'</span><span class="s">src</span><span class="sh">'</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">author_avatar_url</span> <span class="o">=</span> <span class="sh">'</span><span class="s">No Avatar found</span><span class="sh">'</span>
+
+<span class="n">author_description_element</span> <span class="o">=</span> <span class="n">soup</span><span class="p">.</span><span class="nf">select</span><span class="p">(</span><span class="sh">'</span><span class="s">.PageSection &gt; .TruncatedContent .Formatted</span><span class="sh">'</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">author_description_element</span><span class="p">:</span>
+    <span class="n">author_description</span> <span class="o">=</span> <span class="n">author_description_element</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">text</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">author_description</span> <span class="o">=</span> <span class="sh">'</span><span class="s">No description found</span><span class="sh">'</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="n">author_description</span><span class="p">)</span>
+
+<span class="n">bookPages</span> <span class="o">=</span> <span class="n">soup</span><span class="p">.</span><span class="nf">select_one</span><span class="p">(</span><span class="sh">"</span><span class="s">.FeaturedDetails p[data-testid=</span><span class="sh">'</span><span class="s">pagesFormat</span><span class="sh">'</span><span class="s">]</span><span class="sh">"</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">bookPages</span><span class="p">:</span>
+    <span class="n">pages_format</span> <span class="o">=</span> <span class="n">bookPages</span><span class="p">.</span><span class="n">text</span><span class="p">[:</span><span class="n">bookPages</span><span class="p">.</span><span class="n">text</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="sh">"</span><span class="s"> pages</span><span class="sh">"</span><span class="p">)]</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">pages_format</span> <span class="o">=</span> <span class="sh">"</span><span class="s">No pages found</span><span class="sh">"</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">pages_format</span><span class="p">)</span>
+
+<span class="n">publication_info</span> <span class="o">=</span> <span class="n">soup</span><span class="p">.</span><span class="nf">select_one</span><span class="p">(</span><span class="sh">"</span><span class="s">.FeaturedDetails p[data-testid=</span><span class="sh">'</span><span class="s">publicationInfo</span><span class="sh">'</span><span class="s">]</span><span class="sh">"</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">publication_info</span><span class="p">:</span>
+    <span class="n">publication</span> <span class="o">=</span> <span class="n">publication_info</span><span class="p">.</span><span class="n">text</span><span class="p">[</span><span class="mi">16</span><span class="p">:]</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">publication</span> <span class="o">=</span> <span class="sh">"</span><span class="s">No publication found</span><span class="sh">"</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">publication</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Here, we have also gathered author details, publication information and other metadata.</p>
+
+<p><strong>Create a Book Dictionary</strong></p>
+
+<p>Let’s store all the data we have extracted for a book in a dictionary.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">book_dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="sh">"</span><span class="s">category</span><span class="sh">"</span><span class="p">:</span> <span class="n">genre</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">votes</span><span class="sh">"</span><span class="p">:</span> <span class="n">book_votes</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">title</span><span class="sh">"</span><span class="p">:</span> <span class="n">book_name</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">description</span><span class="sh">"</span><span class="p">:</span> <span class="n">book_description</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">author_name</span><span class="sh">"</span><span class="p">:</span> <span class="n">book_author</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">author_about</span><span class="sh">"</span><span class="p">:</span> <span class="n">author_description</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">avatar_url</span><span class="sh">"</span><span class="p">:</span> <span class="n">author_avatar_url</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">pages</span><span class="sh">"</span><span class="p">:</span> <span class="n">pages_format</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">rating</span><span class="sh">"</span><span class="p">:</span> <span class="n">book_rating</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">ratings</span><span class="sh">"</span><span class="p">:</span> <span class="n">book_ratings</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">reviews</span><span class="sh">"</span><span class="p">:</span> <span class="n">book_reviews</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">publication_info</span><span class="sh">"</span><span class="p">:</span> <span class="n">publication</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">img_url</span><span class="sh">"</span><span class="p">:</span> <span class="n">book_img_url</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">book_url</span><span class="sh">"</span><span class="p">:</span> <span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">app_url</span><span class="si">}{</span><span class="n">book_url</span><span class="si">}</span><span class="sh">"</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>We will use this dictionary to add the data in a csv file.</p>
+
+<h3 id="storing-data-in-a-csv-file">Storing Data in a CSV File</h3>
+
+<p>We will use the <code class="language-plaintext highlighter-rouge">csv</code> module which is a part of Python’s standard library. So you don’t need to install it separately.</p>
+
+<p>First we need to check if this is the first entry. This check is required to add the header in the csv file in the first row.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">csv_filename</span> <span class="o">=</span> <span class="sh">"</span><span class="s">books.csv</span><span class="sh">"</span>
+
+<span class="k">if</span> <span class="n">index</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">book_index</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="n">csv_filename</span><span class="p">,</span> <span class="sh">"</span><span class="s">w</span><span class="sh">"</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="sh">""</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="sh">"</span><span class="s">utf-8</span><span class="sh">"</span><span class="p">)</span> <span class="k">as</span> <span class="n">csv_file</span><span class="p">:</span>
+        <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="p">.</span><span class="nc">DictWriter</span><span class="p">(</span><span class="n">csv_file</span><span class="p">,</span> <span class="n">fieldnames</span><span class="o">=</span><span class="n">book_dict</span><span class="p">.</span><span class="nf">keys</span><span class="p">())</span>
+        <span class="n">writer</span><span class="p">.</span><span class="nf">writeheader</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>We are using <code class="language-plaintext highlighter-rouge">mode="w"</code> which will create a new csv file with the header entry.</p>
+
+<p>Now for all subsequent entries, we will append the data to the CSV file:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="n">csv_filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="sh">"</span><span class="s">a</span><span class="sh">"</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="sh">""</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="sh">"</span><span class="s">utf-8</span><span class="sh">"</span><span class="p">)</span> <span class="k">as</span> <span class="n">csv_file</span><span class="p">:</span>
+    <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="p">.</span><span class="nc">DictWriter</span><span class="p">(</span><span class="n">csv_file</span><span class="p">,</span> <span class="n">fieldnames</span><span class="o">=</span><span class="n">book_dict</span><span class="p">.</span><span class="nf">keys</span><span class="p">())</span>
+    <span class="n">writer</span><span class="p">.</span><span class="nf">writerow</span><span class="p">(</span><span class="n">book_dict</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">mode="a"</code> will append the data to CSV file.</p>
+
+<p>Now, sit back, relax, and enjoy a cup of coffee ☕️ while the script runs.</p>
+
+<p>Once it’s done, the final data will look like this:</p>
+
+<p><img src="/assets/images/final_csv_data.png" alt="Final CSV File Data" style="width:100%" /></p>
+
+<p>You can find the complete source code in this <a href="https://github.com/bekaarcoder/goodreads-scraper">github repository</a>.</p>
+
+<hr />
+
+<h3 id="summary">Summary</h3>
+
+<p>We have learned how to scrape Goodreads data using Python and BeautifulSoup. Starting from basic setup to storing data in a CSV file, we explored every aspect of the scraping process. The scraped data can be used for:</p>
+
+<ul>
+  <li>Data visualization (e.g., most popular genres or authors).</li>
+  <li>Machine learning models to predict book popularity.</li>
+  <li>Building personal book recommendation systems.</li>
+</ul>
+
+<p>Web scraping opens up possibilities for creative data analysis and applications. With libraries like BeautifulSoup, even complex scraping tasks become manageable. Just remember to follow ethical practices and respect the website’s terms of service while scraping!</p>]]></content><author><name>bekaarcoder</name></author><category term="python" /><category term="beautifulsoup" /><category term="webscraping" /><summary type="html"><![CDATA[Learn how to scrape Goodreads Choice Awards data using Python and BeautifulSoup. This step-by-step guide covers setup, data extraction, and saving information in a CSV file for analysis or applications.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://bekaarcoder.xyz/assets/images/cover_image_2024-12-06.png" /><media:content medium="image" url="https://bekaarcoder.xyz/assets/images/cover_image_2024-12-06.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">How to Run Playwright Tests in Jenkins Pipeline Using Docker</title><link href="https://bekaarcoder.xyz/running-playwright-tests-in-jenkins-using-docker" rel="alternate" type="text/html" title="How to Run Playwright Tests in Jenkins Pipeline Using Docker" /><published>2024-12-01T07:10:05+00:00</published><updated>2024-12-01T07:10:05+00:00</updated><id>https://bekaarcoder.xyz/run-playwright-tests-jenkins-docker</id><content type="html" xml:base="https://bekaarcoder.xyz/running-playwright-tests-in-jenkins-using-docker"><![CDATA[<p>Automation testing has become an integral part of modern software development, and tools like Playwright have made it seamless to perform end-to-end testing. However, executing these tests in a continuous integration pipeline can be challenging without proper setup. In this guide, we will go through the steps to run Playwright tests in a Jenkins pipeline using Docker, ensuring an efficient and scalable testing process. By the end of this post, you’ll have a clear understanding of setting up Jenkins with Docker, connecting agent nodes, and creating pipelines to build and run tests.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<p>Before starting, ensure you have the following:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Docker Desktop</code> installed on your local machine.</li>
+  <li><code class="language-plaintext highlighter-rouge">Docker Hub</code> account created for managing Docker images.</li>
+</ul>
+
+<h2 id="jenkins-controlleragent-architecture">Jenkins Controller/Agent Architecture</h2>
+
+<p>Before starting, let us look at the architecture. Jenkins <code class="language-plaintext highlighter-rouge">Controller/Agent Architecture</code> allows distributed builds, where tasks are delegated to agents for execution. This architecture improves scalability and resource utilization.</p>
+
+<p><img src="/assets/images/jenkins_architecture.png" alt="Jenkins Architecture" style="width:100%" /></p>
+
+<p><strong>Controller Node</strong></p>
+
+<ul>
+  <li>Controller is the central component of the Jenkins architecture.</li>
+  <li>It handles:
+    <ol>
+      <li><strong>Job scheduling:</strong> Assigns tasks to agent nodes.</li>
+      <li><strong>User interface:</strong> Provides a web-based UI (port 8080) for users to interact with Jenkins.</li>
+      <li><strong>Job configuration:</strong> Allows users to define build pipelines and workflows.</li>
+      <li><strong>Result aggregation:</strong> Collects and displays build/test results.</li>
+    </ol>
+  </li>
+  <li>It is not recommended to execute builds directly in the controller.</li>
+</ul>
+
+<p><strong>Agent Node</strong></p>
+
+<ul>
+  <li>The agents are distributed machines responsible for executing Jenkins jobs.</li>
+  <li>These nodes are connected to the master via the Jenkins Remoting protocol over port 50000.</li>
+  <li>They can execute builds or tests depending on the tasks assigned by the master.</li>
+  <li>Agents must have the necessary tools installed based on the jobs they run.</li>
+</ul>
+
+<p><strong>Communication Flow</strong></p>
+
+<ol>
+  <li>User interact with the Controller.</li>
+  <li>Controller delegates the tasks to Agents.</li>
+  <li>Agents execute the tasks.</li>
+  <li>Results are sent back to the Controller</li>
+</ol>
+
+<h2 id="setting-up-jenkins-using-docker">Setting Up Jenkins Using Docker</h2>
+
+<h3 id="docker-compose-setup-for-jenkins">Docker Compose Setup for Jenkins</h3>
+
+<p>To set up Jenkins using Docker, create a docker-compose.yml file. Organize your directory as follows:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jenkins-docker/
+├── docker-compose.yml
+└── volumes/
+    ├── master/
+    └── node/
+</code></pre></div></div>
+
+<p>Here’s the docker-compose.yml file:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">services</span><span class="pi">:</span>
+    <span class="na">jenkins</span><span class="pi">:</span>
+        <span class="na">image</span><span class="pi">:</span> <span class="s">jenkins/jenkins:lts-jdk17</span>
+        <span class="na">user</span><span class="pi">:</span> <span class="s">root</span>
+        <span class="na">ports</span><span class="pi">:</span>
+            <span class="pi">-</span> <span class="s">8080:8080</span>
+            <span class="pi">-</span> <span class="s">50000:50000</span>
+        <span class="na">volumes</span><span class="pi">:</span>
+            <span class="pi">-</span> <span class="s">./volumes/master:/var/jenkins_home</span>
+        <span class="na">environment</span><span class="pi">:</span>
+            <span class="pi">-</span> <span class="s">JAVA_OPTS="-Dhudson.model.DirectoryBrowserSupport.CSP="</span>
+</code></pre></div></div>
+
+<p><strong>Explanation</strong></p>
+
+<ol>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">jenkins</code>: Define service which will be created by Docker Compose.</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">jenkins/jenkins:lts-jdk17</code>: Docker image to create the container</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">user</code>: We have specified user as <code class="language-plaintext highlighter-rouge">root</code> to run the container with root privileges. This is necessary for certain administrative tasks (like installing plugins, setting permissions, or managing files)</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">ports</code> will map the ports on the host to the container. <code class="language-plaintext highlighter-rouge">8080:8080</code> maps the Jenkins web UI. <code class="language-plaintext highlighter-rouge">50000:50000</code> maps the port used for Jenkins agent communication</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">volumes</code>: Mounts a host directory (./volumes/master) to the container’s Jenkins home directory (/var/jenkins_home). This will persist Jenkins data even if the container is deleted.</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">JAVA_OPTS</code>: Configure JVM options for Jenkins.</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">-Dhudson.model.DirectoryBrowserSupport.CSP=</code>: Disables Jenkins Content Security Policy. Although not recommended in production, but useful for embedding resources like images or styles in Jenkins view.</p>
+  </li>
+</ol>
+
+<h3 id="running-docker-compose">Running Docker Compose</h3>
+
+<p>To start Jenkins, run:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker-compose up
+</code></pre></div></div>
+
+<p>Once Jenkins service has started, you can acces Jenkins at <code class="language-plaintext highlighter-rouge">http://localhost:8080</code> on your host machine.</p>
+
+<h3 id="setting-up-jenkins-web-interface">Setting Up Jenkins Web Interface</h3>
+
+<ol>
+  <li>Navigate to http://localhost:8080 in your browser.</li>
+  <li>Use the administrator password from the terminal (output during docker-compose up).</li>
+  <li>Install suggested plugins.</li>
+  <li>Create the first admin user and complete the setup wizard.</li>
+</ol>
+
+<!-- ![](jenkins_password.png) -->
+<p><img src="/assets/images/jenkins_credentials.png" alt="Jenkins Credentials" style="width:100%" /></p>
+
+<p>Once complete, the Jenkins files will be available in the <code class="language-plaintext highlighter-rouge">volumes/master</code> directory.</p>
+
+<h3 id="connecting-an-agent-node">Connecting An Agent Node</h3>
+
+<p>Follow these steps to connect an agent:</p>
+
+<ol>
+  <li>On the Jenkins homepage, click on <code class="language-plaintext highlighter-rouge">Set up an agent</code></li>
+  <li>Enter <code class="language-plaintext highlighter-rouge">NODE1</code> as the node name, select <code class="language-plaintext highlighter-rouge">Permanent Agent</code>, and configure the Remote root directory with the path to the node directory on your host.</li>
+  <li>Leave other fields to default and click on Save.</li>
+</ol>
+
+<p>Now you will see a new node <code class="language-plaintext highlighter-rouge">NODE1</code> is created which will be displayed with the Built-in Node.</p>
+
+<p>Click on the <code class="language-plaintext highlighter-rouge">NODE1</code> and you will see the instructions to run the agent.</p>
+
+<p>Navigate to <code class="language-plaintext highlighter-rouge">node</code> directory in your local machine from the terminal and run the commands provided by Jenkins to connect the node.</p>
+
+<p><strong>Tip:</strong> <em>Set the number of executors for the Built-in Node to 0 to ensure jobs only run on connected agents.</em></p>
+
+<ol>
+  <li>Navigate to <code class="language-plaintext highlighter-rouge">Built-in Node</code> &gt; <code class="language-plaintext highlighter-rouge">Configure</code></li>
+  <li>Set <code class="language-plaintext highlighter-rouge">Number of executers</code> to 0 and click on Save.</li>
+</ol>
+
+<h2 id="running-playwright-test-with-jenkins">Running Playwright Test With Jenkins</h2>
+
+<p>You can use the <a href="https://github.com/bekaarcoder/playwright-bdd-ts">Playwright Cucumber Framework</a> or your own Playwright project. For this guide, we will use Docker to build the test environment and Jenkins to execute the tests.</p>
+
+<blockquote class="blockquote">
+  <p>This framework is built using Playwright and Cucumber. Instead of using the default Playwright command to execute tests, a custom <code class="language-plaintext highlighter-rouge">index.ts</code> file has been created to run the tests using the Cucumber runner.</p>
+
+  <p>To execute the tests, run the command <code class="language-plaintext highlighter-rouge">npm run cucumber &lt;tag_name&gt;</code></p>
+
+  <p>Predefined tags, such as <code class="language-plaintext highlighter-rouge">smoke</code>, <code class="language-plaintext highlighter-rouge">regression</code>, etc., are specified in the <code class="language-plaintext highlighter-rouge">index.ts</code> file. Replace <code class="language-plaintext highlighter-rouge">&lt;tag_name&gt;</code> with one of these predefined values to run the corresponding test suite.</p>
+</blockquote>
+
+<p>We need to install below plugins inside Jenkins:</p>
+
+<ul>
+  <li>Docker</li>
+  <li>Docker Pipeline</li>
+</ul>
+
+<p>To install the plugins,</p>
+
+<ol>
+  <li>Navigate to <code class="language-plaintext highlighter-rouge">Manage Jenkins</code> &gt; <code class="language-plaintext highlighter-rouge">Plugins</code> &gt; <code class="language-plaintext highlighter-rouge">Available Plugins</code></li>
+  <li>Search for the above plugins and install</li>
+  <li>Once installed, restart jenkins</li>
+</ol>
+
+<p>To run jenkins again, run <code class="language-plaintext highlighter-rouge">docker-compose up</code> again.</p>
+
+<h3 id="creating-a-dockerfile-for-playwright">Creating a Dockerfile for Playwright</h3>
+
+<p>Create a <code class="language-plaintext highlighter-rouge">Dockerfile</code> in your project:</p>
+
+<div class="language-Dockerfile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">FROM</span><span class="s"> mcr.microsoft.com/playwright:v1.48.2-noble</span>
+
+<span class="k">WORKDIR</span><span class="s"> /app</span>
+<span class="k">COPY</span><span class="s"> . /app</span>
+
+<span class="k">RUN </span>npm <span class="nb">install</span>
+
+<span class="k">ENTRYPOINT</span><span class="s"> ["sh", "-c", "npm run cucumber ${TEST_TARGET}"]</span>
+</code></pre></div></div>
+
+<p><strong>Explanation</strong></p>
+
+<p><strong>Base Image</strong>
+<code class="language-plaintext highlighter-rouge">FROM mcr.microsoft.com/playwright:v1.48.2-noble</code> uses Playwright docker image to build our docker image.</p>
+
+<p><strong>Set Working Directory</strong>
+<code class="language-plaintext highlighter-rouge">WORKDIR /app</code> sets the working directory inside the container to <code class="language-plaintext highlighter-rouge">/app</code>. All subsequent commands and operations (e.g., COPY, RUN) will be executed relative to this directory.</p>
+
+<p><strong>Copy Files</strong>
+<code class="language-plaintext highlighter-rouge">COPY . /app</code> Copies the contents of the current directory (on the host) into the container’s /app directory.</p>
+
+<p><strong>Install Dependencies</strong>
+<code class="language-plaintext highlighter-rouge">RUN npm install</code> Installs Node.js dependencies from the package.json file.</p>
+
+<p><strong>Entry Point</strong>
+<code class="language-plaintext highlighter-rouge">ENTRYPOINT</code> Defines the command to execute when the container starts.</p>
+
+<h3 id="setting-up-docker-hub-credentials-in-jenkins">Setting Up Docker Hub Credentials In Jenkins</h3>
+
+<ol>
+  <li>Navigate to <code class="language-plaintext highlighter-rouge">Manage Jenkins</code> &gt; <code class="language-plaintext highlighter-rouge">Credentials</code></li>
+  <li>Click on <code class="language-plaintext highlighter-rouge">(global)</code> under Domains column.</li>
+  <li>Select Kind as <code class="language-plaintext highlighter-rouge">Username with password</code></li>
+  <li>Enter username and password of Docker Hub.</li>
+  <li>Enter ID (e.g., dockerhub-creds. This same id will be used to fetch username and password in the Jenkinsfile).</li>
+  <li>Click Create.</li>
+</ol>
+
+<h3 id="jenkins-pipeline-for-building-docker-image">Jenkins Pipeline for Building Docker Image</h3>
+
+<p>Create a <code class="language-plaintext highlighter-rouge">Jenkinsfile</code> in your project:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pipeline {
+    agent any
+
+    stages {
+        stage('Build Image') {
+            steps {
+                sh "docker build -t=&lt;username&gt;/playwright:latest ."
+            }
+        }
+
+        stage('Push Image') {
+            environment {
+                DOCKER_HUB = credentials('dockerhub-creds')
+            }
+            steps {
+                sh 'echo ${DOCKER_HUB_PSW} | docker login -u ${DOCKER_HUB_USR} --password-stdin'
+                sh "docker push &lt;username&gt;/playwright:latest"
+                sh "docker tag &lt;username&gt;/playwright:latest &lt;username&gt;/playwright:${env.BUILD_NUMBER}"
+                sh "docker push &lt;username&gt;/playwright:${env.BUILD_NUMBER}"
+            }
+        }
+    }
+
+    post {
+        always {
+            sh "docker logout"
+            sh "docker system prune -f"
+        }
+    }
+}
+</code></pre></div></div>
+
+<p><strong>Explanation</strong></p>
+
+<p><strong>Agents</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">agent any</code></p>
+
+<ul>
+  <li>Specifies that the pipeline can run on any available Jenkins agent.</li>
+</ul>
+
+<p><strong>Stages</strong></p>
+
+<p>The pipeline has two primary stages:</p>
+
+<p><code class="language-plaintext highlighter-rouge">stage('Build Image')</code></p>
+
+<ul>
+  <li>Builds a docker image from the Dockerfile in the current directory (.).</li>
+  <li>Tags the image as <code class="language-plaintext highlighter-rouge">&lt;username&gt;/playwright:latest</code>.</li>
+</ul>
+
+<blockquote class="blockquote">
+  <p>**Note: ** <code class="language-plaintext highlighter-rouge">&lt;username&gt;</code> refers to your Docker Hub username. Replace <code class="language-plaintext highlighter-rouge">&lt;username&gt;</code> with your actual Docker Hub username wherever it is mentioned.</p>
+</blockquote>
+
+<p><code class="language-plaintext highlighter-rouge">stage('Push Image')</code></p>
+
+<ul>
+  <li>Uses Jenkins credentials (dockerhub-creds) for authenticating with Docker Hub.
+    <ul>
+      <li>${DOCKER_HUB_USR}: The Docker Hub username.</li>
+      <li>${DOCKER_HUB_PSW}: The Docker Hub password.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">docker push &lt;username&gt;/playwright:latest</code> pushes the latest version of the Docker image to Docker Hub</li>
+  <li><code class="language-plaintext highlighter-rouge">docker tag &lt;username&gt;/playwright:latest &lt;username&gt;/playwright:${env.BUILD_NUMBER}</code> tags the image with the jenkins build number (e.g., 1, 2, etc.)</li>
+  <li><code class="language-plaintext highlighter-rouge">docker push &lt;username&gt;/playwright:${env.BUILD_NUMBER}</code> pushed the versioned image to Docker Hub</li>
+</ul>
+
+<p><strong>Post</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">post</code></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">docker logout</code> logs out from Docker Hub</li>
+  <li><code class="language-plaintext highlighter-rouge">docker system prune -f</code> cleans up unused docker data</li>
+</ul>
+
+<h3 id="building-a-docker-image-in-jenkins-pipeline">Building a Docker Image in Jenkins pipeline</h3>
+
+<p><strong>Create a New Pipeline</strong></p>
+
+<ol>
+  <li>Navigate to the Jenkins homepage and click on New Item.</li>
+  <li>Enter an Item Name (e.g., Playwright-Docker-Build) and select <code class="language-plaintext highlighter-rouge">Pipeline</code> and click OK.</li>
+  <li>Under Pipeline Definition, select <code class="language-plaintext highlighter-rouge">Pipeline script from SCM</code>.</li>
+  <li>Select SCM to <code class="language-plaintext highlighter-rouge">git</code>.</li>
+  <li>Provide the Repository URL. (<em>For private repositories, set up credentials for GitHub in Jenkins and select the credentials here.</em>)</li>
+  <li>Specify <code class="language-plaintext highlighter-rouge">Branch Specifier</code> for your repository. (e.g., <code class="language-plaintext highlighter-rouge">*/main</code>)</li>
+  <li>Under Additional Behaviours, choose <code class="language-plaintext highlighter-rouge">Clean before checkout</code>.</li>
+  <li>Set Script Path as <code class="language-plaintext highlighter-rouge">Jenkinsfile</code> (ensure the Jenkinsfile is located in the root directory of your repository).</li>
+  <li>Click on Save</li>
+</ol>
+
+<p><strong>Build the Image</strong></p>
+
+<ul>
+  <li>Click on <code class="language-plaintext highlighter-rouge">Build Now</code>.</li>
+  <li>Once the build is successful, verify your Docker Hub repository. A Docker image with the name <username>/playwright:latest should be pushed to your Docker Hub.</username></li>
+</ul>
+
+<h3 id="setting-up-jenkins-pipeline-for-running-tests">Setting Up Jenkins Pipeline for Running Tests</h3>
+
+<p>For running our tests, we will be creating a separate jenkins pipeline. Create another directory for running tests (e.g., playwright-runner) and include Jenkinsfile and Docker Compose file.</p>
+
+<p>In the root directory, create a <code class="language-plaintext highlighter-rouge">docker-compose.yml</code> file:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">services</span><span class="pi">:</span>
+    <span class="na">playwright-test</span><span class="pi">:</span>
+        <span class="na">image</span><span class="pi">:</span> <span class="s">&lt;username&gt;/playwright</span>
+        <span class="na">environment</span><span class="pi">:</span>
+            <span class="pi">-</span> <span class="s">TEST_TARGET</span>
+            <span class="pi">-</span> <span class="s">BROWSER_CHOICE</span>
+        <span class="na">volumes</span><span class="pi">:</span>
+            <span class="pi">-</span> <span class="s">./reports:/app/reports</span>
+</code></pre></div></div>
+
+<p><strong>Explanation</strong></p>
+
+<p><strong>Services</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">playwright-test</code>: defines the service</li>
+</ul>
+
+<p><strong>Image</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">image</code>: We will be using the prebuild image <code class="language-plaintext highlighter-rouge">&lt;username&gt;/playwright</code> which contains the Playwright test environment.</li>
+</ul>
+
+<p><strong>Environment Variables</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">environment</code>: Passes enviroment variables to the container.</li>
+  <li><code class="language-plaintext highlighter-rouge">TEST_TARGET</code>: This will be used to pass the specific tags to run the test.</li>
+  <li><code class="language-plaintext highlighter-rouge">BROWSER_CHOICE</code>: This will be used to pass the specific browser.</li>
+</ul>
+
+<p><strong>Volumes</strong>
+<code class="language-plaintext highlighter-rouge">volumes</code>: Mounts <code class="language-plaintext highlighter-rouge">./reports</code> directory on host to <code class="language-plaintext highlighter-rouge">/app/reports</code> directory on container.</p>
+
+<p>In the same directory, create a <code class="language-plaintext highlighter-rouge">Jenkinsfile</code> file:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pipeline {
+    agent any
+
+    parameters {
+        choice choices: ['login', 'smoke', 'regression', 'faker'], name: 'TEST_TARGET'
+        choice choices: ['chromium', 'firefox'], name: 'BROWSER_CHOICE'
+    }
+
+    stages {
+
+        stage('Run Test') {
+            steps {
+                sh "docker-compose up --pull=always"
+                script {
+                    def rerunExists = sh(script: '[ -f reports/rerun.txt ] &amp;&amp; [ -s reports/rerun.txt ]', returnStatus: true) == 0
+                    if(rerunExists) {
+                        error("Some tests failed.")
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            sh "docker-compose down"
+            archiveArtifacts artifacts: 'reports/*.html, reports/*.json', followSymlinks: false
+        }
+    }
+}
+</code></pre></div></div>
+
+<p><strong>Explanation</strong></p>
+
+<p><strong>Agent</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">agent any</code>: Run pipeline on any available agent.</li>
+</ul>
+
+<p><strong>Parameters</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">parameters</code>: Allows users to provide input when triggering the pipeline.</li>
+</ul>
+
+<p><strong>Stages</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">stage('Run Test')</code>: Defines the stage for the pipeline.</li>
+  <li><code class="language-plaintext highlighter-rouge">docker-compose up --pull=always</code>: Launches the Dockerized testing environment defined in the docker-compose.yml file pulling the latest image.</li>
+  <li><code class="language-plaintext highlighter-rouge">script</code>: Uses a shell script to check if the reports/rerun.txt file exists and is non-empty. If its not, the pipeline fails with an error.</li>
+</ul>
+
+<p><strong>Post</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">always</code>: Defines actions that are always executed regardless of the pipeline’s success or failure.</li>
+  <li><code class="language-plaintext highlighter-rouge">docker-compose down</code>: Shuts down the Docker containers and cleans up any associated resources.</li>
+  <li><code class="language-plaintext highlighter-rouge">archiveArtifacts artifacts</code>: Collects test reports (e.g., HTML and JSON files) from the reports directory and stores them in Jenkins as build artifacts.</li>
+</ul>
+
+<p>Now setup a github repository and push the code.</p>
+
+<h3 id="running-tests-in-jenkins">Running Tests in Jenkins</h3>
+
+<p><strong>Create New Pipeline</strong></p>
+
+<ol>
+  <li>Go to the Jenkins homepage and click on New Item.</li>
+  <li>Enter an Item Name (e.g., Playwright-Docker-Runner) and select <code class="language-plaintext highlighter-rouge">Pipeline</code> and click OK.</li>
+  <li>Under Pipeline Definition, select <code class="language-plaintext highlighter-rouge">Pipeline script from SCM</code>.</li>
+  <li>Select SCM as <code class="language-plaintext highlighter-rouge">git</code>.</li>
+  <li>Provide the Repository URL for <code class="language-plaintext highlighter-rouge">playwright-runner</code>. (<em>For private repositories, set up credentials for GitHub in Jenkins and select the credentials here.</em>)</li>
+  <li>Specify the <code class="language-plaintext highlighter-rouge">Branch Specifier</code> for your repository (e.g., <code class="language-plaintext highlighter-rouge">*/main</code>).</li>
+  <li>Under Additional Behaviours, choose <code class="language-plaintext highlighter-rouge">Clean before checkout</code>.</li>
+  <li>Set Script Path to <code class="language-plaintext highlighter-rouge">Jenkinsfile</code>. (<em>ensure the Jenkinsfile is located in the root directory of your repository</em>)</li>
+  <li>Click Save to create the pipeline.</li>
+</ol>
+
+<p><strong>Run Pipeline</strong></p>
+
+<p>Click Build Now.</p>
+
+<p><strong>Note:</strong> <em>The first build will run with the default parameters specified in the Jenkinsfile, as you will not be provided with parameter choices initially.</em></p>
+
+<p><strong>Run with Parameters</strong></p>
+
+<ul>
+  <li>After the initial pipeline execution, navigate back to your created pipeline (Playwright-Docker-Runner).</li>
+  <li>Click Build with Parameters.</li>
+  <li>Select the desired parameters and run the pipeline. This will execute all tests based on the provided parameters.</li>
+</ul>
+
+<p><strong>View Build Artifacts</strong></p>
+
+<p>Once the pipeline is executed, you can check the build artifacts attached to the pipeline job.</p>
+
+<hr />
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>This guide has covered the complete setup to run Playwright tests in a Jenkins pipeline using Docker. From configuring Jenkins with Docker to creating pipelines for building and running tests, each step ensures a streamlined and scalable testing process. Using this setup, you can integrate your Playwright tests seamlessly into your CI/CD pipeline and maintain a robust testing environment.</p>]]></content><author><name>bekaarcoder</name></author><category term="docker" /><category term="jenkins" /><category term="playwright" /><summary type="html"><![CDATA[Automation testing has become an integral part of modern software development, and tools like Playwright have made it seamless to perform end-to-end testing. However, executing these tests in a continuous integration pipeline can be challenging without proper setup. In this guide, we will go through the steps to run Playwright tests in a Jenkins pipeline using Docker, ensuring an efficient and scalable testing process. By the end of this post, you’ll have a clear understanding of setting up Jenkins with Docker, connecting agent nodes, and creating pipelines to build and run tests.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://bekaarcoder.xyz/assets/images/cover_image_2024-12-01.png" /><media:content medium="image" url="https://bekaarcoder.xyz/assets/images/cover_image_2024-12-01.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">How to Access the Localhost Development Server on Another Device</title><link href="https://bekaarcoder.xyz/access-dev-server-on-mobile" rel="alternate" type="text/html" title="How to Access the Localhost Development Server on Another Device" /><published>2024-03-31T07:10:05+00:00</published><updated>2024-03-31T07:10:05+00:00</updated><id>https://bekaarcoder.xyz/access-dev-server-on-mobile</id><content type="html" xml:base="https://bekaarcoder.xyz/access-dev-server-on-mobile"><![CDATA[<p>When developing applications locally, we typically access them through a local server using the address “localhost.” However, there are instances where we need to test our applications on different devices. While deploying the application is an option, it’s not always practical for frequent testing. What if you could access your application directly without deploying it? This can be achieved by accessing the development server from another device.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<p>Ensure that all devices are connected to the same network. To access the development server from other devices, they must be on the same network as your computer, whether it’s a Wi-Fi or wired connection.</p>
+
+<h2 id="step-1---obtain-your-computers-ip-address">Step 1 - Obtain Your Computer’s IP Address</h2>
+
+<p>First, find out the local IP address of the machine running your application.</p>
+
+<p>On <code class="language-plaintext highlighter-rouge">Windows</code>, open <em>Powershell</em> or <em>Command Prompt</em> and type the below command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ipconfig
+</code></pre></div></div>
+
+<p>Look for the IPv4 address associated with your network interface (e.g., eth0 or wlan0).</p>
+
+<p>On <code class="language-plaintext highlighter-rouge">Mac/Linux</code>, open the <em>Terminal</em> and type the below command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ifconfig
+</code></pre></div></div>
+
+<p>Look for the entry corresponding to your active network connection (e.g., en0 for Ethernet or en1 for Wi-Fi), and you’ll find your IP address listed next to “inet”.</p>
+
+<h2 id="step-2---starting-the-vite-dev-server">Step 2 - Starting the Vite Dev Server</h2>
+
+<p>Assuming your React application is created using Vite, when you start the Vite dev server with <code class="language-plaintext highlighter-rouge">npm run dev</code>, it binds to <code class="language-plaintext highlighter-rouge">localhost</code> only. To allow access from other devices, start the application using the <code class="language-plaintext highlighter-rouge">--host</code> option and specify your computer’s IP address.</p>
+
+<p>Open <code class="language-plaintext highlighter-rouge">package.json</code> in your React application’s root directory and change the script from <code class="language-plaintext highlighter-rouge">"dev": "vite"</code> to <code class="language-plaintext highlighter-rouge">"dev": "vite --host"</code>.</p>
+
+<p>After making the changes, your package.json script should look like below:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">"scripts"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"dev"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vite --host"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"build"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tsc &amp;&amp; vite build"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"lint"</span><span class="p">:</span><span class="w"> </span><span class="s2">"eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"preview"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vite preview"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Alternatively, you can also start the server by running the below command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm run dev <span class="nt">--</span> <span class="nt">--host</span>
+</code></pre></div></div>
+
+<h2 id="step-3---accessing-the-vite-dev-server-from-another-device">Step 3 - Accessing the Vite Dev Server From Another Device</h2>
+
+<p>With the Vite dev server running and bound to the <code class="language-plaintext highlighter-rouge">--host</code> option, you can now access it from another device. Open a browser on your mobile or any other device and type the following URL:</p>
+
+<blockquote class="blockquote">
+  <p>http://&lt;COMPUTER_IP_ADDRESS&gt;:&lt;DEV_SERVER_PORT_NUMBER&gt;</p>
+</blockquote>
+
+<p>Replace <code class="language-plaintext highlighter-rouge">&lt;COMPUTER_IP_ADDRESS&gt;</code> with your Ip address which you found in Step 1 and <code class="language-plaintext highlighter-rouge">&lt;DEV_SERVER_PORT_NUMBER&gt;</code> with the port number you vite server is running.</p>
+
+<p>Example: <code class="language-plaintext highlighter-rouge">http://192.168.1.170:5173</code></p>
+
+<h2 id="step-4---setting-up-cors-in-the-backend">Step 4 - Setting Up CORS in the Backend</h2>
+
+<p>While you can now access the frontend React app from another device, interacting with the backend application might pose a challenge. If you’re using Node.js and Express for your backend, you need to set up <code class="language-plaintext highlighter-rouge">CORS</code> to allow access from other IP addresses.</p>
+
+<p>Navigate to your backend application and install CORS:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install </span>cors
+</code></pre></div></div>
+
+<p>Add the following code to your application’s index file:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">cors</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">cors</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nf">use</span><span class="p">(</span><span class="nf">cors</span><span class="p">());</span>
+</code></pre></div></div>
+
+<p>This allows incoming requests from any network. If you want to limit requests to certain networks, add the below code:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">allowedOrigins</span> <span class="o">=</span> <span class="p">[</span><span class="dl">'</span><span class="s1">http://localhost:5173</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">http://192.168.1.170:5173</span><span class="dl">'</span><span class="p">];</span>
+<span class="nx">app</span><span class="p">.</span><span class="nf">use</span><span class="p">(</span>
+    <span class="nf">cors</span><span class="p">({</span>
+        <span class="na">origin</span><span class="p">:</span> <span class="nf">function </span><span class="p">(</span><span class="nx">origin</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if </span><span class="p">(</span><span class="o">!</span><span class="nx">origin</span> <span class="o">||</span> <span class="nx">allowedOrigins</span><span class="p">.</span><span class="nf">includes</span><span class="p">(</span><span class="nx">origin</span><span class="p">))</span> <span class="p">{</span>
+                <span class="nf">callback</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="nf">callback</span><span class="p">(</span><span class="k">new</span> <span class="nc">Error</span><span class="p">(</span><span class="dl">'</span><span class="s1">Not allowed by CORS</span><span class="dl">'</span><span class="p">));</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="na">credentials</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="p">})</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p>Now run your backend server using the command specified in your <code class="language-plaintext highlighter-rouge">package.json</code> file.</p>
+
+<blockquote class="blockquote">
+  <p>NOTE: For a Node.js backend server, there’s no need to provide a host option to start the server.</p>
+</blockquote>
+
+<p>You can now access the application from different devices and send requests to the backend server.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Accessing the local development server from other devices on the same network provides a convenient way to test applications without the need for frequent deployments. By following the steps outlined above, you can easily access your application from various devices and ensure its functionality across different platforms. Additionally, setting up CORS in the backend enables seamless communication between frontend and backend components, allowing for comprehensive testing and development.</p>]]></content><author><name>bekaarcoder</name></author><category term="react" /><category term="nodejs" /><summary type="html"><![CDATA[When developing applications locally, we typically access them through a local server using the address “localhost.” However, there are instances where we need to test our applications on different devices. While deploying the application is an option, it’s not always practical for frequent testing. What if you could access your application directly without deploying it? This can be achieved by accessing the development server from another device.]]></summary></entry><entry><title type="html">Backup and Restore MongoDB Database in Docker Container</title><link href="https://bekaarcoder.xyz/mongodb-dump-restore-docker" rel="alternate" type="text/html" title="Backup and Restore MongoDB Database in Docker Container" /><published>2024-02-18T07:10:05+00:00</published><updated>2024-02-18T07:10:05+00:00</updated><id>https://bekaarcoder.xyz/mongodb-dump-restore</id><content type="html" xml:base="https://bekaarcoder.xyz/mongodb-dump-restore-docker"><![CDATA[<p>Developing projects locally often involves setting up a local database using Docker containers. However, transitioning to a different machine can pose challenges, especially when migrating data. In this guide, we’ll explore how to efficiently backup and restore MongoDB databases within Docker containers using command-line utilities provided by MongoDB.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<p>Before proceeding, ensure Docker is installed on your local machine and MongoDB is set up within a Docker container. If you need assistance with setting up MongoDB with Docker, you can refer to this comprehensive <a href="/mongodb-docker">guide</a>.</p>
+
+<h2 id="creating-backup">Creating Backup</h2>
+
+<p><code class="language-plaintext highlighter-rouge">mongodump</code> is used to create a binary dump of the contents of a MongoDB instance.</p>
+
+<p><strong>For Unauthenticated Database</strong></p>
+
+<p>If your MongoDB container doesn’t require authentication, you can create a backup using the following command:. Make sure your MongoDB container is running.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># No Authentication</span>
+docker <span class="nb">exec</span> &lt;mongo_container&gt; sh <span class="nt">-c</span> <span class="s1">'mongodump --archive'</span> <span class="o">&gt;</span> db.dump
+</code></pre></div></div>
+
+<p>Here <code class="language-plaintext highlighter-rouge">&lt;mongo_container&gt;</code> should be replaced with the actual name or ID of your MongoDB container. This will create a file named <code class="language-plaintext highlighter-rouge">db.dump</code> in your current directory.</p>
+
+<p><code class="language-plaintext highlighter-rouge">sh -c 'mongodump --archive'</code> This part of the command is executed inside the container. <code class="language-plaintext highlighter-rouge">--archive</code> option is used to export the data in a compact binary format.</p>
+
+<p><strong>For Authenticated Database</strong></p>
+
+<p>For containers with authentication enabled, use the command below:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Authenticated</span>
+docker <span class="nb">exec</span> &lt;mongo_container&gt; sh <span class="nt">-c</span> <span class="s1">'mongodump --authenticationDatabase admin -u &lt;user&gt; -p &lt;password&gt; --db &lt;database&gt; --archive'</span> <span class="o">&gt;</span> db.dump
+</code></pre></div></div>
+
+<p>Replace <code class="language-plaintext highlighter-rouge">&lt;user&gt;</code>, <code class="language-plaintext highlighter-rouge">&lt;password&gt;</code>, and <code class="language-plaintext highlighter-rouge">&lt;database&gt;</code> with your credentials and database name respectively. This command ensures authentication while creating the backup.</p>
+
+<h2 id="restoring-data">Restoring Data</h2>
+
+<p><code class="language-plaintext highlighter-rouge">mongorestore</code> is used to restore data from a binary dump created by <code class="language-plaintext highlighter-rouge">mongodump</code>.</p>
+
+<p>To restore the data, first create a MongoDB container in your other local machine and start the container. (You can follow the same <a href="/mongodb-docker">guide</a> here)</p>
+
+<p><strong>For Unauthenticated Database</strong></p>
+
+<p>To restore data to an unauthenticated database, execute the following command from the directory which contains <code class="language-plaintext highlighter-rouge">db.dump</code> file:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># No Authentication</span>
+docker <span class="nb">exec</span> <span class="nt">-i</span> &lt;mongo_container&gt; sh <span class="nt">-c</span> <span class="s1">'mongorestore --archive'</span> &lt; db.dump
+</code></pre></div></div>
+
+<p>Here, <code class="language-plaintext highlighter-rouge">&lt;mongo_container&gt;</code> should be replaced with the name or ID of your MongoDB container. The <code class="language-plaintext highlighter-rouge">-i</code> flag ensures input from the <code class="language-plaintext highlighter-rouge">db.dump</code> file is processed.</p>
+
+<p><strong>For Authenticated Database</strong></p>
+
+<p>Use the below command for authenticated database:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Authenticated</span>
+docker <span class="nb">exec</span> &lt;mongo_container&gt; sh <span class="nt">-c</span> <span class="s1">'mongorestore --authenticationDatabase admin -u &lt;user&gt; -p &lt;password&gt; --db &lt;database&gt; --archive'</span> &lt; db.dump
+</code></pre></div></div>
+
+<p>Replace <code class="language-plaintext highlighter-rouge">&lt;user&gt;</code>, <code class="language-plaintext highlighter-rouge">&lt;password&gt;</code>, and <code class="language-plaintext highlighter-rouge">&lt;database&gt;</code> with your credentials and database name respectively. This command restores data while ensuring proper authentication.</p>
+
+<h2 id="summary">Summary</h2>
+
+<p>This guide demonstrates how to streamline the backup and restoration process for MongoDB databases within Docker containers. By utilizing the <code class="language-plaintext highlighter-rouge">mongodump</code> and <code class="language-plaintext highlighter-rouge">mongorestore</code> utilities, developers can efficiently migrate database instances across different local machines while preserving data integrity.</p>]]></content><author><name>bekaarcoder</name></author><category term="docker" /><category term="mongodb" /><summary type="html"><![CDATA[Developing projects locally often involves setting up a local database using Docker containers. However, transitioning to a different machine can pose challenges, especially when migrating data. In this guide, we’ll explore how to efficiently backup and restore MongoDB databases within Docker containers using command-line utilities provided by MongoDB.]]></summary></entry><entry><title type="html">Setting Up MongoDB Using Docker and Docker Compose</title><link href="https://bekaarcoder.xyz/mongodb-docker" rel="alternate" type="text/html" title="Setting Up MongoDB Using Docker and Docker Compose" /><published>2024-01-28T09:10:05+00:00</published><updated>2024-01-28T09:10:05+00:00</updated><id>https://bekaarcoder.xyz/mongodb-docker</id><content type="html" xml:base="https://bekaarcoder.xyz/mongodb-docker"><![CDATA[<p>When it comes to integrating MongoDB into your project, you have several options available. <strong>MongoDB Atlas</strong> provides a convenient cloud-based database service, while installing MongoDB directly on your local machine is another viable option.</p>
+
+<p>In this guide, we’ll explore setting up a MongoDB database within a Docker container, leveraging the official MongoDB images hosted on <a href="https://hub.docker.com/r/mongodb/mongodb-community-server">Docker Hub</a>.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<p>Before getting started, ensure you have <code class="language-plaintext highlighter-rouge">Docker Desktop</code> installed on your system. You can find the installation instructions for your operating system on the official docker <a href="https://www.docker.com/products/docker-desktop/">website</a>.</p>
+
+<h2 id="starting-a-mongodb-container">Starting a MongoDB Container</h2>
+
+<p>To initiate a MongoDB server within a Docker container, open your terminal and execute the following command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">--name</span> mongodb <span class="nt">-d</span> <span class="nt">-p</span> 27017:27017 mongodb/mongodb-community-server:7.0.0-ubi8
+</code></pre></div></div>
+
+<p>This command will start a MongoDB server running version 7.0 in detached mode, allowing it to run as a background process (<code class="language-plaintext highlighter-rouge">-d</code> flag).</p>
+
+<p>By specifying <code class="language-plaintext highlighter-rouge">-p 27017:27017</code>, we ensure that port <strong>27017</strong> on the container is mapped to port <strong>27017</strong> on the host system. Using this, you will be able to connect to your MongoDB instance on <code class="language-plaintext highlighter-rouge">mongodb://localhost:27017</code> from another application running locally.</p>
+
+<p>Additionally, the <code class="language-plaintext highlighter-rouge">-name mongodb</code> flag assigns the name <code class="language-plaintext highlighter-rouge">mongodb</code> to the container for easy reference.</p>
+
+<h2 id="stoping-and-removing-a-container">Stoping and Removing a Container</h2>
+
+<p>Docker provides the <code class="language-plaintext highlighter-rouge">stop</code> and <code class="language-plaintext highlighter-rouge">remove</code> commands to halt and delete a container.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker stop mongodb <span class="o">&amp;&amp;</span> docker <span class="nb">rm </span>mongodb
+</code></pre></div></div>
+
+<h2 id="persisting-data-with-docker">Persisting Data with Docker</h2>
+
+<p>Data generated during the container’s lifecycle is typically lost when the container is removed. To preserve data on your local machine, you can utilize Docker volumes. You can mount a volume using <code class="language-plaintext highlighter-rouge">-v</code> flag.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">--name</span> mongodb <span class="nt">-d</span> <span class="nt">-p</span> 27017:27017 <span class="nt">-v</span> mongodata:/data/db mongodb/ mongodb-community-server:7.0.0-ubi8
+</code></pre></div></div>
+
+<p>This command mounts a volume named <code class="language-plaintext highlighter-rouge">mongodata</code> to store MongoDB data. Now, even if you stop and restart the container, your data will persist.</p>
+
+<h2 id="initializing-mongodb-with-a-root-user">Initializing MongoDB with a Root User</h2>
+
+<p>For enhanced security, MongoDB can be initialized with a root user using environment variables <code class="language-plaintext highlighter-rouge">MONGO_INITDB_ROOT_USERNAME</code> and <code class="language-plaintext highlighter-rouge">MONGO_INITDB_ROOT_PASSWORD</code>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">--name</span> mongodb <span class="nt">-d</span> <span class="nt">-p</span> 27017:27017 <span class="nt">-e</span> <span class="nv">MONGO_INITDB_ROOT_USERNAME</span><span class="o">=</span>user <span class="nt">-e</span> <span class="nv">MONGO_INITDB_ROOT_PASSWORD</span><span class="o">=</span>pass <span class="nt">-v</span> mongodata:/data/db mongodb/ mongodb-community-server:7.0.0-ubi8
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">-e</code> flag is used to pass the environment variables to the container.</p>
+
+<h2 id="running-mongodb-container-using-docker-compose">Running MongoDB Container Using Docker Compose</h2>
+
+<p>To streamline the process of starting and stopping the container, Docker Compose offers a convenient solution.</p>
+
+<p>Create a <code class="language-plaintext highlighter-rouge">docker-compose.yml</code> file and define your MongoDB server container as below:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">version</span><span class="pi">:</span> <span class="s1">'</span><span class="s">3.9'</span>
+
+<span class="na">services</span><span class="pi">:</span>
+    <span class="na">mongo_db</span><span class="pi">:</span>
+        <span class="na">container_name</span><span class="pi">:</span> <span class="s">mongodb_container</span>
+        <span class="na">image</span><span class="pi">:</span> <span class="s">mongodb/mongodb-community-server:7.0.0-ubi8</span>
+        <span class="na">ports</span><span class="pi">:</span>
+            <span class="pi">-</span> <span class="s">27017:27017</span>
+        <span class="na">environment</span><span class="pi">:</span>
+            <span class="pi">-</span> <span class="s">MONGO_INITDB_ROOT_USERNAME=user</span>
+            <span class="pi">-</span> <span class="s">MONGO_INITDB_ROOT_PASSWORD=pass</span>
+        <span class="na">volumes</span><span class="pi">:</span>
+            <span class="pi">-</span> <span class="s">mongodata:/data/db</span>
+
+<span class="na">volumes</span><span class="pi">:</span>
+    <span class="na">mongodata</span><span class="pi">:</span> <span class="pi">{}</span>
+</code></pre></div></div>
+
+<p>Now, execute the following command from the directory containing the <code class="language-plaintext highlighter-rouge">docker-compose.yml</code> file.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker compose up <span class="nt">-d</span>
+</code></pre></div></div>
+
+<p>To stop the container, simply execute:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker compose down
+</code></pre></div></div>
+
+<p>With MongoDB now set up and running, you’re ready to leverage it locally to develop your applications.</p>]]></content><author><name>bekaarcoder</name></author><category term="docker" /><category term="mongodb" /><summary type="html"><![CDATA[When it comes to integrating MongoDB into your project, you have several options available. MongoDB Atlas provides a convenient cloud-based database service, while installing MongoDB directly on your local machine is another viable option.]]></summary></entry><entry><title type="html">A Comprehensive Guide to Updating Node.js on macOS</title><link href="https://bekaarcoder.xyz/nodejs/2024/01/18/update-nodejs-mac.html" rel="alternate" type="text/html" title="A Comprehensive Guide to Updating Node.js on macOS" /><published>2024-01-18T09:10:05+00:00</published><updated>2024-01-18T09:10:05+00:00</updated><id>https://bekaarcoder.xyz/nodejs/2024/01/18/update-nodejs-mac</id><content type="html" xml:base="https://bekaarcoder.xyz/nodejs/2024/01/18/update-nodejs-mac.html"><![CDATA[<p>Keeping your Node.js version up-to-date is crucial for leveraging the latest features and security enhancements. While updating on Windows is straightforward, updating Node.js on macOS may seem a bit more involved than on Windows, but fear not! In this guide, we’ll walk you through the process step by step.</p>
+
+<h2 id="step-1---check-your-nodejs-version">Step 1 - Check your Node.js version</h2>
+
+<p>Open you console/terminal and execute the following command::</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>node <span class="nt">-v</span>
+</code></pre></div></div>
+
+<p>This will display your current Node.js version as ‘v x.x.x.’</p>
+
+<h2 id="step-2---install-n-package-using-npm">Step 2 - Install ‘n’ package using npm</h2>
+
+<p>To make the update process smoother, we’ll use the ‘n’ package, a straightforward Node.js version manager. Execute the following command to install ‘n’ globally using npm:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>npm <span class="nb">install</span> <span class="nt">-g</span> n
+</code></pre></div></div>
+
+<h2 id="step-3---update-your-nodejs-version">Step 3 - Update your Node.js version</h2>
+
+<p>Now that ‘n’ is installed, updating Node.js is a breeze. Choose one of the following commands based on your preference:</p>
+
+<ul>
+  <li>
+    <p>To install the latest LTS Node.js release version:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>n lts
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>To install the latest Node.js release version</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>n latest
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>To install specific Node.js version</p>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>n x.x.x
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="step-4---verification">Step 4 - Verification</h2>
+
+<p>That’s it! Ensure the update was successful by checking your Node.js version again:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>node <span class="nt">-v</span>
+</code></pre></div></div>
+
+<p>The terminal should display the updated Node.js version as ‘v x.x.x.’</p>
+
+<p>Now you’re all set with the latest Node.js version, equipped to make the most of the newest features and improvements. Happy coding!</p>]]></content><author><name>bekaarcoder</name></author><category term="nodejs" /><summary type="html"><![CDATA[Keeping your Node.js version up-to-date is crucial for leveraging the latest features and security enhancements. While updating on Windows is straightforward, updating Node.js on macOS may seem a bit more involved than on Windows, but fear not! In this guide, we’ll walk you through the process step by step.]]></summary></entry><entry><title type="html">Adding Search Functionality To Jekyll Website</title><link href="https://bekaarcoder.xyz/jekyll/2023/12/29/adding-search-in-jekyll-website.html" rel="alternate" type="text/html" title="Adding Search Functionality To Jekyll Website" /><published>2023-12-29T09:10:05+00:00</published><updated>2023-12-29T09:10:05+00:00</updated><id>https://bekaarcoder.xyz/jekyll/2023/12/29/adding-search-in-jekyll-website</id><content type="html" xml:base="https://bekaarcoder.xyz/jekyll/2023/12/29/adding-search-in-jekyll-website.html"><![CDATA[<p>Jekyll, a popular static site generator, simplifies the process of creating and maintaining websites. However, one common feature that is often missing from basic Jekyll setups is a search functionality. In this blog post, we’ll explore how to seamlessly integrate a search feature into your Jekyll website to enhance user experience and make content discovery more efficient.</p>
+
+<p>Several plugins and services can add search functionality to your Jekyll site. Here are a few options:</p>
+
+<ol>
+  <li>
+    <p><strong>Simple-Jekyll-Search:</strong> A lightweight, client-side search plugin that requires no server-side processing. It’s easy to set up and works well for small to medium-sized sites.</p>
+  </li>
+  <li>
+    <p><strong>Lunr.js:</strong> A client-side search engine that indexes content and performs searches on the client side. It’s suitable for smaller sites without complex search requirements.</p>
+  </li>
+  <li>
+    <p><strong>Algolia:</strong> A robust, hosted search engine service that provides advanced features like typo-tolerance and faceted search. Integration with Algolia involves more steps but offers a superior search experience.</p>
+  </li>
+</ol>
+
+<blockquote class="blockquote">
+  <p>Here we will be using <strong>Simple-Jekyll-Search</strong> as its lightweight and easy to implement.</p>
+</blockquote>
+
+<h2 id="step-1---add-search-plugin-to-your-site">Step 1 - Add search plugin to your site</h2>
+
+<p>Download the <code class="language-plaintext highlighter-rouge">simple-jekyll-search.min.js</code> script from the <a href="https://github.com/christian-fei/Simple-Jekyll-Search/tree/master/dest">repository</a> and place it in your site’s assets directory.</p>
+
+<p>Include the script in your html layout.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"assets/simple-jekyll-search.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+</code></pre></div></div>
+
+<p>You can also add the below script tag directly in your html file.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://unpkg.com/simple-jekyll-search@latest/dest/simple-jekyll-search.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+</code></pre></div></div>
+
+<h2 id="step-2---configure-the-search">Step 2 - Configure the search</h2>
+
+<p>Create <code class="language-plaintext highlighter-rouge">search.json</code> file in the root of your jekyll website and place the following code.</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">//</span><span class="w"> </span><span class="err">search.json</span><span class="w">
+
+</span><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="err">%</span><span class="w"> </span><span class="err">for</span><span class="w"> </span><span class="err">post</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">site.posts</span><span class="w"> </span><span class="err">%</span><span class="p">}</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ post.title | escape }}"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ post.url | absolute_url }}"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"content"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ post.content | strip_html | strip_newlines | escape }}"</span><span class="w">
+    </span><span class="p">}{</span><span class="err">%</span><span class="w"> </span><span class="err">unless</span><span class="w"> </span><span class="err">forloop.last</span><span class="w"> </span><span class="err">%</span><span class="p">},{</span><span class="err">%</span><span class="w"> </span><span class="err">endunless</span><span class="w"> </span><span class="err">%</span><span class="p">}</span><span class="w">
+  </span><span class="p">{</span><span class="err">%</span><span class="w"> </span><span class="err">endfor</span><span class="w"> </span><span class="err">%</span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+
+</span></code></pre></div></div>
+
+<p>This will convert all the jekyll data from all the post into a key value pair which can be easily read by the search script.</p>
+
+<h2 id="step-3---initialize-the-search">Step 3 - Initialize the search</h2>
+
+<p>Create a search layout file <code class="language-plaintext highlighter-rouge">search.html</code> and add the following script before the closing <code class="language-plaintext highlighter-rouge">&lt;/body&gt;</code> tag.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- search.html --&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"assets/simple-jekyll-search.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+<span class="nt">&lt;script&gt;</span>
+    <span class="nc">SimpleJekyllSearch</span><span class="p">({</span>
+        <span class="na">searchInput</span><span class="p">:</span> <span class="nb">document</span><span class="p">.</span><span class="nf">getElementById</span><span class="p">(</span><span class="dl">'</span><span class="s1">search-input</span><span class="dl">'</span><span class="p">),</span>
+        <span class="na">resultsContainer</span><span class="p">:</span> <span class="nb">document</span><span class="p">.</span><span class="nf">getElementById</span><span class="p">(</span><span class="dl">'</span><span class="s1">search-results</span><span class="dl">'</span><span class="p">),</span>
+        <span class="na">json</span><span class="p">:</span> <span class="dl">'</span><span class="s1">/assets/search.json</span><span class="dl">'</span><span class="p">,</span>
+        <span class="na">searchResultTemplate</span><span class="p">:</span> <span class="dl">'</span><span class="s1">&lt;li&gt;&lt;a href="{url}"&gt;{title}&lt;/a&gt;&lt;/li&gt;</span><span class="dl">'</span><span class="p">,</span>
+        <span class="na">noResultsText</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Nothing found, try searching again.</span><span class="dl">'</span><span class="p">,</span>
+    <span class="p">});</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre></div></div>
+
+<blockquote class="blockquote">
+  <p>I’ve also included the search script in <code class="language-plaintext highlighter-rouge">search.html</code> layout. You can put the script in your default layout or homepage as per your requirement.</p>
+</blockquote>
+
+<h2 id="step-4---create-a-search-form">Step 4 - Create a search form</h2>
+
+<p>In the <code class="language-plaintext highlighter-rouge">search.html</code> layout, add the search input and result container to display the search results.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">id=</span><span class="s">"search-input"</span> <span class="na">placeholder=</span><span class="s">"Search blog posts.."</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;ul</span> <span class="na">id=</span><span class="s">"results-container"</span><span class="nt">&gt;&lt;/ul&gt;</span>
+</code></pre></div></div>
+
+<p>Your search functionality is ready. Now test it by typing something in the search input and check whether it displays any result.</p>
+
+<h2 id="customizations">Customizations</h2>
+
+<p>You can also customize the search input and search result by adding custom styles and other elements to match your site design.</p>
+
+<p>For example, if you are using bootstrap, you can add some css styles in the configuration script:</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>searchResultTemplate: '
+<span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"list-group-item"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;a</span> <span class="na">class=</span><span class="s">"link-body-emphasis"</span> <span class="na">href=</span><span class="s">"{url}"</span><span class="nt">&gt;</span>{title}<span class="nt">&lt;/a&gt;</span>
+<span class="nt">&lt;/li&gt;</span>
+',
+</code></pre></div></div>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Byy following these steps, you’ve successfully added search functionality to your Jekyll website providing users with the ability to search for your content easily which will enhance their overall experience on your site.</p>]]></content><author><name>bekaarcoder</name></author><category term="jekyll" /><summary type="html"><![CDATA[Jekyll, a popular static site generator, simplifies the process of creating and maintaining websites. However, one common feature that is often missing from basic Jekyll setups is a search functionality. In this blog post, we’ll explore how to seamlessly integrate a search feature into your Jekyll website to enhance user experience and make content discovery more efficient.]]></summary></entry></feed>

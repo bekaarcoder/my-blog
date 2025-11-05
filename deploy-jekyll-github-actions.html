@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+    <head>
+        <!-- Google tag (gtag.js) -->
+        <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-1N56V15RFF"
+        ></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+
+            gtag('config', 'G-1N56V15RFF');
+        </script>
+        <!-- Mailchimp Popup -->
+        <!-- <script id="mcjs">
+            !(function (c, h, i, m, p) {
+                (m = c.createElement(h)),
+                    (p = c.getElementsByTagName(h)[0]),
+                    (m.async = 1),
+                    (m.src = i),
+                    p.parentNode.insertBefore(m, p);
+            })(
+                document,
+                'script',
+                'https://chimpstatic.com/mcjs-connected/js/users/1da7ef4fb504bc638638b0a1d/21e4762bfbe0285b3056a20b5.js'
+            );
+        </script> -->
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+            name="google-site-verification"
+            content="BO_YUQmMLrwJZdus7XuVa_Z_B-VLJP5pTTwsrnzN-ew"
+        />
+        <meta name="google-adsense-account" content="ca-pub-7156088348148191" />
+        <title>
+             Bekaarcoder&#39;s Blog - Deploying Jekyll Website On Github Pages With Github Actions 
+        </title>
+        <link rel="stylesheet" href="/assets/css/syntax.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+        />
+        <link rel="stylesheet" href="/assets/css/main.css" />
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/apple-touch-icon.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/favicon-32x32.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/favicon-16x16.png"
+        />
+        <link rel="manifest" href="/site.webmanifest" />
+        <!-- Begin Jekyll SEO tag v2.8.0 -->
+<meta name="generator" content="Jekyll v4.3.4" />
+<meta property="og:title" content="Deploying Jekyll Website On Github Pages With Github Actions" />
+<meta name="author" content="bekaarcoder" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="You’ve built an amazing Jekyll website, and now you want to share it with the world using GitHub Pages. However, GitHub Pages operates in safe mode, which means it doesn’t support custom plugins out of the box. But don’t worry, we’ve got you covered! In this guide, we’ll walk you through using GitHub Actions and the Jekyll Deploy Action to deploy your Jekyll site with custom plugins to GitHub Pages." />
+<meta property="og:description" content="You’ve built an amazing Jekyll website, and now you want to share it with the world using GitHub Pages. However, GitHub Pages operates in safe mode, which means it doesn’t support custom plugins out of the box. But don’t worry, we’ve got you covered! In this guide, we’ll walk you through using GitHub Actions and the Jekyll Deploy Action to deploy your Jekyll site with custom plugins to GitHub Pages." />
+<link rel="canonical" href="https://bekaarcoder.xyz/deploy-jekyll-github-actions" />
+<meta property="og:url" content="https://bekaarcoder.xyz/deploy-jekyll-github-actions" />
+<meta property="og:site_name" content="Bekaarcoder’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-10-30T07:49:05+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Deploying Jekyll Website On Github Pages With Github Actions" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"bekaarcoder"},"dateModified":"2023-10-30T07:49:05+00:00","datePublished":"2023-10-30T07:49:05+00:00","description":"You’ve built an amazing Jekyll website, and now you want to share it with the world using GitHub Pages. However, GitHub Pages operates in safe mode, which means it doesn’t support custom plugins out of the box. But don’t worry, we’ve got you covered! In this guide, we’ll walk you through using GitHub Actions and the Jekyll Deploy Action to deploy your Jekyll site with custom plugins to GitHub Pages.","headline":"Deploying Jekyll Website On Github Pages With Github Actions","mainEntityOfPage":{"@type":"WebPage","@id":"https://bekaarcoder.xyz/deploy-jekyll-github-actions"},"url":"https://bekaarcoder.xyz/deploy-jekyll-github-actions"}</script>
+<!-- End Jekyll SEO tag -->
+
+    </head>
+    <body>
+        <div class="container">
+    <div class="row justify-content-center">
+        <div class="col-sm-12 col-md-12 col-lg-8">
+            <nav class="navbar navbar-expand-lg">
+                <a class="navbar-brand" href="/"> Bekaarcoder's Blog </a>
+                <ul class="navbar-nav mb-lg-0 me-auto">
+                    <li class="nav-item">
+                        <button class="btn btn-sm" onclick="toggleTheme()">
+                            <i
+                                class="bi bi-brightness-high text-warning"
+                                id="theme-toggle"
+                            ></i>
+                        </button>
+                    </li>
+                </ul>
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div
+                    class="collapse navbar-collapse"
+                    id="navbarSupportedContent"
+                >
+                    <ul class="navbar-nav mb-2 ms-auto mb-lg-0">
+                            
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about/">
+                                 About 
+                            </a>
+                        </li>
+                            
+                        <li class="nav-item">
+                            <a class="nav-link" href="/categories/">
+                                 Categories 
+                            </a>
+                        </li>
+                              
+                        <li class="nav-item">
+                            <a class="nav-link" href="/search/">
+                                
+                                <i class="bi bi-search"></i>
+                                
+                            </a>
+                        </li>
+                                                                                                                                          
+                        <!-- <li class="nav-item">
+                            <button
+                                class="btn btn-sm mt-1 ms-2"
+                                onclick="toggleTheme()"
+                            >
+                                <i
+                                    class="bi bi-brightness-high text-warning"
+                                    id="theme-toggle"
+                                ></i>
+                            </button>
+                        </li> -->
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="row mt-4">
+                <div class="col-md-12"><div class="row justify-content-center mb-5">
+    <div class="col-sm-12 col-md-12 col-lg-8">
+        
+        <h2 class="display-4">Deploying Jekyll Website On Github Pages With Github Actions</h2>
+        <div class="d-flex">
+            <p class="text-secondary"> October 30, 2023</p>
+            <p class="text-secondary ms-3">
+                <i class="bi bi-clock"></i> 2 minutes read
+            </p>
+        </div>
+        <div class="mb-3">
+            
+            <span class="badge text-bg-success">
+                <a
+                    href="/categories/tutorial"
+                    class="text-reset text-decoration-none"
+                >
+                    Tutorial
+                </a>
+            </span>
+            
+            <span class="badge text-bg-success">
+                <a
+                    href="/categories/jekyll"
+                    class="text-reset text-decoration-none"
+                >
+                    Jekyll
+                </a>
+            </span>
+            
+        </div>
+        <p>You’ve built an amazing Jekyll website, and now you want to share it with the world using GitHub Pages. However, GitHub Pages operates in <code class="language-plaintext highlighter-rouge">safe</code> mode, which means it doesn’t support custom plugins out of the box. But don’t worry, we’ve got you covered! In this guide, we’ll walk you through using GitHub Actions and the <strong><code class="language-plaintext highlighter-rouge">Jekyll Deploy Action</code></strong> to deploy your Jekyll site with custom plugins to GitHub Pages.</p>
+
+<h2 id="jekyll-deploy-action">Jekyll Deploy Action</h2>
+
+<p>The Jekyll Deploy Action simplifies the process of building and deploying your Jekyll site to GitHub Pages. It’s a handy tool that ensures your custom plugins work seamlessly.</p>
+
+<p>You can find the repository for the <code class="language-plaintext highlighter-rouge">Jekyll Deploy Action</code> <a href="https://github.com/jeffreytse/jekyll-deploy-action">here</a>.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<p>Before setting up the GitHub Action workflow, let’s make sure you have the prerequisites in place:</p>
+
+<p><strong>Separate Branch:</strong> Create a new branch, which we’ll call gh-pages, separate from your main repository. We’ll use this branch to deploy your site to GitHub Pages.</p>
+
+<h2 id="usage">Usage</h2>
+
+<p>Now, let’s set up the GitHub Action workflow to automate your deployment. Follow these steps:</p>
+
+<ol>
+  <li>
+    <p><strong>Create a Workflow File:</strong> Inside your repository’s main branch, create a directory named ``.github/workflows`.</p>
+  </li>
+  <li>
+    <p><strong>Add Configuration:</strong> In this directory, create a file named jekyll.yml. Paste the following code into this file:</p>
+
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="na">name</span><span class="pi">:</span> <span class="s">Build and Deploy to Github Pages</span>
+
+ <span class="na">on</span><span class="pi">:</span>
+ <span class="na">push</span><span class="pi">:</span>
+     <span class="na">branches</span><span class="pi">:</span>
+     <span class="pi">-</span> <span class="s">main</span>  <span class="c1"># Here source code branch is `main`, it could be other branch</span>
+
+ <span class="na">jobs</span><span class="pi">:</span>
+ <span class="na">build_and_deploy</span><span class="pi">:</span>
+     <span class="na">runs-on</span><span class="pi">:</span> <span class="s">ubuntu-latest</span>
+     <span class="na">steps</span><span class="pi">:</span>
+     <span class="pi">-</span> <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/checkout@v3</span>
+
+     <span class="c1"># Use GitHub Actions' cache to cache dependencies on servers</span>
+     <span class="pi">-</span> <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/cache@v3</span>
+         <span class="s">with</span><span class="err">:</span>
+         <span class="na">path</span><span class="pi">:</span> <span class="s">vendor/bundle</span>
+         <span class="na">key</span><span class="pi">:</span> <span class="s">$-gems-$</span>
+         <span class="na">restore-keys</span><span class="pi">:</span> <span class="pi">|</span>
+             <span class="s">$-gems-</span>
+
+     <span class="c1"># Use GitHub Deploy Action to build and deploy to Github</span>
+     <span class="c1"># For latest version: `jeffreytse/jekyll-deploy-action@master`</span>
+     <span class="pi">-</span> <span class="na">uses</span><span class="pi">:</span> <span class="s">jeffreytse/jekyll-deploy-action@v0.5.0</span>
+         <span class="s">with</span><span class="err">:</span>
+         <span class="na">provider</span><span class="pi">:</span> <span class="s1">'</span><span class="s">github'</span>         <span class="c1"># Default is github</span>
+         <span class="na">token</span><span class="pi">:</span> <span class="s">$</span> <span class="c1"># It's your Personal Access Token(PAT)</span>
+         <span class="na">ssh_private_key</span><span class="pi">:</span> <span class="s1">'</span><span class="s">'</span>        <span class="c1"># It's your SSH private key (SSH approach)</span>
+         <span class="na">repository</span><span class="pi">:</span> <span class="s1">'</span><span class="s">'</span>             <span class="c1"># Default is current repository</span>
+         <span class="na">branch</span><span class="pi">:</span> <span class="s1">'</span><span class="s">gh-pages'</span>         <span class="c1"># Default is gh-pages for github provider</span>
+         <span class="na">jekyll_src</span><span class="pi">:</span> <span class="s1">'</span><span class="s">./'</span>           <span class="c1"># Default is root directory</span>
+         <span class="na">jekyll_cfg</span><span class="pi">:</span> <span class="s1">'</span><span class="s">_config.yml'</span>  <span class="c1"># Default is _config.yml</span>
+         <span class="na">jekyll_baseurl</span><span class="pi">:</span> <span class="s1">'</span><span class="s">'</span>         <span class="c1"># Default is according to _config.yml</span>
+         <span class="na">bundler_ver</span><span class="pi">:</span> <span class="s1">'</span><span class="s">&gt;=0'</span>         <span class="c1"># Default is latest bundler version</span>
+         <span class="na">cname</span><span class="pi">:</span> <span class="s1">'</span><span class="s">'</span>                  <span class="c1"># Default is to not use a cname</span>
+         <span class="na">actor</span><span class="pi">:</span> <span class="s1">'</span><span class="s">'</span>                  <span class="c1"># Default is the GITHUB_ACTOR</span>
+         <span class="na">pre_build_commands</span><span class="pi">:</span> <span class="s1">'</span><span class="s">'</span>     <span class="c1"># Installing additional dependencies (Arch Linux)</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>The code above is sourced from the <a href="https://github.com/jeffreytse/jekyll-deploy-action">jekyll-deploy-action</a> repository for reference.</p>
+
+<p>Now, whenever you push changes to the main branch, the GitHub Action workflow will automatically build your site and make it available on the <code class="language-plaintext highlighter-rouge">gh-pages</code> branch. You can then follow the same steps you did previously to deploy your website to GitHub Pages.</p>
+
+<p>That’s it! Your website is now deployed with custom plugins, and you’re ready to celebrate your success. 🎉</p>
+
+<p>Happy coding!</p>
+
+        <hr class="mt-5 border-3 border-info" />
+        <div class="pagination mt-2 d-flex">
+            
+            <a href="/setting-up-playwright" class="previous btn btn-light">
+                <i class="bi bi-arrow-left"></i> Previous Post
+            </a>
+             
+            <a href="/running-playwright-test-gitlabci" class="next btn btn-light ms-auto"
+                >Next Post <i class="bi bi-arrow-right"></i
+            ></a>
+            
+        </div>
+    </div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="container my-4">
+    <div class="row justify-content-center">
+        <div
+            class="col-sm-12 col-md-12 col-lg-8 d-flex justify-content-between align-items-center"
+        >
+            <span class="word-spacing"
+                >Copyright &copy; 2024 | All rights reserved.</span
+            >
+            <div class="d-flex justify-content-center my-3">
+                <a
+                    href="https://www.instagram.com/banda_bekaar"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-instagram fs-5"></i>
+                </a>
+                <a
+                    href="https://github.com/bekaarcoder"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-github fs-5"></i>
+                </a>
+                <a
+                    href="https://twitter.com/banda_bekaar"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-twitter-x fs-5"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"
+        ></script>
+        <script src="/assets/js/scripts.js"></script>
+    </body>
+</html>

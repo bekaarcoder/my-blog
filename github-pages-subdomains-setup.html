@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+    <head>
+        <!-- Google tag (gtag.js) -->
+        <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-1N56V15RFF"
+        ></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+
+            gtag('config', 'G-1N56V15RFF');
+        </script>
+        <!-- Mailchimp Popup -->
+        <!-- <script id="mcjs">
+            !(function (c, h, i, m, p) {
+                (m = c.createElement(h)),
+                    (p = c.getElementsByTagName(h)[0]),
+                    (m.async = 1),
+                    (m.src = i),
+                    p.parentNode.insertBefore(m, p);
+            })(
+                document,
+                'script',
+                'https://chimpstatic.com/mcjs-connected/js/users/1da7ef4fb504bc638638b0a1d/21e4762bfbe0285b3056a20b5.js'
+            );
+        </script> -->
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+            name="google-site-verification"
+            content="BO_YUQmMLrwJZdus7XuVa_Z_B-VLJP5pTTwsrnzN-ew"
+        />
+        <meta name="google-adsense-account" content="ca-pub-7156088348148191" />
+        <title>
+             Bekaarcoder&#39;s Blog - How to Host Multiple Sites Under One Domain Using GitHub Pages and Subdomains 
+        </title>
+        <link rel="stylesheet" href="/assets/css/syntax.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+        />
+        <link rel="stylesheet" href="/assets/css/main.css" />
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/apple-touch-icon.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/favicon-32x32.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/favicon-16x16.png"
+        />
+        <link rel="manifest" href="/site.webmanifest" />
+        <!-- Begin Jekyll SEO tag v2.8.0 -->
+<meta name="generator" content="Jekyll v4.3.4" />
+<meta property="og:title" content="How to Host Multiple Sites Under One Domain Using GitHub Pages and Subdomains" />
+<meta name="author" content="bekaarcoder" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Step-by-step guide to hosting your main site and multiple subdomains using GitHub Pages, with a custom domain." />
+<meta property="og:description" content="Step-by-step guide to hosting your main site and multiple subdomains using GitHub Pages, with a custom domain." />
+<link rel="canonical" href="https://bekaarcoder.xyz/github-pages-subdomains-setup" />
+<meta property="og:url" content="https://bekaarcoder.xyz/github-pages-subdomains-setup" />
+<meta property="og:site_name" content="Bekaarcoder’s Blog" />
+<meta property="og:image" content="https://bekaarcoder.xyz/assets/images/cover_image_2025-08-15.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-08-15T04:10:05+00:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="https://bekaarcoder.xyz/assets/images/cover_image_2025-08-15.png" />
+<meta property="twitter:title" content="How to Host Multiple Sites Under One Domain Using GitHub Pages and Subdomains" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"bekaarcoder"},"dateModified":"2025-08-15T04:10:05+00:00","datePublished":"2025-08-15T04:10:05+00:00","description":"Step-by-step guide to hosting your main site and multiple subdomains using GitHub Pages, with a custom domain.","headline":"How to Host Multiple Sites Under One Domain Using GitHub Pages and Subdomains","image":"https://bekaarcoder.xyz/assets/images/cover_image_2025-08-15.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://bekaarcoder.xyz/github-pages-subdomains-setup"},"url":"https://bekaarcoder.xyz/github-pages-subdomains-setup"}</script>
+<!-- End Jekyll SEO tag -->
+
+    </head>
+    <body>
+        <div class="container">
+    <div class="row justify-content-center">
+        <div class="col-sm-12 col-md-12 col-lg-8">
+            <nav class="navbar navbar-expand-lg">
+                <a class="navbar-brand" href="/"> Bekaarcoder's Blog </a>
+                <ul class="navbar-nav mb-lg-0 me-auto">
+                    <li class="nav-item">
+                        <button class="btn btn-sm" onclick="toggleTheme()">
+                            <i
+                                class="bi bi-brightness-high text-warning"
+                                id="theme-toggle"
+                            ></i>
+                        </button>
+                    </li>
+                </ul>
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div
+                    class="collapse navbar-collapse"
+                    id="navbarSupportedContent"
+                >
+                    <ul class="navbar-nav mb-2 ms-auto mb-lg-0">
+                            
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about/">
+                                 About 
+                            </a>
+                        </li>
+                            
+                        <li class="nav-item">
+                            <a class="nav-link" href="/categories/">
+                                 Categories 
+                            </a>
+                        </li>
+                              
+                        <li class="nav-item">
+                            <a class="nav-link" href="/search/">
+                                
+                                <i class="bi bi-search"></i>
+                                
+                            </a>
+                        </li>
+                                                                                                                                          
+                        <!-- <li class="nav-item">
+                            <button
+                                class="btn btn-sm mt-1 ms-2"
+                                onclick="toggleTheme()"
+                            >
+                                <i
+                                    class="bi bi-brightness-high text-warning"
+                                    id="theme-toggle"
+                                ></i>
+                            </button>
+                        </li> -->
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="row mt-4">
+                <div class="col-md-12"><div class="row justify-content-center mb-5">
+    <div class="col-sm-12 col-md-12 col-lg-8">
+        
+        <div class="my-3">
+            <img
+                src="/assets/images/cover_image_2025-08-15.png"
+                alt="cover_image"
+                class="rounded"
+                width="100%"
+            />
+        </div>
+        
+        <h2 class="display-4">How to Host Multiple Sites Under One Domain Using GitHub Pages and Subdomains</h2>
+        <div class="d-flex">
+            <p class="text-secondary"> August 15, 2025</p>
+            <p class="text-secondary ms-3">
+                <i class="bi bi-clock"></i> 2 minutes read
+            </p>
+        </div>
+        <div class="mb-3">
+            
+            <span class="badge text-bg-success">
+                <a
+                    href="/categories/githubpages"
+                    class="text-reset text-decoration-none"
+                >
+                    Githubpages
+                </a>
+            </span>
+            
+            <span class="badge text-bg-success">
+                <a
+                    href="/categories/subdomains"
+                    class="text-reset text-decoration-none"
+                >
+                    Subdomains
+                </a>
+            </span>
+            
+            <span class="badge text-bg-success">
+                <a
+                    href="/categories/hosting"
+                    class="text-reset text-decoration-none"
+                >
+                    Hosting
+                </a>
+            </span>
+            
+        </div>
+        <p>If you own a custom domain, you can serve multiple sites from it — one on the main domain and others on subdomains — using GitHub Pages for free.</p>
+
+<p>In this guide, I’ll show you how did I set up my portfolio on <a href="https://shashank.im">shashank.im</a> and my blog on <a href="https://blog.shashank.im">blog.shashank.im</a>, both hosted on different GitHub repositories.</p>
+
+<blockquote class="blockquote">
+  <p>Wherever I’ve used <code class="language-plaintext highlighter-rouge">shashank.im</code> or <code class="language-plaintext highlighter-rouge">blog.shashank.im</code> in this guide, replace them with your own custom domain and subdomains.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="why-use-subdomains">Why Use Subdomains?</h2>
+
+<p>Subdomains let you keep different projects separated but still under your main brand. For example:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>shashank.im             → Portfolio
+blog.shashank.im        → Blog
+projects.shashank.im    → Side Projects
+resume.shashank.im      → Interactive Resume
+</code></pre></div></div>
+
+<p>Each subdomain can have its own GitHub Pages site, making it easy to maintain and update independently.</p>
+
+<hr />
+
+<h2 id="step-1--set-up-dns-records">Step 1 — Set Up DNS Records</h2>
+
+<p>Log into your domain registrar (the place where you bought your domain) and edit the DNS settings.</p>
+
+<h4 id="for-the-root-domain-shashankim">For the root domain (shashank.im)</h4>
+
+<p>Add four <code class="language-plaintext highlighter-rouge">A</code> records pointing to GitHub Pages IP addresses:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>A   @   185.199.108.153
+A   @   185.199.109.153
+A   @   185.199.110.153
+A   @   185.199.111.153
+</code></pre></div></div>
+
+<h4 id="for-the-blog-subdomain-blogshashankim">For the blog subdomain (blog.shashank.im)</h4>
+
+<p>Add a CNAME record:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CNAME   blog   &lt;your-github-username&gt;.github.io
+</code></pre></div></div>
+
+<p>Replace <code class="language-plaintext highlighter-rouge">&lt;your-github-username&gt;</code> with your GitHub username.</p>
+
+<p>(Optional) If you want www.shashank.im to work:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CNAME   www   &lt;your-github-username&gt;.github.io
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="step-2--configure-github-pages-for-each-site">Step 2 — Configure GitHub Pages for Each Site</h2>
+
+<h4 id="portfolio-repository">Portfolio Repository</h4>
+
+<ol>
+  <li>On your Github repository, Go to Settings → Pages.</li>
+  <li>Set the source branch (usually main).</li>
+  <li>Enter <code class="language-plaintext highlighter-rouge">shashank.im</code> as the custom domain.</li>
+  <li>Create a file named CNAME in the repo root containing:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> shashank.im
+</code></pre></div>    </div>
+  </li>
+  <li>Enable <code class="language-plaintext highlighter-rouge">Enforce HTTPS</code>.</li>
+</ol>
+
+<h4 id="blog-repository">Blog Repository</h4>
+
+<ol>
+  <li>Go to Settings → Pages.</li>
+  <li>Set the source branch.</li>
+  <li>Enter <code class="language-plaintext highlighter-rouge">blog.shashank.im</code> as the custom domain.</li>
+  <li>Create a file named CNAME in the repo root containing:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> blog.shashank.im
+</code></pre></div>    </div>
+  </li>
+  <li>Enable <code class="language-plaintext highlighter-rouge">Enforce HTTPS</code>.</li>
+</ol>
+
+<hr />
+
+<h2 id="step-3--verify-the-setup">Step 3 — Verify the Setup</h2>
+
+<p>After DNS changes propagate (usually within an hour but can take up to 24 hours):</p>
+
+<ol>
+  <li>
+    <p>Visit <code class="language-plaintext highlighter-rouge">shashank.im</code> → Portfolio loads.</p>
+  </li>
+  <li>
+    <p>Visit <code class="language-plaintext highlighter-rouge">blog.shashank.im</code> → Blog loads.</p>
+  </li>
+</ol>
+
+<hr />
+
+<h2 id="managing-multiple-subdomains">Managing Multiple Subdomains</h2>
+
+<p>If you plan to add more:</p>
+
+<ul>
+  <li>Create one repo per subdomain.</li>
+  <li>Add a matching CNAME record in DNS.</li>
+  <li>Set the same custom domain in repo settings.</li>
+  <li>Add a CNAME file to the repo.</li>
+</ul>
+
+<p>There’s no strict technical limit to subdomains — you can add as many as your DNS provider allows.</p>
+
+<hr />
+
+<h2 id="summary">Summary</h2>
+
+<p>By following this guide, you’ve successfully linked your portfolio and blog under a single domain name, both secured with HTTPS and managed easily through GitHub Pages.
+Now you can grow your personal brand under one domain, hosting multiple sites for free with GitHub Pages.</p>
+
+        <hr class="mt-5 border-3 border-info" />
+        <div class="pagination mt-2 d-flex">
+            
+            <a href="/setup-jellyfin-on-raspberry-pi" class="previous btn btn-light">
+                <i class="bi bi-arrow-left"></i> Previous Post
+            </a>
+             
+        </div>
+    </div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="container my-4">
+    <div class="row justify-content-center">
+        <div
+            class="col-sm-12 col-md-12 col-lg-8 d-flex justify-content-between align-items-center"
+        >
+            <span class="word-spacing"
+                >Copyright &copy; 2024 | All rights reserved.</span
+            >
+            <div class="d-flex justify-content-center my-3">
+                <a
+                    href="https://www.instagram.com/banda_bekaar"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-instagram fs-5"></i>
+                </a>
+                <a
+                    href="https://github.com/bekaarcoder"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-github fs-5"></i>
+                </a>
+                <a
+                    href="https://twitter.com/banda_bekaar"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-twitter-x fs-5"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"
+        ></script>
+        <script src="/assets/js/scripts.js"></script>
+    </body>
+</html>

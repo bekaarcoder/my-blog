@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+    <head>
+        <!-- Google tag (gtag.js) -->
+        <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-1N56V15RFF"
+        ></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+
+            gtag('config', 'G-1N56V15RFF');
+        </script>
+        <!-- Mailchimp Popup -->
+        <!-- <script id="mcjs">
+            !(function (c, h, i, m, p) {
+                (m = c.createElement(h)),
+                    (p = c.getElementsByTagName(h)[0]),
+                    (m.async = 1),
+                    (m.src = i),
+                    p.parentNode.insertBefore(m, p);
+            })(
+                document,
+                'script',
+                'https://chimpstatic.com/mcjs-connected/js/users/1da7ef4fb504bc638638b0a1d/21e4762bfbe0285b3056a20b5.js'
+            );
+        </script> -->
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+            name="google-site-verification"
+            content="BO_YUQmMLrwJZdus7XuVa_Z_B-VLJP5pTTwsrnzN-ew"
+        />
+        <meta name="google-adsense-account" content="ca-pub-7156088348148191" />
+        <title>
+             Bekaarcoder&#39;s Blog - Setting Up Playwright with Cucumber and TypeScript 
+        </title>
+        <link rel="stylesheet" href="/assets/css/syntax.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+        />
+        <link rel="stylesheet" href="/assets/css/main.css" />
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/apple-touch-icon.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/favicon-32x32.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/favicon-16x16.png"
+        />
+        <link rel="manifest" href="/site.webmanifest" />
+        <!-- Begin Jekyll SEO tag v2.8.0 -->
+<meta name="generator" content="Jekyll v4.3.4" />
+<meta property="og:title" content="Setting Up Playwright with Cucumber and TypeScript" />
+<meta name="author" content="bekaarcoder" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Playwright, coupled with Cucumber and TypeScript, offers a robust framework for end-to-end testing of web applications. This blog post guides you through the setup process, ensuring a seamless integration of these technologies." />
+<meta property="og:description" content="Playwright, coupled with Cucumber and TypeScript, offers a robust framework for end-to-end testing of web applications. This blog post guides you through the setup process, ensuring a seamless integration of these technologies." />
+<link rel="canonical" href="https://bekaarcoder.xyz/playwright-cucumber-ts-setup" />
+<meta property="og:url" content="https://bekaarcoder.xyz/playwright-cucumber-ts-setup" />
+<meta property="og:site_name" content="Bekaarcoder’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-11-27T07:10:05+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Setting Up Playwright with Cucumber and TypeScript" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"bekaarcoder"},"dateModified":"2023-11-27T07:10:05+00:00","datePublished":"2023-11-27T07:10:05+00:00","description":"Playwright, coupled with Cucumber and TypeScript, offers a robust framework for end-to-end testing of web applications. This blog post guides you through the setup process, ensuring a seamless integration of these technologies.","headline":"Setting Up Playwright with Cucumber and TypeScript","mainEntityOfPage":{"@type":"WebPage","@id":"https://bekaarcoder.xyz/playwright-cucumber-ts-setup"},"url":"https://bekaarcoder.xyz/playwright-cucumber-ts-setup"}</script>
+<!-- End Jekyll SEO tag -->
+
+    </head>
+    <body>
+        <div class="container">
+    <div class="row justify-content-center">
+        <div class="col-sm-12 col-md-12 col-lg-8">
+            <nav class="navbar navbar-expand-lg">
+                <a class="navbar-brand" href="/"> Bekaarcoder's Blog </a>
+                <ul class="navbar-nav mb-lg-0 me-auto">
+                    <li class="nav-item">
+                        <button class="btn btn-sm" onclick="toggleTheme()">
+                            <i
+                                class="bi bi-brightness-high text-warning"
+                                id="theme-toggle"
+                            ></i>
+                        </button>
+                    </li>
+                </ul>
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div
+                    class="collapse navbar-collapse"
+                    id="navbarSupportedContent"
+                >
+                    <ul class="navbar-nav mb-2 ms-auto mb-lg-0">
+                            
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about/">
+                                 About 
+                            </a>
+                        </li>
+                            
+                        <li class="nav-item">
+                            <a class="nav-link" href="/categories/">
+                                 Categories 
+                            </a>
+                        </li>
+                              
+                        <li class="nav-item">
+                            <a class="nav-link" href="/search/">
+                                
+                                <i class="bi bi-search"></i>
+                                
+                            </a>
+                        </li>
+                                                                                                                                          
+                        <!-- <li class="nav-item">
+                            <button
+                                class="btn btn-sm mt-1 ms-2"
+                                onclick="toggleTheme()"
+                            >
+                                <i
+                                    class="bi bi-brightness-high text-warning"
+                                    id="theme-toggle"
+                                ></i>
+                            </button>
+                        </li> -->
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="row mt-4">
+                <div class="col-md-12"><div class="row justify-content-center mb-5">
+    <div class="col-sm-12 col-md-12 col-lg-8">
+        
+        <h2 class="display-4">Setting Up Playwright with Cucumber and TypeScript</h2>
+        <div class="d-flex">
+            <p class="text-secondary"> November 27, 2023</p>
+            <p class="text-secondary ms-3">
+                <i class="bi bi-clock"></i> 4 minutes read
+            </p>
+        </div>
+        <div class="mb-3">
+            
+            <span class="badge text-bg-success">
+                <a
+                    href="/categories/playwright"
+                    class="text-reset text-decoration-none"
+                >
+                    Playwright
+                </a>
+            </span>
+            
+            <span class="badge text-bg-success">
+                <a
+                    href="/categories/cucumber"
+                    class="text-reset text-decoration-none"
+                >
+                    Cucumber
+                </a>
+            </span>
+            
+            <span class="badge text-bg-success">
+                <a
+                    href="/categories/typescript"
+                    class="text-reset text-decoration-none"
+                >
+                    Typescript
+                </a>
+            </span>
+            
+        </div>
+        <p>Playwright, coupled with Cucumber and TypeScript, offers a robust framework for end-to-end testing of web applications. This blog post guides you through the setup process, ensuring a seamless integration of these technologies.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<p>Before diving into the installation, make sure you have the following prerequisites installed in place:</p>
+
+<ol>
+  <li>NodeJS and npm</li>
+  <li>VS Code</li>
+</ol>
+
+<h2 id="installation">Installation</h2>
+
+<ol>
+  <li>
+    <p><strong>Create a Playwright project</strong></p>
+
+    <p>Install playwright by running the below command:<br />
+ <code class="language-plaintext highlighter-rouge">npm init playwright@latest</code><br />
+ Select the settings as below:<br />
+ <img src="/assets/images/playwright_setup.png" alt="Gitlab CI Pipeline" style="width:100%" /></p>
+
+    <p>You can also create a playwright project using the VS Code Extension. Search for the <code class="language-plaintext highlighter-rouge">Playwright Test for VSCode</code> plugin in VS Code and install it.</p>
+  </li>
+  <li>
+    <p><strong>Setup Cucumber</strong></p>
+
+    <ul>
+      <li>Install Cucumber plugin for VS Code.</li>
+      <li>
+        <p>Install below dependencies:</p>
+
+        <p><code class="language-plaintext highlighter-rouge">npm i @cucumber/cucumber -D</code><br />
+   <code class="language-plaintext highlighter-rouge">npm i ts-node -D</code></p>
+      </li>
+    </ul>
+
+    <p>We will be installing <code class="language-plaintext highlighter-rouge">ts-node</code> as we will be using TypeScript in our project. This will allow us to run TypeScript files directly without compiling then to JavaScript first.</p>
+  </li>
+  <li>
+    <p><strong>Project Cleanup</strong></p>
+
+    <p>After installing playwright, remove the below files and folders:</p>
+
+    <div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">tests</span><span class="o">/</span><span class="n">example</span><span class="p">.</span><span class="n">spec</span><span class="p">.</span><span class="n">ts</span>
+ <span class="n">tests</span><span class="o">-</span><span class="n">examples</span><span class="o">/</span><span class="n">demo</span><span class="o">-</span><span class="n">todo</span><span class="o">-</span><span class="n">app</span><span class="p">.</span><span class="n">spec</span><span class="p">.</span><span class="n">ts</span>
+ <span class="n">playwright</span><span class="p">.</span><span class="n">config</span><span class="p">.</span><span class="n">ts</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="project-structure">Project Structure</h2>
+
+<p>Once we have setup playwright and installed related dependencies, we will setup the basic project structure.<br />
+Create the directory as following:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>project-root
+|-- src
+|   `-- test
+|       `-- features
+|       `-- steps
+</code></pre></div></div>
+
+<p>We will put all out feature files inside the <code class="language-plaintext highlighter-rouge">features</code> directory and all the step definitions inside the <code class="language-plaintext highlighter-rouge">steps</code> directory.</p>
+
+<h2 id="feature-file">Feature File</h2>
+
+<p>Lets create a simple feature file for login scenario. Create a file <code class="language-plaintext highlighter-rouge">login.feature</code> inside the <code class="language-plaintext highlighter-rouge">features</code> directory.</p>
+
+<div class="language-gherkin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#login.feature</span>
+<span class="kd">Feature</span><span class="p">:</span> User Authentication Tests
+
+  <span class="kn">Background</span><span class="p">:</span>
+    <span class="nf">Given </span>User navigates to the application
+    <span class="nf">When </span>User click on the login link
+
+  <span class="kn">Scenario</span><span class="p">:</span> Login should be successful
+    <span class="nf">When </span>User enters the username as <span class="s">"janedoee"</span>
+    <span class="nf">And </span>User enters the password as <span class="s">"Password@123"</span>
+    <span class="nf">And </span>User clicks on the login button
+    <span class="nf">Then </span>User is logged in successfully
+</code></pre></div></div>
+
+<h2 id="cucumber-configuration">Cucumber Configuration</h2>
+
+<p>We can define all the configuration for cucumber in a file. Create a file <code class="language-plaintext highlighter-rouge">cucumber.json</code> in the root of your project.</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">//cucumber.json</span><span class="w">
+</span><span class="p">{</span><span class="w">
+    </span><span class="nl">"default"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"formatOptions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"snippetInterface"</span><span class="p">:</span><span class="w"> </span><span class="s2">"async-await"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nl">"paths"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"src/test/features/"</span><span class="p">],</span><span class="w">
+        </span><span class="nl">"require"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"src/test/steps/*.ts"</span><span class="p">],</span><span class="w">
+        </span><span class="nl">"dryRun"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Here we have created a <code class="language-plaintext highlighter-rouge">default</code> profile and mentioned the <code class="language-plaintext highlighter-rouge">path</code> where the feature files are present.<br />
+We have set <code class="language-plaintext highlighter-rouge">dryRun</code> as true which will prepare a test run but don’t run the test.<br />
+In the <code class="language-plaintext highlighter-rouge">formatOptions</code>, we have set <code class="language-plaintext highlighter-rouge">snippetInterface</code> as <code class="language-plaintext highlighter-rouge">async-await</code>. This will generate the functions in the code snippet as async-await.<br />
+<code class="language-plaintext highlighter-rouge">require</code> is set to path where the step definitions files are present.</p>
+
+<h2 id="setup-npm-scripts">Setup npm scripts</h2>
+
+<p>Add the below scripts in the <code class="language-plaintext highlighter-rouge">package.json</code> file to execute the cucumber tests.</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">//package.json</span><span class="w">
+</span><span class="err">...</span><span class="w">
+</span><span class="nl">"scripts"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"test"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cucumber-js test"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span><span class="err">...</span><span class="w">
+</span></code></pre></div></div>
+
+<h2 id="dry-run-tests">Dry Run Tests</h2>
+
+<p>Lets run the test with the following command: <code class="language-plaintext highlighter-rouge">npm run test</code><br />
+As we have not created out step definition file, this will generate failures in the terminal with code snippets for all the undefined steps in the feature file.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span> playwright-ts-setup@1.0.0 <span class="nb">test</span>
+<span class="o">&gt;</span> cucumber-js <span class="nb">test
+
+</span>UUUUUU
+
+Failures:
+
+1<span class="o">)</span> Scenario: Login should be successful <span class="c"># src/test/features/login.feature:7</span>
+   ? Given User navigates to the application
+       Undefined. Implement with the following snippet:
+
+         Given<span class="o">(</span><span class="s1">'User navigates to the application'</span>, async <span class="k">function</span> <span class="o">()</span> <span class="o">{</span>
+           // Write code here that turns the phrase above into concrete actions
+           <span class="k">return</span> <span class="s1">'pending'</span><span class="p">;</span>
+         <span class="o">})</span><span class="p">;</span>
+...
+</code></pre></div></div>
+
+<h2 id="create-step-definitions">Create Step Definitions</h2>
+
+<p>Create <code class="language-plaintext highlighter-rouge">loginSteps.ts</code> inside the <code class="language-plaintext highlighter-rouge">steps</code> directory. Copy all the code snippets generated for the undefined steps in the terminal to <code class="language-plaintext highlighter-rouge">loginSteps.ts</code> file.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//loginSteps.ts</span>
+
+<span class="k">import</span> <span class="p">{</span> <span class="nx">Given</span><span class="p">,</span> <span class="nx">When</span><span class="p">,</span> <span class="nx">Then</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@cucumber/cucumber</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="nc">Given</span><span class="p">(</span><span class="dl">'</span><span class="s1">User navigates to the application</span><span class="dl">'</span><span class="p">,</span> <span class="k">async</span> <span class="nf">function </span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Write code here that turns the phrase above into concrete actions</span>
+    <span class="k">return</span> <span class="dl">'</span><span class="s1">pending</span><span class="dl">'</span><span class="p">;</span>
+<span class="p">});</span>
+
+<span class="nc">When</span><span class="p">(</span><span class="dl">'</span><span class="s1">User click on the login link</span><span class="dl">'</span><span class="p">,</span> <span class="k">async</span> <span class="nf">function </span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Write code here that turns the phrase above into concrete actions</span>
+    <span class="k">return</span> <span class="dl">'</span><span class="s1">pending</span><span class="dl">'</span><span class="p">;</span>
+<span class="p">});</span>
+
+<span class="nc">When</span><span class="p">(</span><span class="dl">'</span><span class="s1">User enters the username as {string}</span><span class="dl">'</span><span class="p">,</span> <span class="k">async</span> <span class="nf">function </span><span class="p">(</span><span class="nx">string</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Write code here that turns the phrase above into concrete actions</span>
+    <span class="k">return</span> <span class="dl">'</span><span class="s1">pending</span><span class="dl">'</span><span class="p">;</span>
+<span class="p">});</span>
+
+<span class="nc">When</span><span class="p">(</span><span class="dl">'</span><span class="s1">User enters the password as {string}</span><span class="dl">'</span><span class="p">,</span> <span class="k">async</span> <span class="nf">function </span><span class="p">(</span><span class="nx">string</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Write code here that turns the phrase above into concrete actions</span>
+    <span class="k">return</span> <span class="dl">'</span><span class="s1">pending</span><span class="dl">'</span><span class="p">;</span>
+<span class="p">});</span>
+
+<span class="nc">When</span><span class="p">(</span><span class="dl">'</span><span class="s1">User clicks on the login button</span><span class="dl">'</span><span class="p">,</span> <span class="k">async</span> <span class="nf">function </span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Write code here that turns the phrase above into concrete actions</span>
+    <span class="k">return</span> <span class="dl">'</span><span class="s1">pending</span><span class="dl">'</span><span class="p">;</span>
+<span class="p">});</span>
+
+<span class="nc">Then</span><span class="p">(</span><span class="dl">'</span><span class="s1">User is logged in successfully</span><span class="dl">'</span><span class="p">,</span> <span class="k">async</span> <span class="nf">function </span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Write code here that turns the phrase above into concrete actions</span>
+    <span class="k">return</span> <span class="dl">'</span><span class="s1">pending</span><span class="dl">'</span><span class="p">;</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<h2 id="running-tests">Running Tests</h2>
+
+<p>Before running the test, make sure <code class="language-plaintext highlighter-rouge">dryRun</code> is set to <code class="language-plaintext highlighter-rouge">false</code> in <code class="language-plaintext highlighter-rouge">cucumber.json</code> configuation file.<br />
+Lets run the test again with <code class="language-plaintext highlighter-rouge">npm run test</code>.</p>
+
+<p>We will encounter the below error:
+<code class="language-plaintext highlighter-rouge">SyntaxError: Cannot use import statement outside a module</code></p>
+
+<p>To resolve this we need to add another property in the <code class="language-plaintext highlighter-rouge">cucumber.js</code> configuration file</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">//cucumber.json</span><span class="w">
+</span><span class="p">{</span><span class="w">
+    </span><span class="nl">"default"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="err">...</span><span class="w">
+        </span><span class="nl">"requireModule"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"ts-node/register"</span><span class="p">],</span><span class="w">
+        </span><span class="err">...</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Now rerun the test <code class="language-plaintext highlighter-rouge">npm run test</code>.
+You will see the below output in the terminal. This means that the test has been successfully ran. As we have not yet added any code in the step definition function, its showing as pending.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span> playwright-ts-setup@1.0.0 <span class="nb">test</span>
+<span class="o">&gt;</span> cucumber-js <span class="nb">test
+
+</span>P-----
+
+Warnings:
+
+1<span class="o">)</span> Scenario: Login should be successful <span class="c"># src/test/features/login.feature:7</span>
+   ? Given User navigates to the application <span class="c"># src/test/steps/loginSteps.ts:3</span>
+       Pending
+   - When User click on the login <span class="nb">link</span> <span class="c"># src/test/steps/loginSteps.ts:8</span>
+   - When User enters the username as <span class="s2">"janedoee"</span> <span class="c"># src/test/steps/loginSteps.ts:13</span>
+   - And User enters the password as <span class="s2">"Password@123"</span> <span class="c"># src/test/steps/loginSteps.ts:18</span>
+   - And User clicks on the login button <span class="c"># src/test/steps/loginSteps.ts:23</span>
+   - Then User is logged <span class="k">in </span>successfully <span class="c"># src/test/steps/loginSteps.ts:28</span>
+
+1 scenario <span class="o">(</span>1 pending<span class="o">)</span>
+6 steps <span class="o">(</span>1 pending, 5 skipped<span class="o">)</span>
+0m00.008s <span class="o">(</span>executing steps: 0m00.000s<span class="o">)</span>
+</code></pre></div></div>
+
+<h2 id="configure-steps-mapping">Configure Steps Mapping</h2>
+
+<p>If you see that even though you have implemented the step definitions for all the steps in the feature file but they are not mapped to the step definition, you can update the cucumber settings in the VSCode.
+Navigate to settings in VSCode and open the <code class="language-plaintext highlighter-rouge">settings.json</code> file. Update the below settings:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">//settings.json</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">VSCode</span><span class="w">
+</span><span class="err">...</span><span class="w">
+</span><span class="nl">"cucumber.features"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"src/test/features/*.feature"</span><span class="p">,</span><span class="w">
+    </span><span class="err">...</span><span class="w">
+</span><span class="p">]</span><span class="err">,</span><span class="w">
+</span><span class="nl">"cucumber.glue"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"src/test/steps/*.ts"</span><span class="p">,</span><span class="w">
+    </span><span class="err">...</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span><span class="err">...</span><span class="w">
+</span></code></pre></div></div>
+
+<h2 id="launching-browser">Launching Browser</h2>
+
+<p>Lets write the step definition for the below step:<br />
+<code class="language-plaintext highlighter-rouge">Given User navigates to the application</code></p>
+
+<p>Here we will launch the web browser and then navigate to application. Add the below code in the <code class="language-plaintext highlighter-rouge">loginSteps.ts</code> file</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">Given</span><span class="p">,</span> <span class="nx">When</span><span class="p">,</span> <span class="nx">Then</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@cucumber/cucumber</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">Browser</span><span class="p">,</span> <span class="nx">Page</span><span class="p">,</span> <span class="nx">chromium</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@playwright/test</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kd">let</span> <span class="nx">browser</span><span class="p">:</span> <span class="nx">Browser</span><span class="p">;</span>
+<span class="kd">let</span> <span class="nx">page</span><span class="p">:</span> <span class="nx">Page</span><span class="p">;</span>
+
+<span class="nc">Given</span><span class="p">(</span><span class="dl">'</span><span class="s1">User navigates to the application</span><span class="dl">'</span><span class="p">,</span> <span class="k">async</span> <span class="nf">function </span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">browser</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">chromium</span><span class="p">.</span><span class="nf">launch</span><span class="p">({</span> <span class="na">headless</span><span class="p">:</span> <span class="kc">false</span> <span class="p">});</span>
+    <span class="nx">page</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">browser</span><span class="p">.</span><span class="nf">newPage</span><span class="p">();</span>
+    <span class="k">await</span> <span class="nx">page</span><span class="p">.</span><span class="nf">goto</span><span class="p">(</span><span class="dl">'</span><span class="s1">https://bookcart.azurewebsites.net/</span><span class="dl">'</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<h2 id="defining-all-steps">Defining All Steps</h2>
+
+<p>We will write step definitions for the other steps as well</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">When</span><span class="p">(</span><span class="dl">'</span><span class="s1">User click on the login link</span><span class="dl">'</span><span class="p">,</span> <span class="k">async</span> <span class="nf">function </span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">await</span> <span class="nx">page</span><span class="p">.</span><span class="nf">locator</span><span class="p">(</span><span class="dl">"</span><span class="s2">//button//span[text()='Login']</span><span class="dl">"</span><span class="p">).</span><span class="nf">click</span><span class="p">();</span>
+<span class="p">});</span>
+
+<span class="nc">When</span><span class="p">(</span><span class="dl">'</span><span class="s1">User enters the username as {string}</span><span class="dl">'</span><span class="p">,</span> <span class="k">async</span> <span class="nf">function </span><span class="p">(</span><span class="nx">username</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">await</span> <span class="nx">page</span><span class="p">.</span><span class="nf">locator</span><span class="p">(</span><span class="dl">"</span><span class="s2">//input[@formcontrolname='username']</span><span class="dl">"</span><span class="p">).</span><span class="nf">fill</span><span class="p">(</span><span class="nx">username</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nc">When</span><span class="p">(</span><span class="dl">'</span><span class="s1">User enters the password as {string}</span><span class="dl">'</span><span class="p">,</span> <span class="k">async</span> <span class="nf">function </span><span class="p">(</span><span class="nx">password</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">await</span> <span class="nx">page</span><span class="p">.</span><span class="nf">locator</span><span class="p">(</span><span class="dl">"</span><span class="s2">//input[@formcontrolname='password']</span><span class="dl">"</span><span class="p">).</span><span class="nf">fill</span><span class="p">(</span><span class="nx">password</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nc">When</span><span class="p">(</span><span class="dl">'</span><span class="s1">User clicks on the login button</span><span class="dl">'</span><span class="p">,</span> <span class="k">async</span> <span class="nf">function </span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">await</span> <span class="nx">page</span>
+        <span class="p">.</span><span class="nf">locator</span><span class="p">(</span><span class="dl">"</span><span class="s2">//button[@color='primary']//span[text()='Login']</span><span class="dl">"</span><span class="p">)</span>
+        <span class="p">.</span><span class="nf">click</span><span class="p">();</span>
+<span class="p">});</span>
+
+<span class="nc">Then</span><span class="p">(</span><span class="dl">'</span><span class="s1">User is logged in successfully</span><span class="dl">'</span><span class="p">,</span> <span class="k">async</span> <span class="nf">function </span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">await</span> <span class="nf">expect</span><span class="p">(</span>
+        <span class="nx">page</span><span class="p">.</span><span class="nf">locator</span><span class="p">(</span><span class="dl">"</span><span class="s2">//button//span[contains(text(), 'janedoee')]</span><span class="dl">"</span><span class="p">)</span>
+    <span class="p">).</span><span class="nf">toBeVisible</span><span class="p">();</span>
+    <span class="k">await</span> <span class="nx">browser</span><span class="p">.</span><span class="nf">close</span><span class="p">();</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<h2 id="running-end-to-end-test">Running End-To-End Test</h2>
+
+<p>As we have defined all the steps, let run our e2e test: <code class="language-plaintext highlighter-rouge">npm run test</code>. You will see the below output in the terminal and the test have been passed.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span> playwright-ts-setup@1.0.0 <span class="nb">test</span>
+<span class="o">&gt;</span> cucumber-js <span class="nb">test</span>
+
+......
+
+1 scenario <span class="o">(</span>1 passed<span class="o">)</span>
+6 steps <span class="o">(</span>6 passed<span class="o">)</span>
+0m05.281s <span class="o">(</span>executing steps: 0m05.270s<span class="o">)</span>
+</code></pre></div></div>
+
+<p>Yay! 🥳 🎉</p>
+
+<hr />
+
+<p>By following these steps, you’ve successfully set up Playwright with Cucumber and TypeScript for effective end-to-end testing of your web applications.</p>
+
+        <hr class="mt-5 border-3 border-info" />
+        <div class="pagination mt-2 d-flex">
+            
+            <a href="/running-playwright-test-gitlabci" class="previous btn btn-light">
+                <i class="bi bi-arrow-left"></i> Previous Post
+            </a>
+             
+            <a href="/node-express-mongodb-typescript-crud" class="next btn btn-light ms-auto"
+                >Next Post <i class="bi bi-arrow-right"></i
+            ></a>
+            
+        </div>
+    </div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="container my-4">
+    <div class="row justify-content-center">
+        <div
+            class="col-sm-12 col-md-12 col-lg-8 d-flex justify-content-between align-items-center"
+        >
+            <span class="word-spacing"
+                >Copyright &copy; 2024 | All rights reserved.</span
+            >
+            <div class="d-flex justify-content-center my-3">
+                <a
+                    href="https://www.instagram.com/banda_bekaar"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-instagram fs-5"></i>
+                </a>
+                <a
+                    href="https://github.com/bekaarcoder"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-github fs-5"></i>
+                </a>
+                <a
+                    href="https://twitter.com/banda_bekaar"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-twitter-x fs-5"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"
+        ></script>
+        <script src="/assets/js/scripts.js"></script>
+    </body>
+</html>

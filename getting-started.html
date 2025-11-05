@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+    <head>
+        <!-- Google tag (gtag.js) -->
+        <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-1N56V15RFF"
+        ></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+
+            gtag('config', 'G-1N56V15RFF');
+        </script>
+        <!-- Mailchimp Popup -->
+        <!-- <script id="mcjs">
+            !(function (c, h, i, m, p) {
+                (m = c.createElement(h)),
+                    (p = c.getElementsByTagName(h)[0]),
+                    (m.async = 1),
+                    (m.src = i),
+                    p.parentNode.insertBefore(m, p);
+            })(
+                document,
+                'script',
+                'https://chimpstatic.com/mcjs-connected/js/users/1da7ef4fb504bc638638b0a1d/21e4762bfbe0285b3056a20b5.js'
+            );
+        </script> -->
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+            name="google-site-verification"
+            content="BO_YUQmMLrwJZdus7XuVa_Z_B-VLJP5pTTwsrnzN-ew"
+        />
+        <meta name="google-adsense-account" content="ca-pub-7156088348148191" />
+        <title>
+             Bekaarcoder&#39;s Blog - Getting Started with Jekyll 
+        </title>
+        <link rel="stylesheet" href="/assets/css/syntax.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+        />
+        <link rel="stylesheet" href="/assets/css/main.css" />
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/apple-touch-icon.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/favicon-32x32.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/favicon-16x16.png"
+        />
+        <link rel="manifest" href="/site.webmanifest" />
+        <!-- Begin Jekyll SEO tag v2.8.0 -->
+<meta name="generator" content="Jekyll v4.3.4" />
+<meta property="og:title" content="Getting Started with Jekyll" />
+<meta name="author" content="bekaarcoder" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="If you’re looking for a simple and powerful way to create a blog, Jekyll might be the perfect solution. Jekyll is a static site generator that’s known for its flexibility, ease of use, and a vibrant community. In this post, we’ll walk you through the process of creating your first blog post with Jekyll using Markdown." />
+<meta property="og:description" content="If you’re looking for a simple and powerful way to create a blog, Jekyll might be the perfect solution. Jekyll is a static site generator that’s known for its flexibility, ease of use, and a vibrant community. In this post, we’ll walk you through the process of creating your first blog post with Jekyll using Markdown." />
+<link rel="canonical" href="https://bekaarcoder.xyz/getting-started" />
+<meta property="og:url" content="https://bekaarcoder.xyz/getting-started" />
+<meta property="og:site_name" content="Bekaarcoder’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-10-24T07:43:05+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Getting Started with Jekyll" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"bekaarcoder"},"dateModified":"2023-10-24T07:43:05+00:00","datePublished":"2023-10-24T07:43:05+00:00","description":"If you’re looking for a simple and powerful way to create a blog, Jekyll might be the perfect solution. Jekyll is a static site generator that’s known for its flexibility, ease of use, and a vibrant community. In this post, we’ll walk you through the process of creating your first blog post with Jekyll using Markdown.","headline":"Getting Started with Jekyll","mainEntityOfPage":{"@type":"WebPage","@id":"https://bekaarcoder.xyz/getting-started"},"url":"https://bekaarcoder.xyz/getting-started"}</script>
+<!-- End Jekyll SEO tag -->
+
+    </head>
+    <body>
+        <div class="container">
+    <div class="row justify-content-center">
+        <div class="col-sm-12 col-md-12 col-lg-8">
+            <nav class="navbar navbar-expand-lg">
+                <a class="navbar-brand" href="/"> Bekaarcoder's Blog </a>
+                <ul class="navbar-nav mb-lg-0 me-auto">
+                    <li class="nav-item">
+                        <button class="btn btn-sm" onclick="toggleTheme()">
+                            <i
+                                class="bi bi-brightness-high text-warning"
+                                id="theme-toggle"
+                            ></i>
+                        </button>
+                    </li>
+                </ul>
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div
+                    class="collapse navbar-collapse"
+                    id="navbarSupportedContent"
+                >
+                    <ul class="navbar-nav mb-2 ms-auto mb-lg-0">
+                            
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about/">
+                                 About 
+                            </a>
+                        </li>
+                            
+                        <li class="nav-item">
+                            <a class="nav-link" href="/categories/">
+                                 Categories 
+                            </a>
+                        </li>
+                              
+                        <li class="nav-item">
+                            <a class="nav-link" href="/search/">
+                                
+                                <i class="bi bi-search"></i>
+                                
+                            </a>
+                        </li>
+                                                                                                                                          
+                        <!-- <li class="nav-item">
+                            <button
+                                class="btn btn-sm mt-1 ms-2"
+                                onclick="toggleTheme()"
+                            >
+                                <i
+                                    class="bi bi-brightness-high text-warning"
+                                    id="theme-toggle"
+                                ></i>
+                            </button>
+                        </li> -->
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="row mt-4">
+                <div class="col-md-12"><div class="row justify-content-center mb-5">
+    <div class="col-sm-12 col-md-12 col-lg-8">
+        
+        <h2 class="display-4">Getting Started with Jekyll</h2>
+        <div class="d-flex">
+            <p class="text-secondary"> October 24, 2023</p>
+            <p class="text-secondary ms-3">
+                <i class="bi bi-clock"></i> 2 minutes read
+            </p>
+        </div>
+        <div class="mb-3">
+            
+            <span class="badge text-bg-success">
+                <a
+                    href="/categories/tutorial"
+                    class="text-reset text-decoration-none"
+                >
+                    Tutorial
+                </a>
+            </span>
+            
+            <span class="badge text-bg-success">
+                <a
+                    href="/categories/jekyll"
+                    class="text-reset text-decoration-none"
+                >
+                    Jekyll
+                </a>
+            </span>
+            
+        </div>
+        <p>If you’re looking for a simple and powerful way to create a blog, Jekyll might be the perfect solution. Jekyll is a static site generator that’s known for its flexibility, ease of use, and a vibrant community. In this post, we’ll walk you through the process of creating your first blog post with Jekyll using Markdown.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<p>Before we get started, make sure you have Jekyll installed on your computer. You can follow the official installation guide <a href="https://jekyllrb.com/docs/installation/">here</a>.
+<br /></p>
+
+<h2 id="step-1-create-a-new-jekyll-site">Step 1: Create a New Jekyll Site</h2>
+
+<p>Assuming you have Jekyll installed, let’s start by creating a new Jekyll site. Open your terminal and run the following command:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jekyll new my-blog
+</code></pre></div></div>
+
+<p>This command will generate a new Jekyll site in a folder named “my-blog.” You can replace “my-blog” with your desired folder name.</p>
+
+<h2 id="step-2-navigate-to-your-blog-folder">Step 2: Navigate to Your Blog Folder</h2>
+
+<p>Once the site is generated, navigate to the blog folder:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>my-blog
+</code></pre></div></div>
+
+<h2 id="step-3-create-a-new-blog-post">Step 3: Create a New Blog Post</h2>
+
+<p>Now, let’s create your first blog post. Jekyll uses Markdown for writing content, which is an easy-to-learn and lightweight markup language. To create a new blog post, open your favorite text editor and create a file in the “_posts” folder with the following naming convention:</p>
+
+<p><code class="language-plaintext highlighter-rouge">YEAR-MONTH-DAY-title.md</code></p>
+
+<p>For example:</p>
+
+<p><code class="language-plaintext highlighter-rouge">2023-10-23-my-first-blog-post.md</code></p>
+
+<p>You can add the necessary front matter at the top of the file, like this:</p>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">---</span>
+<span class="na">layout</span><span class="pi">:</span> <span class="s">post</span>
+<span class="na">title</span><span class="pi">:</span> <span class="s1">'</span><span class="s">My</span><span class="nv"> </span><span class="s">First</span><span class="nv"> </span><span class="s">Blog</span><span class="nv"> </span><span class="s">Post'</span>
+<span class="na">date</span><span class="pi">:</span> <span class="s">2023-10-23</span>
+<span class="nn">---</span>
+</code></pre></div></div>
+
+<p>Then, below the front matter, you can start writing your blog post content using Markdown syntax.</p>
+
+<h2 id="step-4-write-your-content">Step 4: Write Your Content</h2>
+
+<p>Now, let your creativity flow and start writing your blog post using Markdown. Here’s an example of some Markdown content:</p>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gh"># Welcome to My Blog</span>
+
+This is my first blog post using Jekyll, and I'm excited to share my thoughts with you!
+
+<span class="gu">## Getting Started</span>
+
+To get started with Jekyll, you need to install it and create a new site, as we did earlier.
+
+<span class="gu">## Writing in Markdown</span>
+
+Markdown is a simple way to format your content. You can create headers, lists, links, and more. Here's a list of some common Markdown elements:
+<span class="p">
+-</span>   <span class="gs">**Headers**</span> are created using hashtags: <span class="sb">`# Header 1`</span>, <span class="sb">`## Header 2`</span>.
+<span class="p">-</span>   <span class="gs">**Lists**</span> are made with dashes: <span class="sb">`- Item 1`</span>, <span class="sb">`- Item 2`</span>.
+<span class="p">-</span>   <span class="gs">**Links**</span> are created using square brackets and parentheses: <span class="sb">`[Link Text](http://example.com)`</span>.
+
+<span class="gu">## Conclusion</span>
+
+Jekyll is a fantastic platform for bloggers who prefer simplicity and customization. With Markdown, you can easily create and format your content.
+
+Happy blogging!
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h2 id="step-5-preview-your-blog">Step 5: Preview Your Blog</h2>
+
+<p>To see how your blog post will look, run the following command in your terminal:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jekyll serve
+</code></pre></div></div>
+
+<p>This will start a local development server. Open your web browser and go to http://localhost:4000 to preview your blog.</p>
+
+<p>Congratulations! You’ve just created your first blog post with Jekyll.</p>
+
+<p>This is just the beginning of your journey in the world of Jekyll and blogging. You can further customize your site, install themes, and explore Jekyll’s vast ecosystem to enhance your blog.</p>
+
+        <hr class="mt-5 border-3 border-info" />
+        <div class="pagination mt-2 d-flex">
+             
+            <a href="/deploy-jekyll-github-pages" class="next btn btn-light ms-auto"
+                >Next Post <i class="bi bi-arrow-right"></i
+            ></a>
+            
+        </div>
+    </div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="container my-4">
+    <div class="row justify-content-center">
+        <div
+            class="col-sm-12 col-md-12 col-lg-8 d-flex justify-content-between align-items-center"
+        >
+            <span class="word-spacing"
+                >Copyright &copy; 2024 | All rights reserved.</span
+            >
+            <div class="d-flex justify-content-center my-3">
+                <a
+                    href="https://www.instagram.com/banda_bekaar"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-instagram fs-5"></i>
+                </a>
+                <a
+                    href="https://github.com/bekaarcoder"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-github fs-5"></i>
+                </a>
+                <a
+                    href="https://twitter.com/banda_bekaar"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-twitter-x fs-5"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"
+        ></script>
+        <script src="/assets/js/scripts.js"></script>
+    </body>
+</html>
