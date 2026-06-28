@@ -50,6 +50,11 @@ defaults:
       values:
           layout: category_page
           permalink: categories/:category/
+nav_pages:
+    - /about/
+    - /categories/
+    - /series/
+    - /search/
 # Exclude from processing.
 # The following items will not be processed, by default.
 # Any item listed under the `exclude:` key here will be automatically added to

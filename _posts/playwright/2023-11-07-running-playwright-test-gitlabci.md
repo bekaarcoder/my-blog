@@ -4,6 +4,8 @@ title: 'Running Playwright Tests in Gitlab CI'
 date: 2023-11-07 22:40:05 +0530
 permalink: '/running-playwright-test-gitlabci'
 categories: playwright gitlab
+series: 'Learn Playwright'
+series_order: 2
 ---
 
 In this guide, we will setup and run Playwright automation tests in Gitlab CI. We will also publish the HTML report in the Gitlab CI pipeline.
@@ -12,9 +14,9 @@ In this guide, we will setup and run Playwright automation tests in Gitlab CI. W
 
 To setup Gitlab CI for playwright test automation, we need the following:
 
--   Gitlab account
--   Gitlab repository for the project
--   Playwright test automation suite setup for the project.
+- Gitlab account
+- Gitlab repository for the project
+- Playwright test automation suite setup for the project.
 
 To get started, you can follow this [guide](/setting-up-playwright) to create a basic playwright project.
 
@@ -45,8 +47,8 @@ We have defined a single stage called `test` and a single job called `e2e tests`
 We are using the latest version of Playwright docker image `mcr.microsoft.com/playwright:v1.39.0-jammy`.  
 In the `script` section, we are running two commands:
 
--   `npm ci` - This will install all the dependencies of the project.
--   `npm run test:e2e` - This will run all the tests.
+- `npm ci` - This will install all the dependencies of the project.
+- `npm run test:e2e` - This will run all the tests.
 
 {:.blockquote}
 

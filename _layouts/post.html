@@ -34,7 +34,26 @@ author: 'Shashank'
             </span>
             {% endfor %}
         </div>
-        {{ content }}
+        {% if page.series %} {% assign series_posts = site.posts | where:
+        "series", page.series %} {% assign total_posts = series_posts | size %}
+
+        <div class="series-box p-3 my-4 border rounded">
+            <p class="mb-1">
+                📚 This article is part of the
+                <a
+                    class="link-body-emphasis link-underline-opacity-0 link-underline-opacity-50-hover"
+                    href="{{ page.series | slugify | prepend: '/series/' | relative_url }}"
+                >
+                    <strong>{{ page.series }}</strong>
+                </a>
+                series.
+            </p>
+
+            <small class="text-secondary">
+                Part {{ page.series_order}} of {{ total_posts }} in this series.
+            </small>
+        </div>
+        {% endif %} {{ content }}
         <hr class="mt-5 border-3 border-info" />
         <div class="pagination mt-2 d-flex">
             {% if page.previous %}

@@ -3,6 +3,8 @@ layout: post
 title: Getting Started With Playwright
 categories: tutorial playwright
 permalink: '/setting-up-playwright'
+series: 'Learn Playwright'
+series_order: 1
 ---
 
 # Setting Up Playwright

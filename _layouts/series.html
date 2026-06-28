@@ -1,0 +1,32 @@
+---
+layout: 'wrapper'
+---
+
+<div class="row justify-content-center">
+    <div class="col-sm-12 col-md-12 col-lg-8">
+        <h1>{{ page.title }}</h1>
+        {% assign series_posts = site.posts | where: "series", page.title %} {%
+        for post in series_posts %}
+        <div class="my-4">
+            <div class="title-excerpt">
+                <h2>
+                    <a
+                        href="{{ post.url }}"
+                        class="link-body-emphasis link-underline-opacity-0 link-underline-opacity-50-hover"
+                        >{{ post.title }}</a
+                    >
+                </h2>
+            </div>
+            <div class="date d-flex">
+                <span class="text-secondary"
+                    >{{ post.date | date_to_string }}</span
+                >
+                <span class="text-secondary ms-3">
+                    <i class="bi bi-clock"></i> {{ post.content | reading_time
+                    }} read
+                </span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>

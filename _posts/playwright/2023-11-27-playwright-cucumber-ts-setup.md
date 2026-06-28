@@ -4,6 +4,8 @@ title: 'Setting Up Playwright with Cucumber and TypeScript'
 date: 2023-11-27 12:40:05 +0530
 permalink: '/playwright-cucumber-ts-setup'
 categories: playwright cucumber typescript
+series: 'Learn Playwright'
+series_order: 2
 ---
 
 Playwright, coupled with Cucumber and TypeScript, offers a robust framework for end-to-end testing of web applications. This blog post guides you through the setup process, ensuring a seamless integration of these technologies.
@@ -27,7 +29,6 @@ Before diving into the installation, make sure you have the following prerequisi
     You can also create a playwright project using the VS Code Extension. Search for the `Playwright Test for VSCode` plugin in VS Code and install it.
 
 2. **Setup Cucumber**
-
     - Install Cucumber plugin for VS Code.
     - Install below dependencies:
 
@@ -291,7 +292,7 @@ When('User clicks on the login button', async function () {
 
 Then('User is logged in successfully', async function () {
     await expect(
-        page.locator("//button//span[contains(text(), 'janedoee')]")
+        page.locator("//button//span[contains(text(), 'janedoee')]"),
     ).toBeVisible();
     await browser.close();
 });
