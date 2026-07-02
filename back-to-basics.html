@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+    <head>
+        <!-- Google tag (gtag.js) -->
+        <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-1N56V15RFF"
+        ></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+
+            gtag('config', 'G-1N56V15RFF');
+        </script>
+        <!-- Mailchimp Popup -->
+        <!-- <script id="mcjs">
+            !(function (c, h, i, m, p) {
+                (m = c.createElement(h)),
+                    (p = c.getElementsByTagName(h)[0]),
+                    (m.async = 1),
+                    (m.src = i),
+                    p.parentNode.insertBefore(m, p);
+            })(
+                document,
+                'script',
+                'https://chimpstatic.com/mcjs-connected/js/users/1da7ef4fb504bc638638b0a1d/21e4762bfbe0285b3056a20b5.js'
+            );
+        </script> -->
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+            name="google-site-verification"
+            content="BO_YUQmMLrwJZdus7XuVa_Z_B-VLJP5pTTwsrnzN-ew"
+        />
+        <meta name="google-adsense-account" content="ca-pub-7156088348148191" />
+        <title>
+             Bekaarcoder&#39;s Blog - Journey into Docker: Part 1 - Back to Basics 
+        </title>
+        <link rel="stylesheet" href="/assets/css/syntax.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+        />
+        <link rel="stylesheet" href="/assets/css/main.css" />
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/apple-touch-icon.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/favicon-32x32.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/favicon-16x16.png"
+        />
+        <link rel="manifest" href="/site.webmanifest" />
+        <!-- Begin Jekyll SEO tag v2.8.0 -->
+<meta name="generator" content="Jekyll v4.3.4" />
+<meta property="og:title" content="Journey into Docker: Part 1 - Back to Basics" />
+<meta name="author" content="bekaarcoder" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="When I first heard about Docker, it sounded like magic. Everyone was talking about “containers,” “images,” and “isolation.” But what do these terms actually mean from first principles? In this first post of my Docker learning journey, I want to strip away the jargon and document how I got my very first container up and running." />
+<meta property="og:description" content="When I first heard about Docker, it sounded like magic. Everyone was talking about “containers,” “images,” and “isolation.” But what do these terms actually mean from first principles? In this first post of my Docker learning journey, I want to strip away the jargon and document how I got my very first container up and running." />
+<link rel="canonical" href="https://blog.shashank.im/back-to-basics" />
+<meta property="og:url" content="https://blog.shashank.im/back-to-basics" />
+<meta property="og:site_name" content="Bekaarcoder’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-06-28T07:10:05+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Journey into Docker: Part 1 - Back to Basics" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"bekaarcoder"},"dateModified":"2026-06-28T07:10:05+00:00","datePublished":"2026-06-28T07:10:05+00:00","description":"When I first heard about Docker, it sounded like magic. Everyone was talking about “containers,” “images,” and “isolation.” But what do these terms actually mean from first principles? In this first post of my Docker learning journey, I want to strip away the jargon and document how I got my very first container up and running.","headline":"Journey into Docker: Part 1 - Back to Basics","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.shashank.im/back-to-basics"},"url":"https://blog.shashank.im/back-to-basics"}</script>
+<!-- End Jekyll SEO tag -->
+
+    </head>
+    <body>
+        <div class="container">
+    <div class="row justify-content-center">
+        <div class="col-sm-12 col-md-12 col-lg-8">
+            <nav class="navbar navbar-expand-lg">
+                <a class="navbar-brand" href="/"> Bekaarcoder's Blog </a>
+                <ul class="navbar-nav mb-lg-0 me-auto">
+                    <li class="nav-item">
+                        <button class="btn btn-sm" onclick="toggleTheme()">
+                            <i
+                                class="bi bi-brightness-high text-warning"
+                                id="theme-toggle"
+                            ></i>
+                        </button>
+                    </li>
+                </ul>
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div
+                    class="collapse navbar-collapse"
+                    id="navbarSupportedContent"
+                >
+                    <ul class="navbar-nav mb-2 ms-auto mb-lg-0">
+                        <!--     
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about/">
+                                 About 
+                            </a>
+                        </li>
+                            
+                        <li class="nav-item">
+                            <a class="nav-link" href="/categories/">
+                                 Categories 
+                            </a>
+                        </li>
+                            
+                        <li class="nav-item">
+                            <a class="nav-link" href="/series/journey-into-docker">
+                                 Journey Into Docker 
+                            </a>
+                        </li>
+                              
+                        <li class="nav-item">
+                            <a class="nav-link" href="/series/learn-playwright">
+                                 Learn Playwright 
+                            </a>
+                        </li>
+                            
+                        <li class="nav-item">
+                            <a class="nav-link" href="/search/">
+                                
+                                <i class="bi bi-search"></i>
+                                
+                            </a>
+                        </li>
+                              
+                        <li class="nav-item">
+                            <a class="nav-link" href="/series/">
+                                 Blog Series 
+                            </a>
+                        </li>
+                                                                                                                                           -->
+
+                          
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about/"
+                                > About </a
+                            >
+                        </li>
+                           
+                        <li class="nav-item">
+                            <a class="nav-link" href="/categories/"
+                                > Categories </a
+                            >
+                        </li>
+                           
+                        <li class="nav-item">
+                            <a class="nav-link" href="/series/"
+                                > Blog Series </a
+                            >
+                        </li>
+                           
+                        <li class="nav-item">
+                            <a class="nav-link" href="/search/"
+                                >
+                                <i class="bi bi-search"></i>
+                                </a
+                            >
+                        </li>
+                         
+
+                        <!-- <li class="nav-item">
+                            <button
+                                class="btn btn-sm mt-1 ms-2"
+                                onclick="toggleTheme()"
+                            >
+                                <i
+                                    class="bi bi-brightness-high text-warning"
+                                    id="theme-toggle"
+                                ></i>
+                            </button>
+                        </li> -->
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="row mt-4">
+                <div class="col-md-12"><div class="row justify-content-center mb-5">
+    <div class="col-sm-12 col-md-12 col-lg-8">
+        
+        <h2 class="display-4">Journey into Docker: Part 1 - Back to Basics</h2>
+        <div class="d-flex">
+            <p class="text-secondary"> June 28, 2026</p>
+            <p class="text-secondary ms-3">
+                <i class="bi bi-clock"></i> 3 minutes read
+            </p>
+        </div>
+        <div class="mb-3">
+            
+            <span class="badge text-bg-success">
+                <a
+                    href="/categories/docker"
+                    class="text-reset text-decoration-none"
+                >
+                    Docker
+                </a>
+            </span>
+            
+        </div>
+          
+
+        <div class="series-box p-3 my-4 border rounded">
+            <p class="mb-1">
+                📚 This article is part of the
+                <a
+                    class="link-body-emphasis link-underline-opacity-0 link-underline-opacity-50-hover"
+                    href="/series/journey-into-docker"
+                >
+                    <strong>Journey Into Docker</strong>
+                </a>
+                series.
+            </p>
+
+            <small class="text-secondary">
+                Part 1 of 4 in this series.
+            </small>
+        </div>
+         <p>When I first heard about Docker, it sounded like magic. Everyone was talking about “containers,” “images,” and “isolation.” But what do these terms actually mean from first principles? In this first post of my Docker learning journey, I want to strip away the jargon and document how I got my very first container up and running.</p>
+
+<hr />
+
+<h2 id="the-core-problem-it-works-on-my-machine">The Core Problem: “It Works on My Machine!”</h2>
+
+<p>We’ve all been there. You write code that runs perfectly on your laptop. You send it to a colleague, or push it to a server, and <em>bam!</em>—it crashes. Why?</p>
+
+<ul>
+  <li>Different OS versions.</li>
+  <li>Missing system library dependencies.</li>
+  <li>Mismatched Node or Python runtimes.</li>
+</ul>
+
+<p>Historically, we solved this using Virtual Machines (VMs). But VMs are heavy. They require a complete guest operating system, which gobbles up gigabytes of RAM and CPU just to run a simple script.</p>
+
+<p>Docker solves this using <strong>Containers</strong>. Instead of virtualizing the hardware, Docker virtualizes the operating system. Containers share the host machine’s kernel but run in isolated user spaces.</p>
+
+<h3 id="virtual-machine-architecture">Virtual Machine Architecture</h3>
+
+<pre><code class="language-mermaid">graph TD
+    subgraph VM [Virtual Machine Architecture]
+        AppVM[App] --&gt; LibsVM[Libs/Deps]
+        LibsVM --&gt; GuestOS[Guest OS]
+        GuestOS --&gt; Hypervisor[Hypervisor]
+        Hypervisor --&gt; HostOS_VM[Host OS &amp; Kernel]
+    end
+</code></pre>
+
+<h3 id="docker-container-architecture">Docker Container Architecture</h3>
+
+<pre><code class="language-mermaid">graph TD
+    subgraph Docker [Docker Container Architecture]
+        AppDocker[App] --&gt; LibsDocker[Libs/Deps]
+        LibsDocker --&gt; DockerEngine[Docker Engine]
+        DockerEngine --&gt; HostOS_D[Host OS &amp; Kernel]
+    end
+</code></pre>
+
+<hr />
+
+<h2 id="my-first-dockerfile">My First Dockerfile</h2>
+
+<p>To test this out, I created a simple Docker file.</p>
+
+<p>Here is what the file contains:</p>
+
+<div class="language-dockerfile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">FROM</span><span class="s"> ubuntu:latest</span>
+<span class="k">CMD</span><span class="s"> ["echo", "Hello from Docker image!"]</span>
+</code></pre></div></div>
+
+<p>Let’s break this down line-by-line to understand what is happening:</p>
+
+<h3 id="1-from-ubuntulatest">1. <code class="language-plaintext highlighter-rouge">FROM ubuntu:latest</code></h3>
+
+<p>This is the starting point of any Docker container. The <code class="language-plaintext highlighter-rouge">FROM</code> instruction defines the <strong>base image</strong>. Here, I am telling Docker to pull the official Ubuntu operating system image from Docker Hub (the public registry) to use as the environment.</p>
+
+<blockquote class="blockquote">
+  <p><strong>Quirk / Lesson Learned</strong>: Using the tag <code class="language-plaintext highlighter-rouge">:latest</code> is convenient for a quick test, but it is a bad practice for production. If Ubuntu releases a new version tomorrow that changes default behaviors, my build might break. In a real project, I should use a pinned version tag, like <code class="language-plaintext highlighter-rouge">ubuntu:24.04</code>.</p>
+</blockquote>
+
+<h3 id="2-cmd-echo-hello-from-docker-image">2. <code class="language-plaintext highlighter-rouge">CMD ["echo", "Hello from Docker image!"]</code></h3>
+
+<p>The <code class="language-plaintext highlighter-rouge">CMD</code> instruction tells Docker what command to execute by default when the container starts. In this case, it runs the <code class="language-plaintext highlighter-rouge">echo</code> command to print a message.</p>
+
+<blockquote class="blockquote">
+  <p><strong>First-Principles Concept (Exec vs. Shell Form)</strong>:
+Notice how the command is structured inside brackets and quotes: <code class="language-plaintext highlighter-rouge">["echo", "Hello..."]</code>. This is called the <strong>Exec Form</strong>. It runs the command directly without wrapping it in a shell process (like <code class="language-plaintext highlighter-rouge">/bin/sh</code>).
+If I had written it as <code class="language-plaintext highlighter-rouge">CMD echo "Hello..."</code> (known as <strong>Shell Form</strong>), Docker would run it inside a subshell. The exec form is preferred because it allows the container to receive operating system termination signals (like <code class="language-plaintext highlighter-rouge">SIGTERM</code> when you stop the container), enabling graceful shutdowns.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="putting-it-to-the-test">Putting It to the Test</h2>
+
+<p>To run this, I opened my terminal and executed two simple commands.</p>
+
+<h3 id="step-1-building-the-image">Step 1: Building the Image</h3>
+
+<p>First, we compile the recipe (the <code class="language-plaintext highlighter-rouge">Dockerfile</code>) into an image:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker build <span class="nt">-t</span> basics-app ./basics
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">-t basics-app</code>: Tags the resulting image with the name <code class="language-plaintext highlighter-rouge">basics-app</code> so I can find it easily.</li>
+  <li><code class="language-plaintext highlighter-rouge">./basics</code>: Tells Docker where to find the build context (which contains the <code class="language-plaintext highlighter-rouge">Dockerfile</code>).</li>
+</ul>
+
+<h3 id="step-2-running-the-container">Step 2: Running the Container</h3>
+
+<p>Once the image was built, I ran it:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run basics-app
+</code></pre></div></div>
+
+<p>Output:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hello from Docker image!
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="summary">Summary</h2>
+
+<p>In this step, I learned that:</p>
+
+<ol>
+  <li><strong>Docker Images</strong> are read-only blueprints that package up an operating system and application dependencies.</li>
+  <li><strong>Docker Containers</strong> are the live, running instances created from those images.</li>
+  <li><code class="language-plaintext highlighter-rouge">FROM</code> sets the base environment, and <code class="language-plaintext highlighter-rouge">CMD</code> sets the default program that runs when the container starts.</li>
+  <li><strong>Exec form</strong> (<code class="language-plaintext highlighter-rouge">["binary", "args"]</code>) is the best practice for running commands because it handles process signals correctly.</li>
+</ol>
+
+        <hr class="mt-5 border-3 border-info" />
+        <div class="pagination mt-2 d-flex">
+            
+            <a href="/github-pages-subdomains-setup" class="previous btn btn-light">
+                <i class="bi bi-arrow-left"></i> Previous Post
+            </a>
+             
+            <a href="/webservers-layers-cache-trap" class="next btn btn-light ms-auto"
+                >Next Post <i class="bi bi-arrow-right"></i
+            ></a>
+            
+        </div>
+    </div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="container my-4">
+    <div class="row justify-content-center">
+        <div
+            class="col-sm-12 col-md-12 col-lg-8 d-flex justify-content-between align-items-center"
+        >
+            <span class="word-spacing"
+                >Copyright &copy; 2026 | All rights reserved.</span
+            >
+            <div class="d-flex justify-content-center my-3">
+                <a
+                    href="https://www.instagram.com/banda_bekaar"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-instagram fs-5"></i>
+                </a>
+                <a
+                    href="https://github.com/bekaarcoder"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-github fs-5"></i>
+                </a>
+                <a
+                    href="https://twitter.com/banda_bekaar"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-twitter-x fs-5"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"
+        ></script>
+        <script type="module">
+            import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+            mermaid.initialize({
+                startOnLoad: false,
+            });
+
+            document.addEventListener('DOMContentLoaded', async () => {
+                document
+                    .querySelectorAll('code.language-mermaid')
+                    .forEach((code) => {
+                        const pre = code.parentElement;
+
+                        const div = document.createElement('div');
+                        div.className = 'mermaid';
+                        div.textContent = code.textContent;
+
+                        pre.replaceWith(div);
+                    });
+
+                await mermaid.run();
+            });
+        </script>
+        <script src="/assets/js/scripts.js"></script>
+    </body>
+</html>

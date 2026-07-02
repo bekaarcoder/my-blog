@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+    <head>
+        <!-- Google tag (gtag.js) -->
+        <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-1N56V15RFF"
+        ></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+
+            gtag('config', 'G-1N56V15RFF');
+        </script>
+        <!-- Mailchimp Popup -->
+        <!-- <script id="mcjs">
+            !(function (c, h, i, m, p) {
+                (m = c.createElement(h)),
+                    (p = c.getElementsByTagName(h)[0]),
+                    (m.async = 1),
+                    (m.src = i),
+                    p.parentNode.insertBefore(m, p);
+            })(
+                document,
+                'script',
+                'https://chimpstatic.com/mcjs-connected/js/users/1da7ef4fb504bc638638b0a1d/21e4762bfbe0285b3056a20b5.js'
+            );
+        </script> -->
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+            name="google-site-verification"
+            content="BO_YUQmMLrwJZdus7XuVa_Z_B-VLJP5pTTwsrnzN-ew"
+        />
+        <meta name="google-adsense-account" content="ca-pub-7156088348148191" />
+        <title>
+             Bekaarcoder&#39;s Blog - Journey into Docker: Part 2 - Web Servers, Layers, and the Cache Trap 
+        </title>
+        <link rel="stylesheet" href="/assets/css/syntax.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+        />
+        <link rel="stylesheet" href="/assets/css/main.css" />
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/apple-touch-icon.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/favicon-32x32.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/favicon-16x16.png"
+        />
+        <link rel="manifest" href="/site.webmanifest" />
+        <!-- Begin Jekyll SEO tag v2.8.0 -->
+<meta name="generator" content="Jekyll v4.3.4" />
+<meta property="og:title" content="Journey into Docker: Part 2 - Web Servers, Layers, and the Cache Trap" />
+<meta name="author" content="bekaarcoder" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Now that I know how to run a basic container, I wanted to build something more practical: a containerized web server that serves a custom webpage. In this post, I write about configuring Nginx, understand the difference between RUN and COPY instructions, and look at how Docker’s layer caching system works—including a common “caching trap” that can break builds." />
+<meta property="og:description" content="Now that I know how to run a basic container, I wanted to build something more practical: a containerized web server that serves a custom webpage. In this post, I write about configuring Nginx, understand the difference between RUN and COPY instructions, and look at how Docker’s layer caching system works—including a common “caching trap” that can break builds." />
+<link rel="canonical" href="https://blog.shashank.im/webservers-layers-cache-trap" />
+<meta property="og:url" content="https://blog.shashank.im/webservers-layers-cache-trap" />
+<meta property="og:site_name" content="Bekaarcoder’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-06-29T07:10:05+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Journey into Docker: Part 2 - Web Servers, Layers, and the Cache Trap" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"bekaarcoder"},"dateModified":"2026-06-29T07:10:05+00:00","datePublished":"2026-06-29T07:10:05+00:00","description":"Now that I know how to run a basic container, I wanted to build something more practical: a containerized web server that serves a custom webpage. In this post, I write about configuring Nginx, understand the difference between RUN and COPY instructions, and look at how Docker’s layer caching system works—including a common “caching trap” that can break builds.","headline":"Journey into Docker: Part 2 - Web Servers, Layers, and the Cache Trap","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.shashank.im/webservers-layers-cache-trap"},"url":"https://blog.shashank.im/webservers-layers-cache-trap"}</script>
+<!-- End Jekyll SEO tag -->
+
+    </head>
+    <body>
+        <div class="container">
+    <div class="row justify-content-center">
+        <div class="col-sm-12 col-md-12 col-lg-8">
+            <nav class="navbar navbar-expand-lg">
+                <a class="navbar-brand" href="/"> Bekaarcoder's Blog </a>
+                <ul class="navbar-nav mb-lg-0 me-auto">
+                    <li class="nav-item">
+                        <button class="btn btn-sm" onclick="toggleTheme()">
+                            <i
+                                class="bi bi-brightness-high text-warning"
+                                id="theme-toggle"
+                            ></i>
+                        </button>
+                    </li>
+                </ul>
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div
+                    class="collapse navbar-collapse"
+                    id="navbarSupportedContent"
+                >
+                    <ul class="navbar-nav mb-2 ms-auto mb-lg-0">
+                        <!--     
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about/">
+                                 About 
+                            </a>
+                        </li>
+                            
+                        <li class="nav-item">
+                            <a class="nav-link" href="/categories/">
+                                 Categories 
+                            </a>
+                        </li>
+                            
+                        <li class="nav-item">
+                            <a class="nav-link" href="/series/journey-into-docker">
+                                 Journey Into Docker 
+                            </a>
+                        </li>
+                              
+                        <li class="nav-item">
+                            <a class="nav-link" href="/series/learn-playwright">
+                                 Learn Playwright 
+                            </a>
+                        </li>
+                            
+                        <li class="nav-item">
+                            <a class="nav-link" href="/search/">
+                                
+                                <i class="bi bi-search"></i>
+                                
+                            </a>
+                        </li>
+                              
+                        <li class="nav-item">
+                            <a class="nav-link" href="/series/">
+                                 Blog Series 
+                            </a>
+                        </li>
+                                                                                                                                           -->
+
+                          
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about/"
+                                > About </a
+                            >
+                        </li>
+                           
+                        <li class="nav-item">
+                            <a class="nav-link" href="/categories/"
+                                > Categories </a
+                            >
+                        </li>
+                           
+                        <li class="nav-item">
+                            <a class="nav-link" href="/series/"
+                                > Blog Series </a
+                            >
+                        </li>
+                           
+                        <li class="nav-item">
+                            <a class="nav-link" href="/search/"
+                                >
+                                <i class="bi bi-search"></i>
+                                </a
+                            >
+                        </li>
+                         
+
+                        <!-- <li class="nav-item">
+                            <button
+                                class="btn btn-sm mt-1 ms-2"
+                                onclick="toggleTheme()"
+                            >
+                                <i
+                                    class="bi bi-brightness-high text-warning"
+                                    id="theme-toggle"
+                                ></i>
+                            </button>
+                        </li> -->
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="row mt-4">
+                <div class="col-md-12"><div class="row justify-content-center mb-5">
+    <div class="col-sm-12 col-md-12 col-lg-8">
+        
+        <h2 class="display-4">Journey into Docker: Part 2 - Web Servers, Layers, and the Cache Trap</h2>
+        <div class="d-flex">
+            <p class="text-secondary"> June 29, 2026</p>
+            <p class="text-secondary ms-3">
+                <i class="bi bi-clock"></i> 4 minutes read
+            </p>
+        </div>
+        <div class="mb-3">
+            
+            <span class="badge text-bg-success">
+                <a
+                    href="/categories/docker"
+                    class="text-reset text-decoration-none"
+                >
+                    Docker
+                </a>
+            </span>
+            
+        </div>
+          
+
+        <div class="series-box p-3 my-4 border rounded">
+            <p class="mb-1">
+                📚 This article is part of the
+                <a
+                    class="link-body-emphasis link-underline-opacity-0 link-underline-opacity-50-hover"
+                    href="/series/journey-into-docker"
+                >
+                    <strong>Journey Into Docker</strong>
+                </a>
+                series.
+            </p>
+
+            <small class="text-secondary">
+                Part 2 of 4 in this series.
+            </small>
+        </div>
+         <p>Now that I know how to run a basic container, I wanted to build something more practical: a containerized web server that serves a custom webpage. In this post, I write about configuring Nginx, understand the difference between <code class="language-plaintext highlighter-rouge">RUN</code> and <code class="language-plaintext highlighter-rouge">COPY</code> instructions, and look at how Docker’s layer caching system works—including a common “caching trap” that can break builds.</p>
+
+<hr />
+
+<h2 id="setting-up-nginx">Setting up Nginx</h2>
+
+<p>Instead of spinning up a raw Ubuntu container and manually installing a web server, I used a preconfigured official image: Nginx.</p>
+
+<p>I created the below docker file:</p>
+
+<div class="language-dockerfile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">FROM</span><span class="s"> nginx:1.30.2</span>
+
+<span class="k">RUN </span>apt-get update
+<span class="k">RUN </span>apt-get <span class="nt">-y</span> <span class="nb">install </span>vim
+
+<span class="k">COPY</span><span class="s"> index.html /usr/share/nginx/html/index.html</span>
+</code></pre></div></div>
+
+<p>Let’s dissect what these instructions do:</p>
+
+<h3 id="1-from-nginx1302">1. <code class="language-plaintext highlighter-rouge">FROM nginx:1.30.2</code></h3>
+
+<p>This pulls a specific version of Nginx. It is preconfigured to run Nginx on startup and serve static content out of a directory called <code class="language-plaintext highlighter-rouge">/usr/share/nginx/html</code>.</p>
+
+<h3 id="2-run-vs-copy">2. <code class="language-plaintext highlighter-rouge">RUN</code> vs <code class="language-plaintext highlighter-rouge">COPY</code></h3>
+
+<ul>
+  <li><strong><code class="language-plaintext highlighter-rouge">RUN apt-get update</code> &amp; <code class="language-plaintext highlighter-rouge">RUN apt-get -y install vim</code></strong>:
+The <code class="language-plaintext highlighter-rouge">RUN</code> instruction executes commands <em>during the build phase</em>. It runs commands inside the container’s temporary shell environment to customize the filesystem (in this case, updating package registries and installing the <code class="language-plaintext highlighter-rouge">vim</code> text editor).</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">COPY index.html /usr/share/nginx/html/index.html</code></strong>:
+The <code class="language-plaintext highlighter-rouge">COPY</code> instruction transfers files from my local project directory on the host machine <code class="language-plaintext highlighter-rouge">(index.html)</code> directly into the container’s filesystem. Here, I am replacing the default Nginx index file with my custom webpage.</li>
+</ul>
+
+<hr />
+
+<h2 id="creating-the-custom-indexhtml">Creating the custom <code class="language-plaintext highlighter-rouge">index.html</code></h2>
+
+<p>Before the image build can copy the page into the container, I need a local <code class="language-plaintext highlighter-rouge">index.html</code> file in the same folder as the <code class="language-plaintext highlighter-rouge">Dockerfile</code>.</p>
+
+<p>I created a simple HTML page with a heading and a small message:</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"en"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"UTF-8"</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"viewport"</span> <span class="na">content=</span><span class="s">"width=device-width, initial-scale=1.0"</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;title&gt;</span>My Custom Nginx Page<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;h1&gt;</span>Welcome to my custom Nginx container!<span class="nt">&lt;/h1&gt;</span>
+        <span class="nt">&lt;p&gt;</span>
+            This page is served from the Docker image using
+            <span class="nt">&lt;code&gt;</span>COPY index.html<span class="nt">&lt;/code&gt;</span>.
+        <span class="nt">&lt;/p&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre></div></div>
+
+<p>When the Docker build runs, the <code class="language-plaintext highlighter-rouge">COPY</code> instruction replaces Nginx’s default index page with this file.</p>
+
+<hr />
+
+<h2 id="first-principles-the-power-and-trap-of-docker-layers">First Principles: The Power (and Trap) of Docker Layers</h2>
+
+<p>Docker images are not single, massive files. They are built like a stack of pancakes—layered one on top of the other.</p>
+
+<p>Each instruction in a Dockerfile (<code class="language-plaintext highlighter-rouge">FROM</code>, <code class="language-plaintext highlighter-rouge">RUN</code>, <code class="language-plaintext highlighter-rouge">COPY</code>, etc.) creates a new, read-only layer representing the filesystem changes made by that command.</p>
+
+<pre><code class="language-mermaid">graph BT
+    L1["Base Nginx Image Layer"]
+    L2["RUN apt-get update Layer"]
+    L3["RUN apt-get install vim Layer"]
+    L4["COPY index.html Layer"]
+
+    L2 --&gt; L1
+    L3 --&gt; L2
+    L4 --&gt; L3
+</code></pre>
+
+<p>When building an image, Docker caches these layers. If nothing has changed in the current instruction or any preceding instructions, Docker skips compiling that layer and uses the cache. This makes builds incredibly fast.</p>
+
+<h3 id="️-the-cache-trap-anti-pattern">⚠️ The Cache Trap (Anti-Pattern)</h3>
+
+<p>Look closely at the lines:</p>
+
+<div class="language-dockerfile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">RUN </span>apt-get update
+<span class="k">RUN </span>apt-get <span class="nt">-y</span> <span class="nb">install </span>vim
+</code></pre></div></div>
+
+<p>When Docker runs this the first time, it updates the package index and installs <code class="language-plaintext highlighter-rouge">vim</code>.
+Suppose next week I want to install <code class="language-plaintext highlighter-rouge">curl</code> as well:</p>
+
+<div class="language-dockerfile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">RUN </span>apt-get update
+<span class="k">RUN </span>apt-get <span class="nt">-y</span> <span class="nb">install </span>vim curl
+</code></pre></div></div>
+
+<p>Because the <code class="language-plaintext highlighter-rouge">RUN apt-get update</code> instruction hasn’t changed, <strong>Docker will reuse the cached layer for the update</strong>. It will <em>not</em> fetch the latest package lists from the internet. The second command will run using the old package registry indexes from last week, which might fail or install outdated, buggy software packages.</p>
+
+<h3 id="the-fix">The Fix</h3>
+
+<p>To avoid this, we should always combine package updates and installations into a single <code class="language-plaintext highlighter-rouge">RUN</code> instruction. This forces Docker to invalidate the cache for both commands if either changes:</p>
+
+<div class="language-dockerfile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">RUN </span>apt-get update <span class="o">&amp;&amp;</span> apt-get <span class="nb">install</span> <span class="nt">-y</span> <span class="se">\
+</span>    vim <span class="se">\
+</span>    curl <span class="se">\
+</span>    <span class="o">&amp;&amp;</span> <span class="nb">rm</span> <span class="nt">-rf</span> /var/lib/apt/lists/<span class="k">*</span>
+</code></pre></div></div>
+
+<p><strong>Note</strong>: Cleaning up <code class="language-plaintext highlighter-rouge">/var/lib/apt/lists/_</code> in the same step removes temporary installer files, reducing the size of the final layer.*</p>
+
+<hr />
+
+<h2 id="building-and-running-the-nginx-container">Building and Running the Nginx Container</h2>
+
+<p>First, I built the image:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker build <span class="nt">-t</span> my-custom-nginx <span class="nb">.</span>
+</code></pre></div></div>
+
+<p>To run it, I mapped the container’s internal port to my host port so I could view it in a browser:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-d</span> <span class="nt">-p</span> 8080:80 <span class="nt">--name</span> custom-web-server my-custom-nginx
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">-d</code> (Detached): Runs the container in the background, freeing up my terminal.</li>
+  <li><code class="language-plaintext highlighter-rouge">-p 8080:80</code> (Port mapping): Maps port <code class="language-plaintext highlighter-rouge">8080</code> on my host machine (my laptop) to port <code class="language-plaintext highlighter-rouge">80</code> inside the container (where Nginx is listening).</li>
+  <li><code class="language-plaintext highlighter-rouge">--name custom-web-server</code>: Gives the running container a friendly name.</li>
+</ul>
+
+<p>I opened <code class="language-plaintext highlighter-rouge">http://localhost:8080</code> in my browser, and my custom web page loaded instantly!</p>
+
+<p>To stop the web server:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker stop custom-web-server
+docker <span class="nb">rm </span>custom-web-server
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="summary">Summary</h2>
+
+<p>In this part, I discovered:</p>
+
+<ol>
+  <li><strong>Docker uses a layered filesystem</strong>. Every instruction adds a new layer.</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">RUN</code></strong> is used to execute commands during image construction; <strong><code class="language-plaintext highlighter-rouge">COPY</code></strong> imports files from the host.</li>
+  <li><strong>Layer caching</strong> can cause outdated package index bugs if we don’t chain <code class="language-plaintext highlighter-rouge">apt-get update &amp;&amp; apt-get install</code>.</li>
+  <li><strong>Port mapping</strong> (<code class="language-plaintext highlighter-rouge">-p host:container</code>) is required to route traffic from your host machine into the container’s isolated network space.</li>
+</ol>
+
+        <hr class="mt-5 border-3 border-info" />
+        <div class="pagination mt-2 d-flex">
+            
+            <a href="/back-to-basics" class="previous btn btn-light">
+                <i class="bi bi-arrow-left"></i> Previous Post
+            </a>
+             
+            <a href="/cmd-vs-entrypoint" class="next btn btn-light ms-auto"
+                >Next Post <i class="bi bi-arrow-right"></i
+            ></a>
+            
+        </div>
+    </div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="container my-4">
+    <div class="row justify-content-center">
+        <div
+            class="col-sm-12 col-md-12 col-lg-8 d-flex justify-content-between align-items-center"
+        >
+            <span class="word-spacing"
+                >Copyright &copy; 2026 | All rights reserved.</span
+            >
+            <div class="d-flex justify-content-center my-3">
+                <a
+                    href="https://www.instagram.com/banda_bekaar"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-instagram fs-5"></i>
+                </a>
+                <a
+                    href="https://github.com/bekaarcoder"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-github fs-5"></i>
+                </a>
+                <a
+                    href="https://twitter.com/banda_bekaar"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-twitter-x fs-5"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"
+        ></script>
+        <script type="module">
+            import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+            mermaid.initialize({
+                startOnLoad: false,
+            });
+
+            document.addEventListener('DOMContentLoaded', async () => {
+                document
+                    .querySelectorAll('code.language-mermaid')
+                    .forEach((code) => {
+                        const pre = code.parentElement;
+
+                        const div = document.createElement('div');
+                        div.className = 'mermaid';
+                        div.textContent = code.textContent;
+
+                        pre.replaceWith(div);
+                    });
+
+                await mermaid.run();
+            });
+        </script>
+        <script src="/assets/js/scripts.js"></script>
+    </body>
+</html>

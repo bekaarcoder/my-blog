@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+    <head>
+        <!-- Google tag (gtag.js) -->
+        <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-1N56V15RFF"
+        ></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+
+            gtag('config', 'G-1N56V15RFF');
+        </script>
+        <!-- Mailchimp Popup -->
+        <!-- <script id="mcjs">
+            !(function (c, h, i, m, p) {
+                (m = c.createElement(h)),
+                    (p = c.getElementsByTagName(h)[0]),
+                    (m.async = 1),
+                    (m.src = i),
+                    p.parentNode.insertBefore(m, p);
+            })(
+                document,
+                'script',
+                'https://chimpstatic.com/mcjs-connected/js/users/1da7ef4fb504bc638638b0a1d/21e4762bfbe0285b3056a20b5.js'
+            );
+        </script> -->
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+            name="google-site-verification"
+            content="BO_YUQmMLrwJZdus7XuVa_Z_B-VLJP5pTTwsrnzN-ew"
+        />
+        <meta name="google-adsense-account" content="ca-pub-7156088348148191" />
+        <title>
+             Bekaarcoder&#39;s Blog - Journey into Docker: Part 3 - CMD vs. ENTRYPOINT (The Control Paradox) 
+        </title>
+        <link rel="stylesheet" href="/assets/css/syntax.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+        />
+        <link rel="stylesheet" href="/assets/css/main.css" />
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/apple-touch-icon.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/favicon-32x32.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/favicon-16x16.png"
+        />
+        <link rel="manifest" href="/site.webmanifest" />
+        <!-- Begin Jekyll SEO tag v2.8.0 -->
+<meta name="generator" content="Jekyll v4.3.4" />
+<meta property="og:title" content="Journey into Docker: Part 3 - CMD vs. ENTRYPOINT (The Control Paradox)" />
+<meta name="author" content="bekaarcoder" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="As I started writing more advanced Dockerfiles, I noticed two instructions that seemed to do almost the exact same thing: CMD and ENTRYPOINT. Both tell the container what program to run when it starts up. But they behave very differently when you start passing arguments. In this post, I will explore the differences, document my experiments with the project files, and show how combining both lets you build containers that act like command-line CLI tools." />
+<meta property="og:description" content="As I started writing more advanced Dockerfiles, I noticed two instructions that seemed to do almost the exact same thing: CMD and ENTRYPOINT. Both tell the container what program to run when it starts up. But they behave very differently when you start passing arguments. In this post, I will explore the differences, document my experiments with the project files, and show how combining both lets you build containers that act like command-line CLI tools." />
+<link rel="canonical" href="https://blog.shashank.im/cmd-vs-entrypoint" />
+<meta property="og:url" content="https://blog.shashank.im/cmd-vs-entrypoint" />
+<meta property="og:site_name" content="Bekaarcoder’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-07-01T18:10:05+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Journey into Docker: Part 3 - CMD vs. ENTRYPOINT (The Control Paradox)" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"bekaarcoder"},"dateModified":"2026-07-01T18:10:05+00:00","datePublished":"2026-07-01T18:10:05+00:00","description":"As I started writing more advanced Dockerfiles, I noticed two instructions that seemed to do almost the exact same thing: CMD and ENTRYPOINT. Both tell the container what program to run when it starts up. But they behave very differently when you start passing arguments. In this post, I will explore the differences, document my experiments with the project files, and show how combining both lets you build containers that act like command-line CLI tools.","headline":"Journey into Docker: Part 3 - CMD vs. ENTRYPOINT (The Control Paradox)","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.shashank.im/cmd-vs-entrypoint"},"url":"https://blog.shashank.im/cmd-vs-entrypoint"}</script>
+<!-- End Jekyll SEO tag -->
+
+    </head>
+    <body>
+        <div class="container">
+    <div class="row justify-content-center">
+        <div class="col-sm-12 col-md-12 col-lg-8">
+            <nav class="navbar navbar-expand-lg">
+                <a class="navbar-brand" href="/"> Bekaarcoder's Blog </a>
+                <ul class="navbar-nav mb-lg-0 me-auto">
+                    <li class="nav-item">
+                        <button class="btn btn-sm" onclick="toggleTheme()">
+                            <i
+                                class="bi bi-brightness-high text-warning"
+                                id="theme-toggle"
+                            ></i>
+                        </button>
+                    </li>
+                </ul>
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div
+                    class="collapse navbar-collapse"
+                    id="navbarSupportedContent"
+                >
+                    <ul class="navbar-nav mb-2 ms-auto mb-lg-0">
+                        <!--     
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about/">
+                                 About 
+                            </a>
+                        </li>
+                            
+                        <li class="nav-item">
+                            <a class="nav-link" href="/categories/">
+                                 Categories 
+                            </a>
+                        </li>
+                            
+                        <li class="nav-item">
+                            <a class="nav-link" href="/series/journey-into-docker">
+                                 Journey Into Docker 
+                            </a>
+                        </li>
+                              
+                        <li class="nav-item">
+                            <a class="nav-link" href="/series/learn-playwright">
+                                 Learn Playwright 
+                            </a>
+                        </li>
+                            
+                        <li class="nav-item">
+                            <a class="nav-link" href="/search/">
+                                
+                                <i class="bi bi-search"></i>
+                                
+                            </a>
+                        </li>
+                              
+                        <li class="nav-item">
+                            <a class="nav-link" href="/series/">
+                                 Blog Series 
+                            </a>
+                        </li>
+                                                                                                                                           -->
+
+                          
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about/"
+                                > About </a
+                            >
+                        </li>
+                           
+                        <li class="nav-item">
+                            <a class="nav-link" href="/categories/"
+                                > Categories </a
+                            >
+                        </li>
+                           
+                        <li class="nav-item">
+                            <a class="nav-link" href="/series/"
+                                > Blog Series </a
+                            >
+                        </li>
+                           
+                        <li class="nav-item">
+                            <a class="nav-link" href="/search/"
+                                >
+                                <i class="bi bi-search"></i>
+                                </a
+                            >
+                        </li>
+                         
+
+                        <!-- <li class="nav-item">
+                            <button
+                                class="btn btn-sm mt-1 ms-2"
+                                onclick="toggleTheme()"
+                            >
+                                <i
+                                    class="bi bi-brightness-high text-warning"
+                                    id="theme-toggle"
+                                ></i>
+                            </button>
+                        </li> -->
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="row mt-4">
+                <div class="col-md-12"><div class="row justify-content-center mb-5">
+    <div class="col-sm-12 col-md-12 col-lg-8">
+        
+        <h2 class="display-4">Journey into Docker: Part 3 - CMD vs. ENTRYPOINT (The Control Paradox)</h2>
+        <div class="d-flex">
+            <p class="text-secondary"> July 01, 2026</p>
+            <p class="text-secondary ms-3">
+                <i class="bi bi-clock"></i> 2 minutes read
+            </p>
+        </div>
+        <div class="mb-3">
+            
+            <span class="badge text-bg-success">
+                <a
+                    href="/categories/docker"
+                    class="text-reset text-decoration-none"
+                >
+                    Docker
+                </a>
+            </span>
+            
+        </div>
+          
+
+        <div class="series-box p-3 my-4 border rounded">
+            <p class="mb-1">
+                📚 This article is part of the
+                <a
+                    class="link-body-emphasis link-underline-opacity-0 link-underline-opacity-50-hover"
+                    href="/series/journey-into-docker"
+                >
+                    <strong>Journey Into Docker</strong>
+                </a>
+                series.
+            </p>
+
+            <small class="text-secondary">
+                Part 3 of 4 in this series.
+            </small>
+        </div>
+         <p>As I started writing more advanced Dockerfiles, I noticed two instructions that seemed to do almost the exact same thing: <code class="language-plaintext highlighter-rouge">CMD</code> and <code class="language-plaintext highlighter-rouge">ENTRYPOINT</code>. Both tell the container what program to run when it starts up. But they behave very differently when you start passing arguments. In this post, I will explore the differences, document my experiments with the project files, and show how combining both lets you build containers that act like command-line CLI tools.</p>
+
+<hr />
+
+<h2 id="the-core-question-how-do-containers-start">The Core Question: How Do Containers Start?</h2>
+
+<p>Every container needs a single process to act as Process ID 1 (PID 1). When this process stops, the container dies.
+Docker gives us two ways to set this process:</p>
+
+<ol>
+  <li><strong><code class="language-plaintext highlighter-rouge">CMD</code></strong>: Sets a default command or default arguments.</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">ENTRYPOINT</code></strong>: Sets the main executable for the container.</li>
+</ol>
+
+<p>Let’s look at the three different Dockerfiles to see how they behave.</p>
+
+<hr />
+
+<h2 id="experiment-1-cmd-only">Experiment 1: CMD Only</h2>
+
+<p>I created below dockerfile:</p>
+
+<div class="language-dockerfile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Dockerfile.cmd</span>
+<span class="k">FROM</span><span class="s"> alpine:3.20</span>
+<span class="k">CMD</span><span class="s"> ["echo", "Hello from CMD in Dockerfile.cmd"]</span>
+</code></pre></div></div>
+
+<p>If I build and run this container without any arguments:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker build <span class="nt">-t</span> cmd-only <span class="nt">-f</span> Dockerfile.cmd <span class="nb">.</span>
+docker run cmd-only
+</code></pre></div></div>
+
+<p><strong>Output:</strong></p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hello from CMD in Dockerfile.cmd
+</code></pre></div></div>
+
+<p>But watch what happens if I append an argument to the <code class="language-plaintext highlighter-rouge">docker run</code> command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run cmd-only <span class="nb">echo</span> <span class="s2">"Goodbye!"</span>
+</code></pre></div></div>
+
+<p><strong>Output:</strong></p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Goodbye!
+</code></pre></div></div>
+
+<p><em>Why?</em>
+When you specify a command at the end of <code class="language-plaintext highlighter-rouge">docker run</code>, <strong>it overrides the entire <code class="language-plaintext highlighter-rouge">CMD</code> instruction</strong>. The default <code class="language-plaintext highlighter-rouge">echo Hello...</code> is discarded, and the new command takes its place.</p>
+
+<hr />
+
+<h2 id="experiment-2-entrypoint-only">Experiment 2: ENTRYPOINT Only</h2>
+
+<p>Next, I created below dockerfile:</p>
+
+<div class="language-dockerfile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Dokerfile.entrypoint</span>
+<span class="k">FROM</span><span class="s"> alpine:3.20</span>
+<span class="k">ENTRYPOINT</span><span class="s"> ["echo", "Hello from ENTRYPOINT in Dockerfile.entrypoint"]</span>
+</code></pre></div></div>
+
+<p>I built and ran it:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker build <span class="nt">-t</span> entrypoint-only <span class="nt">-f</span> Dockerfile.entrypoint <span class="nb">.</span>
+docker run entrypoint-only
+</code></pre></div></div>
+
+<p><strong>Output:</strong></p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hello from ENTRYPOINT in Dockerfile.entrypoint
+</code></pre></div></div>
+
+<p>What if I pass arguments here?</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run entrypoint-only <span class="s2">"Goodbye!"</span>
+</code></pre></div></div>
+
+<p><strong>Output:</strong></p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hello from ENTRYPOINT in Dockerfile.entrypoint Goodbye!
+</code></pre></div></div>
+
+<p><em>Why?</em>
+Unlike <code class="language-plaintext highlighter-rouge">CMD</code>, <strong><code class="language-plaintext highlighter-rouge">ENTRYPOINT</code> cannot be easily overridden</strong>. When I passed <code class="language-plaintext highlighter-rouge">"Goodbye!"</code> in <code class="language-plaintext highlighter-rouge">docker run</code>, Docker treated it as an <em>argument</em> and appended it to the end of the existing <code class="language-plaintext highlighter-rouge">ENTRYPOINT</code> command.</p>
+
+<hr />
+
+<h2 id="experiment-3-the-combo-pattern-cli-tool-design">Experiment 3: The Combo Pattern (CLI Tool Design)</h2>
+
+<p>This brings us to the hybrid approach. I created the below dockerfile:</p>
+
+<div class="language-dockerfile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Dockerfile.combo</span>
+<span class="k">FROM</span><span class="s"> alpine:3.20</span>
+
+<span class="k">ENTRYPOINT</span><span class="s"> [ "echo" ]</span>
+<span class="k">CMD</span><span class="s"> [ "DEFAULT MESSAGE" ]</span>
+</code></pre></div></div>
+
+<p>By using both, I get the best of both worlds:</p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">ENTRYPOINT</code> defines the executable (<code class="language-plaintext highlighter-rouge">echo</code>).</li>
+  <li><code class="language-plaintext highlighter-rouge">CMD</code> defines the <em>default arguments</em> passed to that executable (<code class="language-plaintext highlighter-rouge">"DEFAULT MESSAGE"</code>).</li>
+</ol>
+
+<pre><code class="language-mermaid">graph TD
+    subgraph RunDefault [docker run combo-app]
+        Exec1[ENTRYPOINT: echo] --&gt; Arg1[CMD: DEFAULT MESSAGE]
+        style RunDefault fill:#f9f,stroke:#333,stroke-width:2px
+    end
+    subgraph RunOverride [docker run combo-app 'Hello World']
+        Exec2[ENTRYPOINT: echo] --&gt; Arg2[Override: Hello World]
+        style RunOverride fill:#bbf,stroke:#333,stroke-width:2px
+    end
+</code></pre>
+
+<p>Let’s test this:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker build <span class="nt">-t</span> combo-app <span class="nt">-f</span> Dockerfile.combo <span class="nb">.</span>
+</code></pre></div></div>
+
+<h3 id="scenario-a-running-without-arguments">Scenario A: Running without arguments</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run combo-app
+</code></pre></div></div>
+
+<p><strong>Output:</strong></p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>DEFAULT MESSAGE
+</code></pre></div></div>
+
+<p><em>(It falls back to the default <code class="language-plaintext highlighter-rouge">CMD</code> arguments)</em></p>
+
+<h3 id="scenario-b-running-with-arguments">Scenario B: Running with arguments</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run combo-app <span class="s2">"My custom parameter"</span>
+</code></pre></div></div>
+
+<p><strong>Output:</strong></p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>My custom parameter
+</code></pre></div></div>
+
+<p><em>(The custom argument overrides the <code class="language-plaintext highlighter-rouge">CMD</code> default arguments, but runs inside the <code class="language-plaintext highlighter-rouge">ENTRYPOINT</code> binary!)</em></p>
+
+<p>This combo pattern is how tools like CLI compilers, database backup utilities, and search scrapers are packaged. The container acts like a single binary (e.g., <code class="language-plaintext highlighter-rouge">git</code> or <code class="language-plaintext highlighter-rouge">curl</code>), and you pass parameters directly.</p>
+
+<hr />
+
+<h2 id="summary">Summary</h2>
+
+<ul>
+  <li><strong><code class="language-plaintext highlighter-rouge">CMD</code></strong> is for default commands. It is <strong>completely replaced</strong> if you specify arguments during <code class="language-plaintext highlighter-rouge">docker run</code>.</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">ENTRYPOINT</code></strong> is for fixed executables. Arguments passed during <code class="language-plaintext highlighter-rouge">docker run</code> are <strong>appended</strong> to it.</li>
+  <li><strong>The Combo Pattern</strong>: Use <code class="language-plaintext highlighter-rouge">ENTRYPOINT</code> to define the binary tool, and <code class="language-plaintext highlighter-rouge">CMD</code> to define default arguments. This yields a highly flexible, CLI-like container interface.</li>
+</ul>
+
+        <hr class="mt-5 border-3 border-info" />
+        <div class="pagination mt-2 d-flex">
+            
+            <a href="/webservers-layers-cache-trap" class="previous btn btn-light">
+                <i class="bi bi-arrow-left"></i> Previous Post
+            </a>
+             
+            <a href="/understanding-build-context" class="next btn btn-light ms-auto"
+                >Next Post <i class="bi bi-arrow-right"></i
+            ></a>
+            
+        </div>
+    </div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="container my-4">
+    <div class="row justify-content-center">
+        <div
+            class="col-sm-12 col-md-12 col-lg-8 d-flex justify-content-between align-items-center"
+        >
+            <span class="word-spacing"
+                >Copyright &copy; 2026 | All rights reserved.</span
+            >
+            <div class="d-flex justify-content-center my-3">
+                <a
+                    href="https://www.instagram.com/banda_bekaar"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-instagram fs-5"></i>
+                </a>
+                <a
+                    href="https://github.com/bekaarcoder"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-github fs-5"></i>
+                </a>
+                <a
+                    href="https://twitter.com/banda_bekaar"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-twitter-x fs-5"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"
+        ></script>
+        <script type="module">
+            import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+            mermaid.initialize({
+                startOnLoad: false,
+            });
+
+            document.addEventListener('DOMContentLoaded', async () => {
+                document
+                    .querySelectorAll('code.language-mermaid')
+                    .forEach((code) => {
+                        const pre = code.parentElement;
+
+                        const div = document.createElement('div');
+                        div.className = 'mermaid';
+                        div.textContent = code.textContent;
+
+                        pre.replaceWith(div);
+                    });
+
+                await mermaid.run();
+            });
+        </script>
+        <script src="/assets/js/scripts.js"></script>
+    </body>
+</html>

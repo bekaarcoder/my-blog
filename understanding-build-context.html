@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+    <head>
+        <!-- Google tag (gtag.js) -->
+        <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-1N56V15RFF"
+        ></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+
+            gtag('config', 'G-1N56V15RFF');
+        </script>
+        <!-- Mailchimp Popup -->
+        <!-- <script id="mcjs">
+            !(function (c, h, i, m, p) {
+                (m = c.createElement(h)),
+                    (p = c.getElementsByTagName(h)[0]),
+                    (m.async = 1),
+                    (m.src = i),
+                    p.parentNode.insertBefore(m, p);
+            })(
+                document,
+                'script',
+                'https://chimpstatic.com/mcjs-connected/js/users/1da7ef4fb504bc638638b0a1d/21e4762bfbe0285b3056a20b5.js'
+            );
+        </script> -->
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+            name="google-site-verification"
+            content="BO_YUQmMLrwJZdus7XuVa_Z_B-VLJP5pTTwsrnzN-ew"
+        />
+        <meta name="google-adsense-account" content="ca-pub-7156088348148191" />
+        <title>
+             Bekaarcoder&#39;s Blog - Journey into Docker: Part 4 - The Build Context and the .dockerignore Secret 
+        </title>
+        <link rel="stylesheet" href="/assets/css/syntax.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+        />
+        <link rel="stylesheet" href="/assets/css/main.css" />
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/apple-touch-icon.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/favicon-32x32.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/favicon-16x16.png"
+        />
+        <link rel="manifest" href="/site.webmanifest" />
+        <!-- Begin Jekyll SEO tag v2.8.0 -->
+<meta name="generator" content="Jekyll v4.3.4" />
+<meta property="og:title" content="Journey into Docker: Part 4 - The Build Context and the .dockerignore Secret" />
+<meta name="author" content="bekaarcoder" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="When I first started running docker build ., I noticed a line in my terminal output that read something like: =&gt; [internal] load build context =&gt; =&gt; transferring context: 10.49MB" />
+<meta property="og:description" content="When I first started running docker build ., I noticed a line in my terminal output that read something like: =&gt; [internal] load build context =&gt; =&gt; transferring context: 10.49MB" />
+<link rel="canonical" href="https://blog.shashank.im/understanding-build-context" />
+<meta property="og:url" content="https://blog.shashank.im/understanding-build-context" />
+<meta property="og:site_name" content="Bekaarcoder’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-07-02T05:10:05+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Journey into Docker: Part 4 - The Build Context and the .dockerignore Secret" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"bekaarcoder"},"dateModified":"2026-07-02T05:10:05+00:00","datePublished":"2026-07-02T05:10:05+00:00","description":"When I first started running docker build ., I noticed a line in my terminal output that read something like: =&gt; [internal] load build context =&gt; =&gt; transferring context: 10.49MB","headline":"Journey into Docker: Part 4 - The Build Context and the .dockerignore Secret","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.shashank.im/understanding-build-context"},"url":"https://blog.shashank.im/understanding-build-context"}</script>
+<!-- End Jekyll SEO tag -->
+
+    </head>
+    <body>
+        <div class="container">
+    <div class="row justify-content-center">
+        <div class="col-sm-12 col-md-12 col-lg-8">
+            <nav class="navbar navbar-expand-lg">
+                <a class="navbar-brand" href="/"> Bekaarcoder's Blog </a>
+                <ul class="navbar-nav mb-lg-0 me-auto">
+                    <li class="nav-item">
+                        <button class="btn btn-sm" onclick="toggleTheme()">
+                            <i
+                                class="bi bi-brightness-high text-warning"
+                                id="theme-toggle"
+                            ></i>
+                        </button>
+                    </li>
+                </ul>
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div
+                    class="collapse navbar-collapse"
+                    id="navbarSupportedContent"
+                >
+                    <ul class="navbar-nav mb-2 ms-auto mb-lg-0">
+                        <!--     
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about/">
+                                 About 
+                            </a>
+                        </li>
+                            
+                        <li class="nav-item">
+                            <a class="nav-link" href="/categories/">
+                                 Categories 
+                            </a>
+                        </li>
+                            
+                        <li class="nav-item">
+                            <a class="nav-link" href="/series/journey-into-docker">
+                                 Journey Into Docker 
+                            </a>
+                        </li>
+                              
+                        <li class="nav-item">
+                            <a class="nav-link" href="/series/learn-playwright">
+                                 Learn Playwright 
+                            </a>
+                        </li>
+                            
+                        <li class="nav-item">
+                            <a class="nav-link" href="/search/">
+                                
+                                <i class="bi bi-search"></i>
+                                
+                            </a>
+                        </li>
+                              
+                        <li class="nav-item">
+                            <a class="nav-link" href="/series/">
+                                 Blog Series 
+                            </a>
+                        </li>
+                                                                                                                                           -->
+
+                          
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about/"
+                                > About </a
+                            >
+                        </li>
+                           
+                        <li class="nav-item">
+                            <a class="nav-link" href="/categories/"
+                                > Categories </a
+                            >
+                        </li>
+                           
+                        <li class="nav-item">
+                            <a class="nav-link" href="/series/"
+                                > Blog Series </a
+                            >
+                        </li>
+                           
+                        <li class="nav-item">
+                            <a class="nav-link" href="/search/"
+                                >
+                                <i class="bi bi-search"></i>
+                                </a
+                            >
+                        </li>
+                         
+
+                        <!-- <li class="nav-item">
+                            <button
+                                class="btn btn-sm mt-1 ms-2"
+                                onclick="toggleTheme()"
+                            >
+                                <i
+                                    class="bi bi-brightness-high text-warning"
+                                    id="theme-toggle"
+                                ></i>
+                            </button>
+                        </li> -->
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="row mt-4">
+                <div class="col-md-12"><div class="row justify-content-center mb-5">
+    <div class="col-sm-12 col-md-12 col-lg-8">
+        
+        <h2 class="display-4">Journey into Docker: Part 4 - The Build Context and the .dockerignore Secret</h2>
+        <div class="d-flex">
+            <p class="text-secondary"> July 02, 2026</p>
+            <p class="text-secondary ms-3">
+                <i class="bi bi-clock"></i> 2 minutes read
+            </p>
+        </div>
+        <div class="mb-3">
+            
+            <span class="badge text-bg-success">
+                <a
+                    href="/categories/docker"
+                    class="text-reset text-decoration-none"
+                >
+                    Docker
+                </a>
+            </span>
+            
+        </div>
+          
+
+        <div class="series-box p-3 my-4 border rounded">
+            <p class="mb-1">
+                📚 This article is part of the
+                <a
+                    class="link-body-emphasis link-underline-opacity-0 link-underline-opacity-50-hover"
+                    href="/series/journey-into-docker"
+                >
+                    <strong>Journey Into Docker</strong>
+                </a>
+                series.
+            </p>
+
+            <small class="text-secondary">
+                Part 4 of 4 in this series.
+            </small>
+        </div>
+         <p>When I first started running <code class="language-plaintext highlighter-rouge">docker build .</code>, I noticed a line in my terminal output that read something like:
+<code class="language-plaintext highlighter-rouge">=&gt; [internal] load build context</code>
+<code class="language-plaintext highlighter-rouge">=&gt; =&gt; transferring context: 10.49MB</code></p>
+
+<p>Wait, 10.5 MB? My code was just a few lines of JavaScript! Why was it sending so much data? In this post, I will explore the concept of the <strong>Build Context</strong>, learn how <code class="language-plaintext highlighter-rouge">.dockerignore</code> prevents bloat, and troubleshoot a sneaky file path bug inside one of the repository projects.</p>
+
+<hr />
+
+<h2 id="what-is-the-build-context">What is the Build Context?</h2>
+
+<p>A Docker build runs in a client-server architecture. The Docker CLI tool on your laptop is the <em>client</em>, and the Docker Daemon (which builds and runs containers) is the <em>server</em>.</p>
+
+<p>When you run <code class="language-plaintext highlighter-rouge">docker build -t app .</code>, the dot (<code class="language-plaintext highlighter-rouge">.</code>) defines the <strong>Build Context</strong>. Before doing anything else, the CLI packages <em>every</em> file and folder in that directory and uploads it to the Docker Daemon.</p>
+
+<pre><code class="language-mermaid">graph TD
+    Client[Docker CLI Client] -- 1. Zips &amp; sends all files in dot directory --&gt; Daemon[Docker Daemon Server]
+    Daemon -- 2. Processes Dockerfile instructions --&gt; Image[Finished Docker Image]
+</code></pre>
+
+<p>If you have:</p>
+
+<ul>
+  <li>Large media assets (<code class="language-plaintext highlighter-rouge">videos/</code>, <code class="language-plaintext highlighter-rouge">images/</code>).</li>
+  <li>Local package directories (<code class="language-plaintext highlighter-rouge">node_modules/</code> or <code class="language-plaintext highlighter-rouge">venv/</code>).</li>
+  <li>Temporary build artifacts (<code class="language-plaintext highlighter-rouge">dist/</code>, <code class="language-plaintext highlighter-rouge">.next/</code>).</li>
+  <li>Secret key files (<code class="language-plaintext highlighter-rouge">.env</code>, <code class="language-plaintext highlighter-rouge">.pem</code>).</li>
+</ul>
+
+<p>All of them get uploaded to the daemon. This slows down your builds, inflates your final image sizes, and poses a major security leak risk!</p>
+
+<hr />
+
+<h2 id="enter-dockerignore">Enter <code class="language-plaintext highlighter-rouge">.dockerignore</code></h2>
+
+<p>To prevent this, we use a <code class="language-plaintext highlighter-rouge">.dockerignore</code> file. It works exactly like <code class="language-plaintext highlighter-rouge">.gitignore</code>. It tells the Docker CLI: <em>“Do not include these files in the upload bundle.”</em></p>
+
+<p>Below is my current directory structure:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>app/
+├── src/
+│   ├── index.js
+│   ├── component/
+│   └── page/
+├── .dockerignore
+├── Dockerfile
+├── ignore-file
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">ignore-file</code> (a 10MB dummy file).</li>
+  <li><code class="language-plaintext highlighter-rouge">src/index.js</code> (my main app entrypoint).</li>
+  <li><code class="language-plaintext highlighter-rouge">src/component/component.test.js</code> (test file).</li>
+  <li><code class="language-plaintext highlighter-rouge">.dockerignore</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Dockerfile</code></li>
+</ul>
+
+<p>Here is the <code class="language-plaintext highlighter-rouge">.dockerignore</code> file:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ignore-file
+**/*.test.js
+</code></pre></div></div>
+
+<p>By excluding <code class="language-plaintext highlighter-rouge">ignore-file</code> and any file ending with <code class="language-plaintext highlighter-rouge">.test.js</code>, my build context size shrank from <strong>10.5 MB</strong> to a few <strong>kilobytes</strong>!</p>
+
+<p>Here is the <code class="language-plaintext highlighter-rouge">Dockerfile</code>:</p>
+
+<div class="language-dockerfile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">FROM</span><span class="s"> node:24-alpine</span>
+
+<span class="k">WORKDIR</span><span class="s"> /app</span>
+
+<span class="k">COPY</span><span class="s"> . .</span>
+
+<span class="k">CMD</span><span class="s"> [ "node", "src/index.js" ]</span>
+</code></pre></div></div>
+
+<p>This dockerfile will</p>
+
+<ol>
+  <li>Start with Node.js Alpine base.</li>
+  <li>Set the working directory to <code class="language-plaintext highlighter-rouge">/app</code>.</li>
+  <li>Copy all files from the build context (which now excludes our ignored files).</li>
+  <li>Run <code class="language-plaintext highlighter-rouge">node src/index.js</code>.</li>
+</ol>
+
+<hr />
+
+<h2 id="building-and-running">Building and Running</h2>
+
+<p>Let’s build the image:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker build <span class="nt">-t</span> context-app <span class="nb">.</span>
+</code></pre></div></div>
+
+<p>Notice how fast the build runs because the 10MB <code class="language-plaintext highlighter-rouge">ignore-file</code> was never sent as part of the context!</p>
+
+<p>Now lets run the container:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">--rm</span> context-app node src/index.js
+</code></pre></div></div>
+
+<p><strong>Output:</strong></p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hello Docker!
+</code></pre></div></div>
+
+<blockquote class="blockquote">
+  <p><em>(The <code class="language-plaintext highlighter-rouge">--rm</code> flag tells Docker to automatically delete the container’s container filesystem once it exits, keeping my environment clean).</em></p>
+</blockquote>
+
+<hr />
+
+<h2 id="summary">Summary</h2>
+
+<p>In this chapter, I learned:</p>
+
+<ol>
+  <li><strong>The Build Context</strong> is the directory sent to the Docker daemon. Keeping it small is key to fast builds.</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">.dockerignore</code></strong> acts as a filter, preventing heavy dependencies, test files, and secrets from entering the daemon context.</li>
+</ol>
+
+        <hr class="mt-5 border-3 border-info" />
+        <div class="pagination mt-2 d-flex">
+            
+            <a href="/cmd-vs-entrypoint" class="previous btn btn-light">
+                <i class="bi bi-arrow-left"></i> Previous Post
+            </a>
+             
+        </div>
+    </div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="container my-4">
+    <div class="row justify-content-center">
+        <div
+            class="col-sm-12 col-md-12 col-lg-8 d-flex justify-content-between align-items-center"
+        >
+            <span class="word-spacing"
+                >Copyright &copy; 2026 | All rights reserved.</span
+            >
+            <div class="d-flex justify-content-center my-3">
+                <a
+                    href="https://www.instagram.com/banda_bekaar"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-instagram fs-5"></i>
+                </a>
+                <a
+                    href="https://github.com/bekaarcoder"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-github fs-5"></i>
+                </a>
+                <a
+                    href="https://twitter.com/banda_bekaar"
+                    class="mx-2 link-body-emphasis"
+                >
+                    <i class="bi bi-twitter-x fs-5"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"
+        ></script>
+        <script type="module">
+            import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+            mermaid.initialize({
+                startOnLoad: false,
+            });
+
+            document.addEventListener('DOMContentLoaded', async () => {
+                document
+                    .querySelectorAll('code.language-mermaid')
+                    .forEach((code) => {
+                        const pre = code.parentElement;
+
+                        const div = document.createElement('div');
+                        div.className = 'mermaid';
+                        div.textContent = code.textContent;
+
+                        pre.replaceWith(div);
+                    });
+
+                await mermaid.run();
+            });
+        </script>
+        <script src="/assets/js/scripts.js"></script>
+    </body>
+</html>
